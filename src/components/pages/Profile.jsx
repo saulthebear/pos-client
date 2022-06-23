@@ -7,7 +7,7 @@ export default function Profile({ currentUser, handleLogout }) {
 
 	// useEffect for getting the user data and checking auth
 	useEffect(() => {
-		const fetchData = async () => {
+	const fetchData = async () => {
 			try {
 				// get the token from local storage
 				const token = localStorage.getItem('jwt')
