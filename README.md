@@ -1,8 +1,9 @@
 <div align="center">
 <h1>MERN Point Of Sale System</h1>
-</div> 
+</div>
 
 ## Table of Contents
+
 - [Project Description](#project-idea-and-description)
 - [Database Schema](#database-schema)
 - [RESTful Routing Charts](#restful-routing-charts)
@@ -25,39 +26,40 @@ Create a full-stack MERN application which allows business owners to store inven
 ```json
 {
   "users": {
-    "id": ObjectId,
-    "username": String,
-    "password": String,
-    "role": String,
+    "id": "ObjectId",
+    "username": "String",
+    "password": "String",
+    "role": "String"
   },
   "categories": {
-    "id": ObjectId,
-    "name": String,
-    "color": String,
+    "id": "ObjectId",
+    "name": "String",
+    "color": "String"
   },
   "products": {
-    "id": ObjectId,
-    "code": String,
-    "name": String,
-    "price": Number,
-    "category": ObjectId,
+    "id": "ObjectId",
+    "code": "String",
+    "name": "String",
+    "price": "Number",
+    "category": "ObjectId"
   },
   "orders": {
-    "id": ObjectId,
-    "user": ObjectId,
+    "id": "ObjectId",
+    "user": "ObjectId",
     "lineItems": [
       {
-        "product": ObjectId,
-        "price": Number,
-        "quantity": Number,
-      },
+        "product": "ObjectId",
+        "price": "Number",
+        "quantity": "Number"
+      }
     ],
-    "cashier": ObjectId,
-    "payment_method": String,
-    "total": Number,
-  },
+    "cashier": "ObjectId",
+    "payment_method": "String",
+    "total": "Number"
+  }
 }
 ```
+
 </details>
 
 ## RESTful Routing Charts
@@ -115,6 +117,7 @@ Create a full-stack MERN application which allows business owners to store inven
 ## Goals:
 
 ### MVP
+
 - Ability to either login or signup (only) if you are a non-logged in user
 - Ability for "Cashiers" to complete transactions only
 - On login (cashiers), direct to new order page
@@ -124,8 +127,8 @@ Create a full-stack MERN application which allows business owners to store inven
 - Admin ability to update user permissions
 - Admin ability to checkout if needed
 
-
 ### Stretch Goals
+
 - Ability for Cashiers to see own transaction history
 - Ability to sort transactions by date/employee/filter
 - Admin ability to set color theme
@@ -135,6 +138,7 @@ Create a full-stack MERN application which allows business owners to store inven
 - Implement inventory management
 
 ## Authors
+
 - [Grace](https://github.com/gracenarez333)
 - [Stefan](https://github.com/saulthebear)
 - [Heg](https://github.com/erhaneth)
