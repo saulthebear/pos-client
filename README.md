@@ -1,70 +1,140 @@
-# Getting Started with Create React App
+<div align="center">
+<h1>MERN Point Of Sale System</h1>
+</div> 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+- [Project Description](#project-idea-and-description)
+- [Database Schema](#database-schema)
+- [RESTful Routing Charts](#restful-routing-charts)
+- [Wireframes](#wireframes)
+- [User Stories](#user-stories)
+- [Goals](#goals)
+- [Authors](#authors)
 
-## Available Scripts
+## Project Idea and Description
 
-In the project directory, you can run:
+Create a full-stack MERN application which allows business owners to store inventory and prices along with a second level of auth (cashier), both being able to complete customer transactions while the admin has ability to complete full CRUD on available schemas.
 
-### `npm start`
+## Database Schema
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<details>
+<summary>
+==>
+</summary>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```json
+{
+  "users": {
+    "id": ObjectId,
+    "username": String,
+    "password": String,
+    "role": String,
+  },
+  "categories": {
+    "id": ObjectId,
+    "name": String,
+    "color": String,
+  },
+  "products": {
+    "id": ObjectId,
+    "code": String,
+    "name": String,
+    "price": Number,
+    "category": ObjectId,
+  },
+  "orders": {
+    "id": ObjectId,
+    "user": ObjectId,
+    "lineItems": [
+      {
+        "product": ObjectId,
+        "price": Number,
+        "quantity": Number,
+      },
+    ],
+    "cashier": ObjectId,
+    "payment_method": String,
+    "total": Number,
+  },
+}
+```
+</details>
 
-### `npm test`
+## RESTful Routing Charts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<details>
+<summary>
+==>
+</summary>
 
-### `npm run build`
+![User Routes](./imgs/user.png)
+![Auth Routes](./imgs/auth.png)
+![Category Routes](./imgs/category.png)
+![Product Routes](./imgs/products.png)
+![Order Routes](./imgs/order.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+</details>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Wireframes
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<details>
+<summary>
+==>
+</summary>
 
-### `npm run eject`
+![Login Page](./imgs/Login.png)
+![Auth Page](./imgs/employeelist.png)
+![Order Page](./imgs/orderpage.png)
+![Payment Pop Up](./imgs/paymentpop.png)
+![All Products](./imgs/productspage.png)
+![New Products](./imgs/newproduct.png)
+![Edit Products](./imgs/editproduct.png)
+![All Categories](./imgs/allcategories.png)
+![New Category](./imgs/newcategories.png)
+![Admin Sales(all employees)](./imgs/adminsales.png)
+![Cashier Sales(personal sales)](./imgs/employeesales.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+</details>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## User Stories
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [] As a non-logged in user, I can access the login page and signup page, so that I can create an account or log in.
+- [] As a cashier, I want to be able to place orders.
+- [] As a cashier, I want to be taken to the new order page as soon as I log in.
+- [] As a cashier, I want to be able to see a list of all my orders.
+- [] As an admin, I want to be able to place orders, in case no other cashiers are available.
+- [] As an admin, I want to be able to view all products, and update or delete them.
+- [] As an admin, I want to be able to view all categories, and update or delete them.
+- [] As an admin, I want to be able to view all orders, and update or delete them.
+- [] As an admin, I want to be able to view all employees, and update or delete them.
+- [] As an admin, I want to be able to change employee privileges.
+- [] As an admin, I want to be able set the color theme
+- [] As an admin, I want to be able to give each category a color, so that I can easily identify them.
+- [] As an admin, I want to be taken to the transactions page as soon as I log in, so that I can easily see an overview of the day's sales.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Goals:
 
-## Learn More
+### MVP
+- Ability to either login or signup (only) if you are a non-logged in user
+- Ability for "Cashiers" to complete transactions only
+- On login (cashiers), direct to new order page
+- On login (admin), direct to all products
+- Admin ability to view ALL transactions
+- Admin ability to complete full CRUD on schemas
+- Admin ability to update user permissions
+- Admin ability to checkout if needed
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Stretch Goals
+- Ability for Cashiers to see own transaction history
+- Ability to sort transactions by date/employee/filter
+- Admin ability to set color theme
+- Cashier ability to set color theme
+- Implement a transactional API
+- Implement O-Auth
+- Implement inventory management
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Authors
+- [Grace](https://github.com/gracenarez333)
+- [Stefan](https://github.com/saulthebear)
+- [Heg](https://github.com/erhaneth)
