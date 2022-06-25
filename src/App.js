@@ -1,17 +1,17 @@
-import {
+import React, {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
-} from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import Login from './components/pages/Login'
-import Profile from './components/pages/Profile'
-import Register from './components/pages/Register'
-import Welcome from './components/pages/Welcome'
-import Navbar from './components/Navbar'
-import './App.css'
-import jwt_decode from 'jwt-decode'
+  Navigate,
+} from "react-router-dom"
+import { useState, useEffect } from "react"
+import Login from "./components/pages/Login"
+import Profile from "./components/pages/Profile"
+import Register from "./components/pages/Register"
+import Welcome from "./components/pages/Welcome"
+import Navbar from "./components/Navbar"
+import "./App.css"
+import jwt_decode from "jwt-decode"
 
 function App() {
   // the currently logged in user will be stored up here in state
@@ -20,7 +20,7 @@ function App() {
   // useEffect -- if the user navigates away form the page, we will log them back in
   useEffect(() => {
     // check to see if token is in storage
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem("jwt")
     if (token) {
       // if so, we will decode it and set the user in app state
       setCurrentUser(jwt_decode(token))
@@ -32,9 +32,9 @@ function App() {
   // event handler to log the user out when needed
   const handleLogout = () => {
     // check to see if a token exists in local storage
-    if (localStorage.getItem('jwt')) {
+    if (localStorage.getItem("jwt")) {
       // if so, delete it
-      localStorage.removeItem('jwt')
+      localStorage.removeItem("jwt")
       // set the user in the App state to be null
       setCurrentUser(null)
     }
@@ -43,10 +43,7 @@ function App() {
   return (
     <Router>
       <header>
-        <Navbar 
-          currentUser={currentUser}
-          handleLogout={handleLogout}
-        />
+        <Navbar currentUser={currentUser} handleLogout={handleLogout} />
       </header>
 
       <div className="App">
@@ -56,26 +53,45 @@ function App() {
             element={<Welcome />}
           />
 
-          <Route 
+          <Route
             path="/register"
-            element={<Register currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            element={
+              <Register
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
 
-          <Route 
+          <Route
             path="/login"
-            element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            element={
+              <Login
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+              />
+            }
           />
 
           {/* conditionally render auth locked routes */}
-          <Route 
+          <Route
             path="/profile"
-            element={currentUser ? <Profile handleLogout={handleLogout} currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/login" />}
+            element={
+              currentUser ? (
+                <Profile
+                  handleLogout={handleLogout}
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
-
         </Routes>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

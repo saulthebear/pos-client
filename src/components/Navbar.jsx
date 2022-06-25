@@ -1,40 +1,40 @@
-import { Link } from 'react-router-dom'
+import React, { Link } from "react-router-dom"
+import PropTypes from "prop-types"
 
 export default function Navbar({ currentUser, handleLogout }) {
-	 const loggedIn = (
-		<>
-			{/* if the user is logged in... */}
-			<Link to="/">
-				<span onClick={handleLogout}>logout</span>
-			</Link>
+  const loggedIn = (
+    <>
+      {/* if the user is logged in... */}
+      <Link to="/">
+        <span onClick={handleLogout}>logout</span>
+      </Link>
 
-			<Link to="/profile">
-				profile
-			</Link>
-		</>
-	 )
+      <Link to="/profile">profile</Link>
+    </>
+  )
 
-	 const loggedOut = (
-		<>
-			{/* if the user is not logged in... */}
-			<Link to="/register">
-				register
-			</Link>
+  const loggedOut = (
+    <>
+      {/* if the user is not logged in... */}
+      <Link to="/register">register</Link>
 
-			<Link to="/login">
-				login
-			</Link>
-		</>
-	 )
+      <Link to="/login">login</Link>
+    </>
+  )
 
-	return (
-		<nav>
-			{/* user always sees this section */}
-			<Link to="/">
-				<p>User App</p>
-			</Link>
+  return (
+    <nav>
+      {/* user always sees this section */}
+      <Link to="/">
+        <p>User App</p>
+      </Link>
 
-			{currentUser ? loggedIn : loggedOut}
-		</nav>
-	)
+      {currentUser ? loggedIn : loggedOut}
+    </nav>
+  )
+}
+
+Navbar.propTypes = {
+  currentUser: PropTypes.object,
+  handleLogout: PropTypes.func,
 }
