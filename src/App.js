@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import NewOrderPage from "./components/pages/NewOrderPage"
 import UsersPage from "./components/pages/UsersPage"
 import Login from "./components/pages/Login"
-import Profile from "./components/pages/Profile"
+import ProfilePage from "./components/pages/ProfilePage"
 import Register from "./components/pages/Register"
 import Welcome from "./components/pages/Welcome"
 import Navbar from "./components/Navbar"
@@ -77,7 +77,7 @@ function App() {
             path="/profile"
             element={
               currentUser ? (
-                <Profile
+                <ProfilePage
                   handleLogout={handleLogout}
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
