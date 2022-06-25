@@ -5,8 +5,9 @@ import React, {
   Navigate,
 } from "react-router-dom"
 import { useState, useEffect } from "react"
-import NewOrderPage from "./components/pages/NewOrderPage"
-import UsersPage from "./components/pages/UsersPage"
+import NewOrderPage from "./components/pages/NewOrderPage/NewOrderPage"
+import ProductsPage from "./components/pages/ProductsPage/ProductsPage"
+import EmployeesPage from "./components/pages/EmployeesPage/EmployeesPage"
 import Login from "./components/pages/Login"
 import ProfilePage from "./components/pages/ProfilePage"
 import Register from "./components/pages/Register"
@@ -88,7 +89,8 @@ function App() {
             }
           />
           <Route path="/orders/new" element={<NewOrderPage />} />
-          <Route path="admin/employees" element={<UsersPage />} />
+          <Route path="admin/employees" element={<EmployeesPage />} />
+          <Route path="admin/products" element={<ProductsPage />} />
         </Routes>
       </div>
     </Router>
