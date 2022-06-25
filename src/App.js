@@ -88,6 +88,7 @@ function App() {
             }
           />
           <Route path="/orders/new" element={<NewOrderPage />} />
+          <Route path="admin/employees" element={<UsersPage />} />
         </Routes>
       </div>
     </Router>
