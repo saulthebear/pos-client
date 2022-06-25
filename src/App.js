@@ -5,6 +5,8 @@ import React, {
   Navigate,
 } from "react-router-dom"
 import { useState, useEffect } from "react"
+import NewOrderPage from "./components/pages/NewOrderPage"
+import UsersPage from "./components/pages/UsersPage"
 import Login from "./components/pages/Login"
 import Profile from "./components/pages/Profile"
 import Register from "./components/pages/Register"
@@ -48,10 +50,7 @@ function App() {
 
       <div className="App">
         <Routes>
-          <Route 
-            path="/"
-            element={<Welcome />}
-          />
+          <Route path="/" element={<Welcome />} />
 
           <Route
             path="/register"
@@ -88,6 +87,7 @@ function App() {
               )
             }
           />
+          <Route path="/orders/new" element={<NewOrderPage />} />
         </Routes>
       </div>
     </Router>
