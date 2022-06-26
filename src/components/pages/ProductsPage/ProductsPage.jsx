@@ -1,5 +1,12 @@
 import React from "react"
-
+import ProductsDisplay from "./ProductsDisplay"
+import ProductForm from "./ProductForm"
 export default function ProductsPage() {
-  return <div>ProductsPage</div>
+  return (
+    <div>
+      <h1>ProductsPage</h1>
+      <ProductsDisplay />
+      <ProductForm />
+    </div>
+  )
 }

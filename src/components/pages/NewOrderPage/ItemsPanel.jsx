@@ -4,7 +4,7 @@ import Search from "./Search"
 
 export default function ItemsPanel() {
   return (
-    <div>
+    <div className="bg-slate-50">
       <h2>ItemsPanel</h2>
       <Search />
       <CategoriesSelect />

@@ -8,8 +8,10 @@ import { useState, useEffect } from "react"
 import NewOrderPage from "./components/pages/NewOrderPage/NewOrderPage"
 import ProductsPage from "./components/pages/ProductsPage/ProductsPage"
 import EmployeesPage from "./components/pages/EmployeesPage/EmployeesPage"
+import CategoriesPage from "./components/pages/CategoriesPage/CategoriesPage"
+import TransactionsPage from "./components/pages/TransactionsPage/TransactionsPage"
 import Login from "./components/pages/Login"
-import ProfilePage from "./components/pages/ProfilePage"
+import ProfilePage from "./components/pages/ProfilePage/ProfilePage"
 import Register from "./components/pages/Register"
 import Welcome from "./components/pages/Welcome"
 import Navbar from "./components/Navbar"
@@ -91,6 +93,8 @@ function App() {
           <Route path="/orders/new" element={<NewOrderPage />} />
           <Route path="admin/employees" element={<EmployeesPage />} />
           <Route path="admin/products" element={<ProductsPage />} />
+          <Route path="admin/transactions" element={<TransactionsPage />} />
+          <Route path="admin/categories" element={<CategoriesPage />} />
         </Routes>
       </div>
     </Router>

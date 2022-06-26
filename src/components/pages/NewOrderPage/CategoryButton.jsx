@@ -1,5 +1,5 @@
 import React from "react"
 
 export default function CategoryButton() {
-  return <div>CategoryButton</div>
+  return <div className="bg-plum-600">CategoryButton</div>
 }

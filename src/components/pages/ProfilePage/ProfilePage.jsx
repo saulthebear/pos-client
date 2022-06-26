@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import PropTypes from "prop-types"
+import CashierTransactions from "./CashierTransactions"
 
 export default function Profile({ currentUser, handleLogout }) {
-  // state for the secret message (aka user privilaged data)
-  const [msg, setMsg] = useState("")
-
   // useEffect for getting the user data and checking auth
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +24,6 @@ export default function Profile({ currentUser, handleLogout }) {
         // example POST with auth headers (options are always last argument)
         // await axios.post(url, requestBody (form data), options)
         // set the secret user message in state
-        setMsg(response.data.msg)
       } catch (err) {
         // if the error is a 401 -- that means that auth failed
         console.warn(err)
@@ -46,11 +43,7 @@ export default function Profile({ currentUser, handleLogout }) {
 
       <p>your email is {currentUser.email}</p>
 
-      <h2>
-        Here is the secret message that is only availible to users of User App:
-      </h2>
-
-      <h3>{msg}</h3>
+      <CashierTransactions />
     </div>
   )
 }

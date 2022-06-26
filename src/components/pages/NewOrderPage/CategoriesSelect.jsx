@@ -3,7 +3,7 @@ import CategoryButton from "./CategoryButton"
 
 export default function CategoriesSelect() {
   return (
-    <div>
+    <div className="">
       <CategoryButton />
       <CategoryButton />
     </div>
