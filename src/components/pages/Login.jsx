@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom"
 
 export default function Login({ currentUser, setCurrentUser }) {
   // state for the controlled form
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [msg, setMsg] = useState("")
 
@@ -16,11 +16,11 @@ export default function Login({ currentUser, setCurrentUser }) {
     try {
       // post fortm data to the backend
       const reqBody = {
-        email,
+        username,
         password,
       }
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api-v1/users/login`,
+        `${process.env.REACT_APP_SERVER_URL}/users/login`,
         reqBody
       )
 
@@ -55,13 +55,13 @@ export default function Login({ currentUser, setCurrentUser }) {
       <p>{msg}</p>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Username:</label>
         <input
-          type="email"
-          id="email"
-          placeholder="your email..."
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          type="username"
+          id="username"
+          placeholder="your username..."
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
 
         <label htmlFor="password">Password:</label>

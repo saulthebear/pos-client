@@ -17,10 +17,10 @@ export default function Profile({ currentUser, handleLogout }) {
           },
         }
         // hit the auth locked endpoint
-        const response = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api-v1/users/auth-locked`,
-          options
-        )
+        // const response = await axios.get(
+        //   `${process.env.REACT_APP_SERVER_URL}/api/v1/users/auth-locked`,
+        //   options
+        // )
         // example POST with auth headers (options are always last argument)
         // await axios.post(url, requestBody (form data), options)
         // set the secret user message in state
@@ -39,9 +39,7 @@ export default function Profile({ currentUser, handleLogout }) {
   })
   return (
     <div>
-      <h1>Hello, {currentUser.name}</h1>
-
-      <p>your email is {currentUser.email}</p>
+      <h1>Hello, {currentUser.username}</h1>
 
       <CashierTransactions />
     </div>

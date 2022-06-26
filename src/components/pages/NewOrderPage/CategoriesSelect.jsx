@@ -1,33 +1,22 @@
-import React from "react"
+import React, { useId } from "react"
 import CategoryButton from "./CategoryButton"
+import PropTypes from "prop-types"
 
-const categories = [
-  {
-    id: 2,
-    name: "Food",
-    color: "green",
-  },
-  {
-    id: 3,
-    name: "Snacks",
-    color: "blue",
-  },
-  {
-    id: 4,
-    name: "Desserts",
-    color: "purple",
-  },
-  {
-    id: 5,
-    name: "Drinks",
-    color: "yellow",
-  },
-]
-
-export default function CategoriesSelect() {
+export default function CategoriesSelect({ categories }) {
+  const id = useId()
   const categoryButtons = categories.map((category) => {
-    return <CategoryButton key={category.id} {...category} />
+    return <CategoryButton key={`${id}-${category._id}`} {...category} />
   })
 
   return <div className="flex w-full gap-2 flex-wrap">{categoryButtons}</div>
+}
+
+CategoriesSelect.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    })
+  ),
 }

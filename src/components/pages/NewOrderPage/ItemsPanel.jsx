@@ -1,13 +1,36 @@
 import React from "react"
-import CategoriesSelect from "./CategoriesSelect"
 import Search from "./Search"
+import CategoriesSelect from "./CategoriesSelect"
+import ItemsSelect from "./ItemsSelect"
+import PropTypes from "prop-types"
 
-export default function ItemsPanel() {
+export default function ItemsPanel({ items, categories }) {
   return (
-    <div className="bg-slate-50">
-      <h2>ItemsPanel</h2>
+    <div className="p-4 flex flex-col gap-5">
       <Search />
-      <CategoriesSelect />
+      <CategoriesSelect categories={categories} />
+      <ItemsSelect items={items} />
     </div>
   )
+}
+
+ItemsPanel.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
+      }),
+    })
+  ),
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    })
+  ),
 }
