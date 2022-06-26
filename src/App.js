@@ -47,55 +47,53 @@ function App() {
 
   return (
     <Router>
-      <header>
-        <Navbar currentUser={currentUser} handleLogout={handleLogout} />
-      </header>
-
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-
-          <Route
-            path="/register"
-            element={
-              <Register
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            }
-          />
-
-          <Route
-            path="/login"
-            element={
-              <Login
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            }
-          />
-
-          {/* conditionally render auth locked routes */}
-          <Route
-            path="/profile"
-            element={
-              currentUser ? (
-                <ProfilePage
-                  handleLogout={handleLogout}
+      <div className="h-screen grid grid-rows-[3.5rem_1fr]">
+        <header className="bg-brand">
+          <Navbar currentUser={currentUser} handleLogout={handleLogout} />
+        </header>
+        <main className="bg-slate-50">
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route
+              path="/register"
+              element={
+                <Register
                   currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
                 />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route path="/orders/new" element={<NewOrderPage />} />
-          <Route path="admin/employees" element={<EmployeesPage />} />
-          <Route path="admin/products" element={<ProductsPage />} />
-          <Route path="admin/transactions" element={<TransactionsPage />} />
-          <Route path="admin/categories" element={<CategoriesPage />} />
-        </Routes>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Login
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
+            />
+            {/* conditionally render auth locked routes */}
+            <Route
+              path="/profile"
+              element={
+                currentUser ? (
+                  <ProfilePage
+                    handleLogout={handleLogout}
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route path="/orders/new" element={<NewOrderPage />} />
+            <Route path="admin/employees" element={<EmployeesPage />} />
+            <Route path="admin/products" element={<ProductsPage />} />
+            <Route path="admin/transactions" element={<TransactionsPage />} />
+            <Route path="admin/categories" element={<CategoriesPage />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   )
