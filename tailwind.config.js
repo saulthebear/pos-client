@@ -18,6 +18,12 @@ module.exports = {
         },
         brand: "#78A1BB",
       },
+      fontFamily: {
+        logo: ["Fascinate", "cursive"],
+        "red-hat-display": ["Red Hat Display", "sans-serif"],
+        "red-hat-text": ["Red Hat Text", "sans-serif"],
+        sans: ["Red Hat Text", "sans-serif"],
+      },
     },
   },
   plugins: [],
