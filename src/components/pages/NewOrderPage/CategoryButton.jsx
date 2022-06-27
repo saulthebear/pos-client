@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ColorIndicator from "./ColorIndicator"
+import ColorIndicator from "../../ui/ColorIndicator"
 
 export default function CategoryButton({ id, name, color }) {
   return (

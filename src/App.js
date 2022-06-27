@@ -87,7 +87,7 @@ function App() {
                 )
               }
             />
-            <Route path="/orders/new" element={<NewOrderPage />} />
+            <Route path="/orders/new" element={<NewOrderPage currentUser={currentUser} />} />
             <Route path="admin/employees" element={<EmployeesPage />} />
             <Route path="admin/products" element={<ProductsPage />} />
             <Route path="admin/transactions" element={<TransactionsPage />} />
