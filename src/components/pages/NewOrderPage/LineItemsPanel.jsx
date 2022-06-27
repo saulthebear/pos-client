@@ -1,8 +1,43 @@
-import React from "react"
-import LineItems from "./LineItems"
+import React, { useId } from "react"
+import LineItem from "./LineItem"
+import { formatCurrency } from "../../../helpers/utils"
+
+const dummyLineItems = [
+  {
+    name: "Coffee",
+    quantity: 1,
+    price: 100,
+  },
+  {
+    name: "Bagel",
+    quantity: 3,
+    price: 50,
+  },
+]
 
 export default function LineItemsPanel() {
+  const [lineItems, setLineItems] = React.useState(dummyLineItems)
+
+  const numItems = lineItems.reduce((sum, item) => sum + item.quantity, 0)
+  const totalPrice = lineItems.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  )
+  const totalPriceString = formatCurrency(totalPrice)
+
   const gridStyles = "grid grid-cols-[5fr_1fr_2fr_2fr] gap-2"
+  const id = useId()
+
+  const lineItemComponents = lineItems.map((lineItem) => {
+    return (
+      <LineItem
+        key={`${id}-${lineItem.name}`}
+        {...lineItem}
+        gridStyles={gridStyles}
+      />
+    )
+  })
+
   return (
     <div className="bg-plum-50 p-3 flex flex-col">
       <div className="flex-grow">
@@ -12,18 +47,19 @@ export default function LineItemsPanel() {
           <span className="border-b-2 border-plum-600">Each</span>
           <span className="border-b-2 border-plum-600">Total</span>
         </div>
-        <LineItems />
+
+        <div>{lineItemComponents}</div>
       </div>
 
       <div>
         <div className="grid grid-cols-2 border-t-2 border-plum-400">
           <div className="border-r-2 border-plum-400 flex justify-between p-2">
             <span>ITEMS</span>
-            <span>0</span>
+            <span>{numItems}</span>
           </div>
           <div className="flex justify-between p-2">
             <span>TOTAL</span>
-            <span>$ 0.00</span>
+            <span>{totalPriceString}</span>
           </div>
         </div>
         <div className="flex justify-between">
