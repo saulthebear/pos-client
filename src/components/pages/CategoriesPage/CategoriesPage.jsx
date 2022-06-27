@@ -1,27 +1,21 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { getAuthOptions } from "../../../helpers/utils"
 
 import CategoryForm from "./CategoryForm"
 import CategoryDisplay from "./CategoryDisplay"
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([])
+  const [showCatForm, setShowCatForm] = useState(false)
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // get the token from local storage
-        const token = localStorage.getItem("jwt")
-        // make the auth headers
-        const options = {
-          headers: {
-            Authorization: token,
-          },
-        }
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/categories`,
-          options
+          getAuthOptions()
         )
         setCategories(response.data)
       } catch (error) {
@@ -30,12 +24,39 @@ export default function CategoriesPage() {
     }
     fetchCategories()
   }, [])
-  console.log("my server url is", process.env.REACT_APP_SERVER_URL)
+
+  const handleSubmit = (e, form) => {
+    e.preventDefault()
+    axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/categories`, form,
+      getAuthOptions()
+    )
+      .then(response => {
+        const newCategories = [...categories, response.data]
+        setCategories(newCategories)
+        setShowCatForm(false)
+      })
+      .catch(console.warn)
+  }
+
   return (
-    <div>
-      <h1>CategoriesPage</h1>
-      <CategoryDisplay categories={categories} />
-      <CategoryForm />
-    </div>
+    <>
+      {
+        showCatForm ?
+          <CategoryForm
+            initialCatForm={categories}
+            submitHandler={handleSubmit}
+          /> :
+          <CategoryDisplay
+            categories={categories}
+            setCategories={setCategories}
+          />
+      }
+      <button
+        onClick={() => setShowCatForm(!showCatForm)}
+      >
+        {showCatForm ? 'Cancel' : 'New'}
+      </button>
+    </>
   )
 }
