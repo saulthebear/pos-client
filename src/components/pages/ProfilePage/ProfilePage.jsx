@@ -2,44 +2,56 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import PropTypes from "prop-types"
 import CashierTransactions from "./CashierTransactions"
+import { getAuthOptions } from "../../../helpers/utils"
 
 export default function Profile({ currentUser, handleLogout }) {
+  const [form, setForm] = useState({ username: currentUser.username, password: "" })
+  const [isEditing, setIsEditing] = useState(false)
   // useEffect for getting the user data and checking auth
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // get the token from local storage
-        const token = localStorage.getItem("jwt")
-        // make the auth headers
-        const options = {
-          headers: {
-            Authorization: token,
-          },
-        }
-        // hit the auth locked endpoint
-        // const response = await axios.get(
-        //   `${process.env.REACT_APP_SERVER_URL}/api/v1/users/auth-locked`,
-        //   options
-        // )
-        // example POST with auth headers (options are always last argument)
-        // await axios.post(url, requestBody (form data), options)
-        // set the secret user message in state
-      } catch (err) {
-        // if the error is a 401 -- that means that auth failed
-        console.warn(err)
-        if (err.response) {
-          if (err.response.status === 401) {
-            // panic!
-            handleLogout()
-          }
-        }
-      }
+
+  const handleSubmit = async (e, form) => {
+    e.preventDefault()
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/users/${currentUser.id}`, form, getAuthOptions())
+      setForm(response.data)
+      setIsEditing(false)
+
+    } catch (error) {
+      console.log(error)
     }
-    fetchData()
-  })
+  }
   return (
     <div>
-      <h1>Hello, {currentUser.username}</h1>
+      <h1>Profile Page</h1>
+      <p>{currentUser.username}</p>
+      <p>{currentUser.role}</p>
+      {isEditing && (
+
+        <form onSubmit={e => handleSubmit(e, form, setForm)}>
+
+          <label htmlFor="username">Username:</label>
+          <input
+            type='text'
+            id='username'
+            value={form.username}
+            onChange={e => setForm({ ...form, username: e.target.value })}
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            type='text'
+            id='password'
+            value={form.password}
+            onChange={e => setForm({ ...form, password: e.target.value })}
+          />
+          <button type="submit">Update</button>
+        </form>
+      )}
+      <button
+        onClick={() => setIsEditing(!isEditing)}
+      >
+        {isEditing ? "Cancel" : "Edit"}
+
+      </button>
 
       <CashierTransactions />
     </div>
@@ -49,4 +61,5 @@ export default function Profile({ currentUser, handleLogout }) {
 Profile.propTypes = {
   currentUser: PropTypes.object,
   handleLogout: PropTypes.func,
+
 }
