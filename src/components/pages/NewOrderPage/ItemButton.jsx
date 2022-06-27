@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ColorIndicator from "./ColorIndicator"
+import ColorIndicator from "../../ui/ColorIndicator"
 import { formatCurrency } from "../../../helpers/utils"
 
 export default function ItemButton({ name, price, category, onClick }) {
