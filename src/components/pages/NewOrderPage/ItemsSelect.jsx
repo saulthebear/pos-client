@@ -2,10 +2,11 @@ import React, { useId } from "react"
 import ItemButton from "./ItemButton"
 import PropTypes from "prop-types"
 
-export default function ItemsSelect({ items }) {
+export default function ItemsSelect({ items, onAddLineItem }) {
   const id = useId()
+
   const itemButtons = items.map((item) => {
-    return <ItemButton key={`${id}-${item._id}`} {...item} />
+    return <ItemButton key={`${id}-${item._id}`} {...item} onClick={() => onAddLineItem(item)} />
   })
 
   return (
@@ -27,4 +28,5 @@ ItemsSelect.propTypes = {
       }),
     })
   ),
+  onAddLineItem: PropTypes.func.isRequired,
 }
