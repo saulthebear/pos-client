@@ -26,3 +26,13 @@ export const formatTime = (date) => {
 export const formatDateTime = (date) => {
   return `${formatDate(date)} ${formatTime(date)}`
 }
+
+export const getAuthOptions = () => {
+  const token = localStorage.getItem("jwt")
+  const options = {
+    headers: {
+      Authorization: token,
+    },
+  }
+  return options
+}
