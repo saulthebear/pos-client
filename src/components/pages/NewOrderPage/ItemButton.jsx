@@ -9,7 +9,7 @@ export default function ItemButton({ name, price, category }) {
   return (
     <button
       type="button"
-      className="bg-slate-500 h-20 w-28 text-white font-semibold rounded-lg relative"
+      className="bg-slate-500 h-20 w-28 text-white font-semibold rounded-lg relative shadow-md"
     >
       <span className="absolute top-2 left-2">
         {color && <ColorIndicator color={color} />}

@@ -9,7 +9,7 @@ export default function ItemsSelect({ items }) {
   })
 
   return (
-    <div className="bg-slate-200 rounded-lg grow flex gap-2 flex-wrap p-5 content-start">
+    <div className="bg-slate-200 rounded-lg grow flex gap-2 flex-wrap p-5 content-start shadow-md">
       {itemButtons}
     </div>
   )

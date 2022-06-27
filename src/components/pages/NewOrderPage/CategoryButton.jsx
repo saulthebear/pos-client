@@ -6,7 +6,7 @@ export default function CategoryButton({ id, name, color }) {
   return (
     <button
       type="button"
-      className="bg-plum-600 w-32 rounded-lg text-white font-semibold px-5 py-3 flex items-center"
+      className="bg-plum-600 w-32 rounded-lg text-white font-semibold px-5 py-3 flex items-center shadow-md"
     >
       <div className="flex items-center gap-1 flex-wrap">
         {/* <div className={`w-4 h-4 rounded-full bg-${colors[color]}`}></div> */}
