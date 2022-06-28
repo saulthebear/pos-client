@@ -1,6 +1,5 @@
 import React, { useId, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { getAuthOptions } from "../../../helpers/utils"
 import axios from "axios"
 import PropTypes from "prop-types"
@@ -41,7 +40,11 @@ function Category({ _id, name, color, categories, setCategories }) {
       const body = {
         color: colorValue
       }
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/categories/${_id}`, body, getAuthOptions())
+      const response = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/categories/${_id}`,
+        body,
+        getAuthOptions()
+      )
       setIsEditingColor(false)
       const categoriesIds = categories.map((category) => category._id)
       const index = categoriesIds.indexOf(_id)
@@ -54,6 +57,7 @@ function Category({ _id, name, color, categories, setCategories }) {
       setIsEditingColor(false)
     }
   }
+
   const handleDelete = (id) => {
     axios.delete(
       `${process.env.REACT_APP_SERVER_URL}/categories/${id}`,
@@ -61,33 +65,48 @@ function Category({ _id, name, color, categories, setCategories }) {
     )
       .then(response => {
         navigate('/admin/categories')
-        console.log('Before filter:', categories.length)
         const updatedCats = categories.filter(cat => cat._id !== id)
-        console.log('After filter:', updatedCats.length)
-        console.log(updatedCats)
         setCategories(updatedCats)
       })
       .catch(console.warn)
   }
 
-  const nameDisplay = (<button onClick={() => setIsEditingName(true)}>{name}</button>)
+  const nameDisplay = (
+    <button
+      onClick={() => setIsEditingName(true)}>
+      {name}
+    </button>
+  )
+
   const nameInput = (
     <>
       <input
         value={nameValue}
         onChange={(e) => setNameValue(e.target.value)}
       />
-      <button type='button' onClick={handleUpdateName}>
+      <button
+        type='button'
+        onClick={handleUpdateName}
+      >
         <span>Done</span>
       </button>
-      <button type='button' onClick={() => setIsEditingName(false)}>Cancel</button>
+      <button
+        type='button'
+        onClick={() => setIsEditingName(false)}>
+        Cancel
+      </button>
     </>
   )
 
-  const colorDisplay = (<button onClick={() => setIsEditingColor(true)}><ColorIndicator color={color} /></button>)
+  const colorDisplay = (
+    <button
+      onClick={() => setIsEditingColor(true)}>
+      <ColorIndicator color={color} />
+    </button>)
   const colorOptions = Object.keys(userColors).map((color) => {
     return (<option value={color} key={`${id}-color-${color}`}>{color}</option>)
   })
+
   const colorInput = (<>
     <select onChange={(e) => setColorValue(e.target.value)} value={colorValue} >
       {colorOptions}
@@ -100,7 +119,10 @@ function Category({ _id, name, color, categories, setCategories }) {
     <div key={`${id}-${_id}`}>
       <p>{isEditingName ? nameInput : nameDisplay}</p>
       <p>{isEditingColor ? colorInput : colorDisplay}</p>
-      <button onClick={() => handleDelete(_id)}>Delete</button>
+      <button
+        onClick={() => handleDelete(_id)}>
+        Delete
+      </button>
     </div>
   )
 }
@@ -121,17 +143,21 @@ Category.propTypes = {
 export default function CategoryDisplay({ categories, setCategories }) {
   const id = useId()
 
-  const categoryLinks = categories.map((category) => {
+  const categoryList = categories.map((category) => {
     return (
       <>
-        <Category categories={categories} setCategories={setCategories} {...category} />
+        <Category
+          categories={categories}
+          setCategories={setCategories}
+          {...category}
+        />
       </>
     )
   })
   return (
     <div>
       <h1>CategoryDisplay</h1>
-      {categoryLinks}
+      {categoryList}
     </div>
   )
 }
