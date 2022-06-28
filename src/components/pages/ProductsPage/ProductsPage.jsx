@@ -4,23 +4,18 @@ import axios from "axios"
 
 import ProductsDisplay from "./ProductsDisplay"
 import ProductForm from "./ProductForm"
+import { getAuthOptions } from "../../../helpers/utils"
+
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
+  const [showProdForm, setShowProdForm] = useState(false)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // get the token from local storage
-        const token = localStorage.getItem("jwt")
-        // make the auth headers
-        const options = {
-          headers: {
-            Authorization: token,
-          },
-        }
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/products`,
-          options
+          getAuthOptions()
         )
         setProducts(response.data)
       } catch (error) {
@@ -29,11 +24,40 @@ export default function ProductsPage() {
     }
     fetchProducts()
   }, [])
+
+  const handleSubmit = (e, form) => {
+    e.preventDefault()
+    axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/products`,
+      form,
+      getAuthOptions()
+    )
+      .then(response => {
+        const newProducts = [...products, response.data]
+        setProducts(newProducts)
+        setShowProdForm(false)
+      })
+      .catch(console.warn)
+  }
+
   return (
-    <div>
-      <h1>ProductsPage</h1>
-      <ProductsDisplay products={products} />
-      <ProductForm />
-    </div>
+    <>
+      {
+        showProdForm ?
+          <ProductForm
+            initialProductForm={products}
+            submitHandler={handleSubmit}
+          /> :
+          <ProductsDisplay
+            products={products}
+            setProducts={setProducts}
+          />
+      }
+      <button
+        onClick={() => setShowProdForm(!showProdForm)}
+      >
+        {showProdForm ? 'Cancel' : 'New'}
+      </button>
+    </>
   )
 }

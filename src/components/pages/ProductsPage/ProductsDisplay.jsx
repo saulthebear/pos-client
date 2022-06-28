@@ -1,11 +1,231 @@
-import React, { useId } from "react"
+import React, { useId, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { getAuthOptions } from "../../../helpers/utils"
+import axios from "axios"
 import PropTypes from "prop-types"
 
-export default function ProductsDisplay({ products }) {
+function Product({ _id, name, code, price, products, setProducts }) {
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [isEditingCode, setIsEditingCode] = useState(false)
+  const [isEditingPrice, setIsEditingPrice] = useState(false)
+  // const [isEditingCategory, setIsEditingCategory] = useState(false)
+  const [nameValue, setNameValue] = useState(name)
+  const [codeValue, setCodeValue] = useState(code)
+  const [priceValue, setPriceValue] = useState(price)
+  // const [categoryValue, setCategoryValue] = useState(category)
+
+  const id = useId()
+  const navigate = useNavigate()
+
+  const handleUpdateName = async () => {
+    try {
+      const body = { name: nameValue }
+      const response = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/products/${_id}`,
+        body,
+        getAuthOptions()
+      )
+      setIsEditingName(false)
+      const productsIds = products.map((product) => product._id)
+      const index = productsIds.indexOf(_id)
+      const updatedProducts = [...products]
+      updatedProducts[index] = { ...products[index], name: nameValue }
+      setProducts(updatedProducts)
+    } catch (error) {
+      console.log(error, 'trouble updating prod name')
+      setIsEditingName(false)
+    }
+  }
+
+  const handleUpdateCode = async () => {
+    try {
+      const body = { code: codeValue }
+      const response = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/products/${_id}`,
+        body,
+        getAuthOptions()
+      )
+      setIsEditingCode(false)
+      const productsIds = products.map((product) => product._id)
+      const index = productsIds.indexOf(_id)
+      const updatedProducts = [...products]
+      updatedProducts[index] = { ...products[index], code: codeValue }
+      setProducts(updatedProducts)
+    } catch (error) {
+      console.log(error, 'trouble updated product code')
+      setIsEditingCode(false)
+    }
+  }
+
+  const handleUpdatePrice = async () => {
+    try {
+      const body = { price: priceValue }
+      const response = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/products/${_id}`,
+        body,
+        getAuthOptions()
+      )
+      setIsEditingPrice(false)
+      const productsIds = products.map((product) => product._id)
+      const index = productsIds.indexOf(_id)
+      const updatedProducts = [...products]
+      updatedProducts[index] = { ...products[index], price: priceValue }
+      setProducts(updatedProducts)
+    } catch (error) {
+      console.log(error, 'trouble updated product price')
+      setIsEditingPrice(false)
+    }
+  }
+
+  // const handleUpdateCategory = async () => {
+  //   try {
+  //     const body = { category: categoryValue }
+  //     const response = await axios.put(
+  //       `${process.env.REACT_APP_SERVER_URL}/products/${_id}`,
+  //       body,
+  //       getAuthOptions()
+  //     )
+  //     setIsEditingCategory(false)
+  //     const productsIds = products.map((product) => product._id)
+  //     const index = productsIds.indexOf(_id)
+  //     const updatedProducts = [...products]
+  //     updatedProducts[index] = { ...products[index], category: categoryValue }
+  //     setProducts(updatedProducts)
+  //   } catch (error) {
+  //     console.log(error, 'trouble updated product code')
+  //     setIsEditingCategory(false)
+  //   }
+  // }
+
+  const handleDelete = (id) => {
+    axios.delete(
+      `${process.env.REACT_APP_SERVER_URL}/products/${id}`,
+      getAuthOptions()
+    )
+      .then(response => {
+        navigate('/admin/products')
+        const updatedProducts = products.filter(product => product._id !== id)
+        setProducts(updatedProducts)
+      })
+      .catch(console.warn)
+  }
+
+  const nameDisplay = (<button onClick={() => setIsEditingName(true)}>{name}</button>)
+
+  const nameInput = (
+    <>
+      <input
+        value={nameValue}
+        onChange={(e) => setNameValue(e.target.value)}
+      />
+      <button
+        type='button'
+        onClick={handleUpdateName}
+      >
+        <span>Done</span>
+      </button>
+      <button
+        type='button'
+        onClick={() => setIsEditingName(false)}>
+        Cancel
+      </button>
+    </>
+  )
+
+  const codeDisplay = (
+    <button
+      onClick={() => setIsEditingCode(true)}>
+      {code}
+    </button>
+  )
+
+  const codeInput = (
+    <>
+      <input
+        value={codeValue}
+        onChange={(e) => setCodeValue(e.target.value)}
+      />
+      <button
+        type='button'
+        onClick={handleUpdateCode}
+      >
+        <span>Done</span>
+      </button>
+      <button
+        type='button'
+        onClick={() => setIsEditingCode(false)}>Cancel
+      </button>
+    </>
+  )
+
+  const priceDisplay = (
+    <button
+      onClick={() => setIsEditingPrice(true)}>
+      {price}
+    </button>
+  )
+
+  const priceInput = (
+    <>
+      <input
+        value={priceValue}
+        onChange={(e) => setPriceValue(e.target.value)}
+      />
+      <button
+        type='button'
+        onClick={handleUpdatePrice}
+      >
+        <span>Done</span>
+      </button>
+      <button
+        type='button'
+        onClick={() => setIsEditingPrice(false)}>Cancel
+      </button>
+    </>
+  )
+
+  return (
+    <div key={`${id}-${_id}`}>
+      <p>{isEditingName ? nameInput : nameDisplay}</p>
+      <p>{isEditingCode ? codeInput : codeDisplay}</p>
+      <p>{isEditingPrice ? priceInput : priceDisplay}</p>
+      <button
+        onClick={() => handleDelete(_id)}>
+        Delete
+      </button>
+    </div>
+  )
+}
+
+Product.propTypes = {
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      category: PropTypes.string
+    })
+  ),
+  setProducts: PropTypes.func,
+}
+
+export default function ProductsDisplay({ products, setProducts }) {
   const id = useId()
 
   const productList = products.map((product) => {
-    return <div key={`${id}-${product._id}`}>{product.name}</div>
+    return (
+      <>
+        <Product
+          products={products}
+          setProducts={setProducts}
+          {...product}
+        />
+      </>
+    )
   })
   return (
     <div>
@@ -21,4 +241,5 @@ ProductsDisplay.propTypes = {
       name: PropTypes.string.isRequired,
     })
   ),
+  setProducts: PropTypes.func,
 }
