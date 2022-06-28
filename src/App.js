@@ -89,12 +89,56 @@ function App() {
             />
             <Route
               path="/orders/new"
-              element={<NewOrderPage currentUser={currentUser} />}
+              element={
+                currentUser &&
+                (currentUser.role === "admin" ||
+                  currentUser.role === "cashier") ? (
+                  <NewOrderPage currentUser={currentUser} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
             />
-            <Route path="admin/employees" element={<EmployeesPage />} />
-            <Route path="admin/products" element={<ProductsPage />} />
-            <Route path="admin/transactions" element={<TransactionsPage />} />
-            <Route path="admin/categories" element={<CategoriesPage />} />
+            <Route
+              path="admin/employees"
+              element={
+                currentUser && currentUser.role === "admin" ? (
+                  <EmployeesPage />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="admin/products"
+              element={
+                currentUser && currentUser.role === "admin" ? (
+                  <ProductsPage />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="admin/transactions"
+              element={
+                currentUser && currentUser.role === "admin" ? (
+                  <TransactionsPage />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="admin/categories"
+              element={
+                currentUser && currentUser.role === "admin" ? (
+                  <CategoriesPage />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
           </Routes>
         </main>
       </div>
