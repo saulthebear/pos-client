@@ -6,23 +6,23 @@ import PropTypes from "prop-types"
 
 export default function Register({ currentUser, setCurrentUser }) {
   // state for the controlled form
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
+
   const [password, setPassword] = useState("")
   const [msg, setMsg] = useState("")
-
+  
   // submit event handler
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       // post fortm data to the backend
       const reqBody = {
-        name,
-        email,
-        password,
+        username,
+      
+        password
       }
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api-v1/users/register`,
+        `${process.env.REACT_APP_SERVER_URL}/users/register`,
         reqBody
       )
 
@@ -57,22 +57,13 @@ export default function Register({ currentUser, setCurrentUser }) {
       <p>{msg}</p>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          id="name"
+          id="username"
           placeholder="your username..."
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="your email..."
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
 
         <label htmlFor="password">Password:</label>
