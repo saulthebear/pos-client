@@ -15,25 +15,24 @@ export default function NewOrderPage({ currentUser }) {
   const [totalPrice, setTotalPrice] = useState(0)
   const [changeAmount, setChangeAmount] = useState(0)
 
-
   const [paymentMethod, setPaymentMethod] = useState("cash")
   const [paymentAmount, setPaymentAmount] = useState(0)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const newTotalPrice = lineItems.reduce((sum, lineItem) => {
       return sum + lineItem.item.price
-    }
-      , 0)
+    }, 0)
     setTotalPrice(newTotalPrice)
     console.log("Total Price", totalPrice)
   }, [lineItems])
 
   useEffect(() => {
     const paymentAmountInCents = paymentAmount * 100
-    const newChangeAmount = paymentAmountInCents > totalPrice ? paymentAmountInCents - totalPrice : 0
+    const newChangeAmount =
+      paymentAmountInCents > totalPrice ? paymentAmountInCents - totalPrice : 0
     setChangeAmount(newChangeAmount)
-  }
-    , [paymentAmount, totalPrice])
+  }, [paymentAmount, totalPrice])
 
   // fetch categories and items from server
   useEffect(() => {
@@ -45,8 +44,13 @@ export default function NewOrderPage({ currentUser }) {
         )
         console.log(response.data)
         setItems(response.data)
-      } catch (error) {
-        console.log("Error fetching products", error)
+      } catch (err) {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
       }
     }
     const fetchCategories = async () => {
@@ -56,8 +60,13 @@ export default function NewOrderPage({ currentUser }) {
           getAuthOptions()
         )
         setCategories(response.data)
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
       }
     }
 
@@ -69,7 +78,9 @@ export default function NewOrderPage({ currentUser }) {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
 
   const handleAddLineItem = (item) => {
-    const index = lineItems.findIndex((lineItem) => lineItem.item._id === item._id)
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.item._id === item._id
+    )
 
     // if item doesn not exist in lineItems, add it
     if (index === -1) {
@@ -78,7 +89,10 @@ export default function NewOrderPage({ currentUser }) {
     }
 
     // if item already exists in lineItems, increment quantity
-    const updatedLineItem = { ...lineItems[index], quantity: lineItems[index].quantity + 1 }
+    const updatedLineItem = {
+      ...lineItems[index],
+      quantity: lineItems[index].quantity + 1,
+    }
     const updatedLineItems = [...lineItems]
     updatedLineItems[index] = updatedLineItem
     setLineItems(updatedLineItems)
@@ -95,7 +109,6 @@ export default function NewOrderPage({ currentUser }) {
   }
 
   const handlePaymentSubmit = async (e) => {
-
     try {
       e.preventDefault()
       console.log("Placing order")
@@ -110,20 +123,28 @@ export default function NewOrderPage({ currentUser }) {
       const orderBody = {
         lineItems: orderLineItems,
         cashier: currentUser.id,
-        "payment_method": paymentMethod
+        payment_method: paymentMethod,
       }
 
       console.log(orderBody)
 
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/orders`, orderBody, getAuthOptions())
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/orders`,
+        orderBody,
+        getAuthOptions()
+      )
 
       console.log(response.data)
 
       setIsPaymentModalOpen(false)
       setLineItems([])
-    } catch (error) {
-      // TODO: show errors to the user
-      console.error('Could not create order', error)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
     }
   }
 
@@ -132,6 +153,7 @@ export default function NewOrderPage({ currentUser }) {
   return (
     <div className="h-full grid grid-cols-3">
       <div className="col-span-2">
+        <p className="text-red-700">{error}</p>
         {/* Payment Modal */}
         <Modal isOpen={isPaymentModalOpen} setIsOpen={setIsPaymentModalOpen}>
           <ModalPanel>
@@ -142,17 +164,33 @@ export default function NewOrderPage({ currentUser }) {
               <p>Amount due: {formatCurrency(totalPrice)}</p>
               <div>
                 <label htmlFor={`${id}-amount`}>Payment Amount</label>
-                <input id={`${id}-amount`} type="number" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} className="text-slate-900" />
+                <input
+                  id={`${id}-amount`}
+                  type="number"
+                  value={paymentAmount}
+                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  className="text-slate-900"
+                />
               </div>
               <p>Change: {formatCurrency(changeAmount)}</p>
-              <button onClick={() => setIsPaymentModalOpen(false)}>Cancel</button>
+              <button onClick={() => setIsPaymentModalOpen(false)}>
+                Cancel
+              </button>
               <button>Pay</button>
             </form>
           </ModalPanel>
         </Modal>
-        <ItemsPanel items={items} categories={categories} onAddLineItem={handleAddLineItem} />
+        <ItemsPanel
+          items={items}
+          categories={categories}
+          onAddLineItem={handleAddLineItem}
+        />
       </div>
-      <LineItemsPanel lineItems={lineItems} setLineItems={setLineItems} onPay={handleOpenPaymentModal} />
+      <LineItemsPanel
+        lineItems={lineItems}
+        setLineItems={setLineItems}
+        onPay={handleOpenPaymentModal}
+      />
     </div>
   )
 }
@@ -161,6 +199,6 @@ NewOrderPage.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.string.isRequired,
     username: PropTypes.string,
-    role: PropTypes.string
-  })
+    role: PropTypes.string,
+  }),
 }

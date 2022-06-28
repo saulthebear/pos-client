@@ -9,8 +9,8 @@ export default function Register({ currentUser, setCurrentUser }) {
   const [username, setUsername] = useState("")
 
   const [password, setPassword] = useState("")
-  const [msg, setMsg] = useState("")
-  
+  const [error, setError] = useState("")
+
   // submit event handler
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,8 +18,8 @@ export default function Register({ currentUser, setCurrentUser }) {
       // post fortm data to the backend
       const reqBody = {
         username,
-      
-        password
+
+        password,
       }
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/users/register`,
@@ -39,7 +39,7 @@ export default function Register({ currentUser, setCurrentUser }) {
       console.warn(err)
       if (err.response) {
         if (err.response.status === 400) {
-          setMsg(err.response.data.msg)
+          setError(err.response.data.error)
         }
       }
     }
@@ -54,7 +54,7 @@ export default function Register({ currentUser, setCurrentUser }) {
     <div>
       <h1>Register for an account:</h1>
 
-      <p>{msg}</p>
+      <p className="text-red-700">{error}</p>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>

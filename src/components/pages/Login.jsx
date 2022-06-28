@@ -8,13 +8,13 @@ export default function Login({ currentUser, setCurrentUser }) {
   // state for the controlled form
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [msg, setMsg] = useState("")
+  const [error, setError] = useState("")
 
   // submit event handler
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // post fortm data to the backend
+      // post form data to the backend
       const reqBody = {
         username,
         password,
@@ -24,7 +24,7 @@ export default function Login({ currentUser, setCurrentUser }) {
         reqBody
       )
 
-      // save the token in localstorage
+      // save the token in local storage
       const { token } = response.data
       localStorage.setItem("jwt", token)
 
@@ -37,7 +37,7 @@ export default function Login({ currentUser, setCurrentUser }) {
       console.warn(err)
       if (err.response) {
         if (err.response.status === 400) {
-          setMsg(err.response.data.msg)
+          setError(err.response.data.error)
         }
       }
     }
@@ -52,7 +52,7 @@ export default function Login({ currentUser, setCurrentUser }) {
     <div>
       <h1>Login to Your Account:</h1>
 
-      <p>{msg}</p>
+      <p className="text-red-700">{error}</p>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Username:</label>

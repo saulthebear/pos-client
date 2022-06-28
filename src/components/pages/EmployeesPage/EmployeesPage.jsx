@@ -43,7 +43,7 @@ VerifiedIcon.propTypes = {
   isVerified: PropTypes.bool.isRequired,
 }
 
-function Employee({ _id, username, role, setHasUpdated }) {
+function Employee({ _id, username, role, setHasUpdated, setError }) {
   const [isEditing, setIsEditing] = useState(false)
   const [nameValue, setNameValue] = useState(username)
 
@@ -53,47 +53,41 @@ function Employee({ _id, username, role, setHasUpdated }) {
 
   const handleAdminToggleChange = async (isOn) => {
     try {
-      const token = localStorage.getItem("jwt")
-      const options = {
-        headers: {
-          Authorization: token,
-        },
-      }
       const body = { role: isOn ? "admin" : "cashier" }
       const response = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
         body,
-        options
+        getAuthOptions()
       )
       setHasUpdated(true)
       console.log(response.data)
       console.log(`Employee named ${username} is now an admin? ${isOn}`)
-    } catch (error) {
-      // TODO: Display error to user
-      console.log("Error updating user's admin status", error)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
     }
   }
 
   const handleVerifiedToggleChange = async (isOn) => {
     try {
-      const token = localStorage.getItem("jwt")
-      const options = {
-        headers: {
-          Authorization: token,
-        },
-      }
       const body = { role: isOn ? "cashier" : "unverified" }
       const response = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
         body,
-        options
+        getAuthOptions()
       )
       setHasUpdated(true)
-      console.log(response.data)
-      console.log(`Employee named ${username} is now verified? ${isOn}`)
-    } catch (error) {
-      // TODO: Display error to user
-      console.log("Error updating user's admin status", error)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
     }
   }
 
@@ -106,9 +100,13 @@ function Employee({ _id, username, role, setHasUpdated }) {
       )
       console.log(response)
       setHasUpdated(true)
-    } catch (error) {
-      // TODO: give user feedback
-      console.log("Error deleting user", error)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
     }
   }
 
@@ -122,9 +120,13 @@ function Employee({ _id, username, role, setHasUpdated }) {
       )
       console.log(response.data)
       setIsEditing(false)
-    } catch (error) {
-      //TODO : give user feedback
-      console.log("Error updating username", error)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
     }
   }
 
@@ -192,31 +194,30 @@ Employee.propTypes = {
   username: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   setHasUpdated: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 }
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState([])
   const [hasUpdated, setHasUpdated] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         if (hasUpdated) setHasUpdated(false)
-        //get the token from local storage
-        const token = localStorage.getItem("jwt")
-        //make the auth headers
-        const options = {
-          headers: {
-            Authorization: token,
-          },
-        }
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/users`,
-          options
+          getAuthOptions()
         )
         setEmployees(response.data)
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
       }
     }
     fetchEmployees()
@@ -226,7 +227,11 @@ export default function EmployeesPage() {
   const employeeList = employees.map((employee) => {
     return (
       <div key={`${id}-${employee._id}`} className="mb-2">
-        <Employee {...employee} setHasUpdated={setHasUpdated} />
+        <Employee
+          {...employee}
+          setHasUpdated={setHasUpdated}
+          setError={setError}
+        />
       </div>
     )
   })
@@ -234,6 +239,7 @@ export default function EmployeesPage() {
   return (
     <div>
       <h1 className="text-3xl font-semibold">Employees</h1>
+      <p className="text-red-700">{error}</p>
       <div className="text-2xl">
         <span>Username</span>
         <span>Admin</span>
