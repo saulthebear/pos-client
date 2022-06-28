@@ -3,29 +3,11 @@ import { Menu, Transition } from "@headlessui/react"
 import PropTypes from "prop-types"
 
 export default function Navbar({ currentUser, handleLogout }) {
-  const loggedOut = (
-    <>
-      {/* if the user is not logged in... */}
-      <Link to="/register">Register</Link>
-
-      <Link to="/login">Login</Link>
-    </>
-  )
-  const loggedIn = (
-    <>
-      {/* if the user is logged in... */}
-      <Link to="/orders/new">New Order</Link>
-      <Link to="/">
-        <span onClick={handleLogout}>Logout</span>
-      </Link>
-
-      <Link to="/profile">profile icon</Link>
-    </>
-  )
-
-  const admin = (
+  const adminDropdown = (
     <Menu as="span" className="relative">
-      <Menu.Button>More</Menu.Button>
+      <Menu.Button className="flex items-center hover:border-b-2 border-white">
+        More <span className="material-symbols-rounded">arrow_drop_down</span>
+      </Menu.Button>
       <Transition
         enter="transition duration-100 ease-out"
         enterFrom="transform scale-95 opacity-0"
@@ -37,16 +19,36 @@ export default function Navbar({ currentUser, handleLogout }) {
       >
         <Menu.Items className="bg-brand shadow-md flex flex-col p-2 rounded">
           <Menu.Item>
-            <Link to="/admin/categories">Categories</Link>
+            <Link
+              to="/admin/transactions"
+              className="hover:border-b-2 border-white"
+            >
+              Transactions
+            </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/admin/transactions">Transactions</Link>
+            <Link
+              to="/admin/products"
+              className="hover:border-b-2 border-white"
+            >
+              Products
+            </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/admin/employees">Employees</Link>
+            <Link
+              to="/admin/categories"
+              className="hover:border-b-2 border-white"
+            >
+              Categories
+            </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/admin/products">Products</Link>
+            <Link
+              to="/admin/employees"
+              className="hover:border-b-2 border-white"
+            >
+              Employees
+            </Link>
           </Menu.Item>
         </Menu.Items>
       </Transition>
@@ -56,15 +58,54 @@ export default function Navbar({ currentUser, handleLogout }) {
   return (
     <nav className="p-3 flex justify-between text-white text-lg items-center">
       {/* user always sees this section */}
-      <Link to="/">
-        <p className=" font-comfortaa font-bold text-2xl text-white">
-          dettiPOS
-        </p>
+      <Link to="/" className="hover:border-b-2 border-white">
+        <p className="font-comfortaa font-bold text-2xl text-white">dettiPOS</p>
       </Link>
-      <div className="flex gap-3">
-        {currentUser && currentUser.role === "admin" && admin}
-        {currentUser && loggedIn}
-        {!currentUser && loggedOut}
+      <div className="flex gap-5 items-center">
+        {/* For logged in users: New Order */}
+        {currentUser && (
+          <Link to="/orders/new" className="hover:border-b-2 border-white">
+            New Order
+          </Link>
+        )}
+
+        {/* For admins: dropdown */}
+        {currentUser && currentUser.role === "admin" && adminDropdown}
+
+        {/* For logged in users: Logout & profile */}
+        {currentUser && (
+          <>
+            <Link to="/" className="hover:border-b-2 border-white">
+              <span onClick={handleLogout}>Logout</span>
+            </Link>
+            <Link
+              to="/profile"
+              className="flex items-center bg-plum-300 p-1 rounded-full text-plum-900 border-[3px] border-plum-900 hover:bg-plum-500"
+            >
+              {currentUser.role !== "admin" && (
+                <span className="material-symbols-rounded font-bold">face</span>
+              )}
+              {currentUser.role === "admin" && (
+                <span className="material-symbols-rounded font-bold">
+                  admin_panel_settings
+                </span>
+              )}
+            </Link>
+          </>
+        )}
+
+        {/*For non-logged in users: register & login */}
+        {!currentUser && (
+          <>
+            <Link to="/register" className="hover:border-b-2 border-white">
+              Register
+            </Link>
+
+            <Link to="/login" className="hover:border-b-2 border-white">
+              Login
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   )

@@ -47,7 +47,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-screen grid grid-rows-[3.5rem_1fr]">
+      <div className="h-screen grid grid-rows-[auto_1fr]">
         <header className="bg-brand">
           <Navbar currentUser={currentUser} handleLogout={handleLogout} />
         </header>
@@ -87,7 +87,10 @@ function App() {
                 )
               }
             />
-            <Route path="/orders/new" element={<NewOrderPage currentUser={currentUser} />} />
+            <Route
+              path="/orders/new"
+              element={<NewOrderPage currentUser={currentUser} />}
+            />
             <Route path="admin/employees" element={<EmployeesPage />} />
             <Route path="admin/products" element={<ProductsPage />} />
             <Route path="admin/transactions" element={<TransactionsPage />} />
