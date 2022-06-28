@@ -23,6 +23,7 @@ module.exports = {
         "red-hat-display": ["Red Hat Display", "sans-serif"],
         "red-hat-text": ["Red Hat Text", "sans-serif"],
         sans: ["Red Hat Text", "sans-serif"],
+        comfortaa: ["Comfortaa", "Red Hat Display", "sans-serif"],
       },
     },
   },
