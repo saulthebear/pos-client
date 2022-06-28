@@ -51,7 +51,7 @@ function App() {
         <header className="bg-brand">
           <Navbar currentUser={currentUser} handleLogout={handleLogout} />
         </header>
-        <main className="bg-slate-50">
+        <main className="bg-slate">
           <Routes>
             <Route path="/" element={<Welcome />} />
             <Route
