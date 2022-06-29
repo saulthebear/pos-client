@@ -7,6 +7,7 @@ export default function Transactions({
   setTransactions,
   updateTransaction,
   items,
+  cashiers,
 }) {
   // Grid width for transaction headings and transactions
   const gridStyles = "grid grid-cols-6 gap-2"
@@ -22,6 +23,7 @@ export default function Transactions({
   }
 
   const transactionComponents = transactions.map((transaction) => {
+    console.log(transaction)
     return (
       <Transaction
         key={transaction._id}
@@ -30,6 +32,7 @@ export default function Transactions({
         removeTransaction={removeTransaction}
         updateTransaction={updateTransaction}
         items={items}
+        cashiers={cashiers}
       />
     )
   })
@@ -86,6 +89,13 @@ Transactions.propTypes = {
         name: PropTypes.string,
         color: PropTypes.string,
       }),
+    })
+  ),
+  cashiers: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      role: PropTypes.string,
     })
   ),
 }

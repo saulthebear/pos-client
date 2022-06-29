@@ -6,6 +6,7 @@ import Transactions from "./Transactions"
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([])
   const [items, setItems] = useState([])
+  const [cashiers, setCashiers] = useState([])
   const [error, setError] = useState("")
 
   const updateTransaction = (id, updatedTransaction) => {
@@ -53,22 +54,46 @@ export default function TransactionsPage() {
       }
     }
 
+    const fetchCashiers = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/users`,
+          getAuthOptions()
+        )
+
+        const users = response.data
+        const cashiers = users.filter(
+          (user) => user.role === "cashier" || user.role === "admin"
+        )
+        setCashiers(cashiers)
+      } catch (err) {
+        console.warn("could not load cashiers", err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
+      }
+    }
+
     fetchTransactions()
     // Items used for dropdown when editing a transaction
     fetchItems()
 
-    // Fetch items, to show in dropdown when editing a transaction
+    // Cashiers used for dropdown when editing a transaction
+    fetchCashiers()
   }, [])
 
   return (
     <div className="p-5">
-      <p className="text-red-700">{error}</p>
       <h1 className="font-red-hat-display font-black text-3xl">Transactions</h1>
+      <p className="text-red-700">{error}</p>
       <Transactions
         transactions={transactions}
         setTransactions={setTransactions}
         updateTransaction={updateTransaction}
         items={items}
+        cashiers={cashiers}
       />
     </div>
   )

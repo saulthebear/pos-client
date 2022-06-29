@@ -1,48 +1,20 @@
 import React, { useState, useId } from "react"
 import PropTypes from "prop-types"
-import axios from "axios"
+import { productShape } from "../../../helpers/propTypes"
 import OrderItem from "./OrderItem"
-import { getAuthOptions } from "../../../helpers/utils"
 
 export default function OrderItems({
-  transactionId,
-  lineItems,
-  handleDelete,
-  updateTransaction,
   items,
+  handleDelete,
+  updatedItems,
+  setUpdatedItems,
+  isEditing,
+  setIsEditing,
+  handleSave,
+  handleCancel,
 }) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [updatedItems, setUpdatedItems] = useState(lineItems)
   const [isAddingItem, setIsAddingItem] = useState(false)
   const [itemToAdd, setItemToAdd] = useState(items[0]._id)
-  const [error, setError] = useState("")
-
-  const handleSave = async () => {
-    try {
-      console.log("saving!")
-      const body = { lineItems: updatedItems }
-
-      const response = await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/orders/${transactionId}`,
-        body,
-        getAuthOptions()
-      )
-
-      setIsEditing(false)
-
-      const updatedTransaction = response.data
-
-      updateTransaction(updatedTransaction._id, updatedTransaction)
-      console.log(response)
-    } catch (err) {
-      console.warn(err)
-      if (err.response) {
-        if (err.response.status === 400) {
-          setError(err.response.data.error)
-        }
-      }
-    }
-  }
 
   const handleAddItem = (newProductId) => {
     const newProduct = items.filter((item) => item._id === newProductId)[0]
@@ -80,11 +52,6 @@ export default function OrderItems({
     itemCopy.quantity = newQuantity
     updatedItemsCopy[index] = itemCopy
     setUpdatedItems(updatedItemsCopy)
-  }
-
-  const handleCancel = () => {
-    setIsEditing(false)
-    setUpdatedItems(lineItems)
   }
 
   const id = useId()
@@ -149,7 +116,6 @@ export default function OrderItems({
   return (
     <div>
       <ul>{itemComponents}</ul>
-      <p className="text-red-700">{error}</p>
       {isEditing && isAddingItem && newItemSelect}
       {isEditing && !isAddingItem && (
         <button
@@ -168,30 +134,12 @@ export default function OrderItems({
 }
 
 OrderItems.propTypes = {
-  lineItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      product: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      }),
-      price: PropTypes.number.isRequired,
-      quantity: PropTypes.number.isRequired,
-      _id: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  items: PropTypes.arrayOf(productShape.isRequired),
   handleDelete: PropTypes.func,
-  transactionId: PropTypes.string.isRequired,
-  updateTransaction: PropTypes.func,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      category: PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        color: PropTypes.string,
-      }),
-    })
-  ),
+  updatedItems: PropTypes.arrayOf(productShape.isRequired),
+  setUpdatedItems: PropTypes.func,
+  isEditing: PropTypes.bool,
+  setIsEditing: PropTypes.func,
+  handleSave: PropTypes.func,
+  handleCancel: PropTypes.func,
 }
