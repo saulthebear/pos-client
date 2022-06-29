@@ -8,7 +8,9 @@ import { getAuthOptions } from "../../../helpers/utils"
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
   const [showProdForm, setShowProdForm] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -18,45 +20,84 @@ export default function ProductsPage() {
           getAuthOptions()
         )
         setProducts(response.data)
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
       }
     }
     fetchProducts()
   }, [])
 
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/categories`,
+          getAuthOptions()
+        )
+        setCategories(response.data)
+      } catch (err) {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
+      }
+    }
+    fetchCategory()
+  }, [])
+
   const handleSubmit = (e, form) => {
     e.preventDefault()
-    axios.post(
-      `${process.env.REACT_APP_SERVER_URL}/products`,
-      form,
-      getAuthOptions()
-    )
-      .then(response => {
+    axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/products`,
+        form,
+        getAuthOptions()
+      )
+      .then((response) => {
         const newProducts = [...products, response.data]
         setProducts(newProducts)
         setShowProdForm(false)
       })
-      .catch(console.warn)
+      .catch((err) => {
+        console.warn(err)
+        if (err.response) {
+          if (err.response.status === 400) {
+            setError(err.response.data.error)
+          }
+        }
+      })
   }
 
   return (
     <>
-      {
-        showProdForm ?
-          <ProductForm
-            initialProductForm={products}
-            submitHandler={handleSubmit}
-          /> :
-          <ProductsDisplay
-            products={products}
-            setProducts={setProducts}
-          />
-      }
-      <button
-        onClick={() => setShowProdForm(!showProdForm)}
-      >
-        {showProdForm ? 'Cancel' : 'New'}
+      <p className="text-red-700">{error}</p>
+      {showProdForm ? (
+        <ProductForm
+          initialProductForm={{
+            name: "",
+            code: "",
+            price: 3,
+            category: "",
+          }}
+          submitHandler={handleSubmit}
+          categories={categories}
+        />
+      ) : (
+        <ProductsDisplay
+          products={products}
+          setProducts={setProducts}
+          categories={categories}
+        />
+      )}
+      <button onClick={() => setShowProdForm(!showProdForm)}>
+        {showProdForm ? "Cancel" : "New"}
       </button>
     </>
   )

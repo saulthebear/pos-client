@@ -2,7 +2,11 @@ import React from "react"
 import { useState } from "react"
 import PropTypes from "prop-types"
 
-export default function ProductForm({ submitHandler, initialProductForm }) {
+export default function ProductForm({
+  submitHandler,
+  initialProductForm,
+  categories,
+}) {
   const [productForm, setProductForm] = useState(initialProductForm)
   return (
     <div>
@@ -39,6 +43,24 @@ export default function ProductForm({ submitHandler, initialProductForm }) {
             })
           }
         />
+        <label htmlFor="category">Product Category:</label>
+        <select
+          onChange={(e) =>
+            setProductForm({ ...productForm, category: e.target.value })
+          }
+          value={productForm.category}
+        >
+          {categories.map((category) => {
+            return (
+              <option
+                value={category._id}
+                key={`categoryOption-${category._id}`}
+              >
+                {category.name}
+              </option>
+            )
+          })}
+        </select>
         <button type="submit">Create</button>
       </form>
     </div>
@@ -51,5 +73,12 @@ ProductForm.propTypes = {
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
   }),
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
