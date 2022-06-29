@@ -111,9 +111,11 @@ export default function ProductsPage() {
           categories={categories}
         />
       )}
-      <button onClick={() => setShowProdForm(!showProdForm)}>
-        {showProdForm ? "Cancel" : "New"}
-      </button>
+      <div>
+        <button onClick={() => setShowProdForm(!showProdForm)}>
+          {showProdForm ? "Cancel" : "New"}
+        </button>
+      </div>
     </>
   )
 }
