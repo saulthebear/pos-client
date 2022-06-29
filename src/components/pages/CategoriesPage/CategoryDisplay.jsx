@@ -155,14 +155,14 @@ export default function CategoryDisplay({ categories, setCategories }) {
 
   const categoryList = categories.map((category) => {
     return (
-      <>
+      <div key={`categoryDisplay-${category._id}`}>
         <Category
           categories={categories}
           setCategories={setCategories}
           {...category}
           setError={setError}
         />
-      </>
+      </div>
     )
   })
   return (
