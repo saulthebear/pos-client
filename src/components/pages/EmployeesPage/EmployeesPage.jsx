@@ -63,8 +63,6 @@ function Employee({ _id, username, role, setHasUpdated, setError }) {
         getAuthOptions()
       )
       setHasUpdated(true)
-      console.log(response.data)
-      console.log(`Employee named ${username} is now an admin? ${isOn}`)
     } catch (err) {
       console.warn(err)
       if (err.response) {
@@ -95,13 +93,11 @@ function Employee({ _id, username, role, setHasUpdated, setError }) {
   }
 
   const handleDelete = async () => {
-    console.log(`Deleting employee: ${username}`)
     try {
-      const response = axios.delete(
+      await axios.delete(
         `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
         getAuthOptions()
       )
-      console.log(response)
       setHasUpdated(true)
     } catch (err) {
       console.warn(err)
@@ -121,7 +117,6 @@ function Employee({ _id, username, role, setHasUpdated, setError }) {
         body,
         getAuthOptions()
       )
-      console.log(response.data)
       setIsEditing(false)
     } catch (err) {
       console.warn(err)
@@ -210,12 +205,10 @@ export default function EmployeesPage() {
   if (isUserLoading) return <Loading />
 
   if (!user) {
-    console.log("no user found")
     return <Navigate to="/login" />
   }
 
   if (user.role !== "admin") {
-    console.log("unauthorized user found")
     return <div>You are not authorized to view this page.</div>
   }
 
@@ -252,7 +245,6 @@ export default function EmployeesPage() {
       </div>
     )
   })
-  console.log(employees)
   return (
     <div>
       <h1 className="text-3xl font-semibold">Employees</h1>

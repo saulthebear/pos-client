@@ -23,7 +23,6 @@ export default function Transactions({
   }
 
   const transactionComponents = transactions.map((transaction) => {
-    console.log(transaction)
     return (
       <Transaction
         key={transaction._id}

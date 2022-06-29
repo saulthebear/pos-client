@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth"
 
 export default function Navbar() {
   const { user: currentUser, logout: handleLogout } = useAuth()
-  console.log(currentUser)
   const adminDropdown = (
     <Menu as="span" className="relative">
       <Menu.Button className="flex items-center hover:border-b-2 border-white">

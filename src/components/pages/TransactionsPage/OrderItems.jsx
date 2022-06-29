@@ -24,15 +24,12 @@ export default function OrderItems({
       quantity: 1,
       price: newProduct.price,
     }
-    console.log("adding a new item:", newLineItem)
     setUpdatedItems([...updatedItems, newLineItem])
   }
 
   const handleRemoveItem = (id) => {
-    console.log("removing the item with id:", id)
     const updatedItemsIds = updatedItems.map((item) => item._id)
     const index = updatedItemsIds.indexOf(id)
-    console.log("Removing index", index)
 
     if (index === -1) return
 
@@ -42,7 +39,6 @@ export default function OrderItems({
   }
 
   const handleChangeQuantity = (id, newQuantity) => {
-    console.log("changing quantity for item to", newQuantity)
     const updatedItemsIds = updatedItems.map((item) => item._id)
     const index = updatedItemsIds.indexOf(id)
     if (index === -1) return

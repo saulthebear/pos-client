@@ -38,7 +38,6 @@ export default function NewOrderPage() {
       return sum + lineItem.item.price
     }, 0)
     setTotalPrice(newTotalPrice)
-    console.log("Total Price", totalPrice)
   }, [lineItems])
 
   useEffect(() => {
@@ -56,7 +55,6 @@ export default function NewOrderPage() {
           `${process.env.REACT_APP_SERVER_URL}/products`,
           getAuthOptions()
         )
-        console.log(response.data)
         setItems(response.data)
       } catch (err) {
         console.warn(err)
@@ -116,8 +114,6 @@ export default function NewOrderPage() {
     if (lineItems.length === 0) {
       return
     }
-    console.log("Pay")
-    console.log(lineItems)
 
     setIsPaymentModalOpen(true)
   }
@@ -125,7 +121,6 @@ export default function NewOrderPage() {
   const handlePaymentSubmit = async (e) => {
     try {
       e.preventDefault()
-      console.log("Placing order")
 
       const orderLineItems = lineItems.map((lineItem) => {
         const itemId = lineItem.item._id
@@ -140,15 +135,11 @@ export default function NewOrderPage() {
         payment_method: paymentMethod,
       }
 
-      console.log(orderBody)
-
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/orders`,
         orderBody,
         getAuthOptions()
       )
-
-      console.log(response.data)
 
       setIsPaymentModalOpen(false)
       setLineItems([])

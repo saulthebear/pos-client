@@ -4,6 +4,9 @@ import { getAuthOptions } from "../../../helpers/utils"
 import axios from "axios"
 import PropTypes from "prop-types"
 
+import { Input } from "../../ui/Input"
+import { ButtonSmall } from "../../ui/Button"
+
 function Product({
   _id,
   name,
@@ -113,7 +116,6 @@ function Product({
         body,
         getAuthOptions()
       )
-      console.log("Response after updating category>>>", response)
       setIsEditingCategory(false)
       const productsIds = products.map((product) => product._id)
       const index = productsIds.indexOf(_id)
@@ -158,57 +160,90 @@ function Product({
 
   const nameInput = (
     <>
-      <input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
-      <button type="button" onClick={handleUpdateName}>
+      <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+      <ButtonSmall
+        className="bg-plum-600"
+        type="button"
+        onClick={handleUpdateName}
+      >
         <span>Done</span>
-      </button>
-      <button type="button" onClick={() => setIsEditingName(false)}>
+      </ButtonSmall>
+      <ButtonSmall
+        className="bg-plum-300"
+        type="button"
+        onClick={() => setIsEditingName(false)}
+      >
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   const codeDisplay = (
-    <button onClick={() => setIsEditingCode(true)}>{code}</button>
+    <>
+      <p>Code:</p>
+      <button onClick={() => setIsEditingCode(true)}>{code}</button>
+    </>
   )
 
   const codeInput = (
     <>
-      <input value={codeValue} onChange={(e) => setCodeValue(e.target.value)} />
-      <button type="button" onClick={handleUpdateCode}>
+      <Input value={codeValue} onChange={(e) => setCodeValue(e.target.value)} />
+      <ButtonSmall
+        className="bg-plum-600"
+        type="button"
+        onClick={handleUpdateCode}
+      >
         <span>Done</span>
-      </button>
-      <button type="button" onClick={() => setIsEditingCode(false)}>
+      </ButtonSmall>
+      <ButtonSmall
+        className="bg-plum-300"
+        type="button"
+        onClick={() => setIsEditingCode(false)}
+      >
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   const priceDisplay = (
-    <button onClick={() => setIsEditingPrice(true)}>{price}</button>
+    <>
+      <p>Price:</p>
+      <button onClick={() => setIsEditingPrice(true)}>{price}</button>
+    </>
   )
 
   const priceInput = (
     <>
-      <input
+      <Input
         value={priceValue}
         onChange={(e) => setPriceValue(e.target.value)}
       />
-      <button type="button" onClick={handleUpdatePrice}>
+      <ButtonSmall
+        className="bg-plum-600"
+        type="button"
+        onClick={handleUpdatePrice}
+      >
         <span>Done</span>
-      </button>
-      <button type="button" onClick={() => setIsEditingPrice(false)}>
+      </ButtonSmall>
+      <ButtonSmall
+        className="bg-plum-300"
+        type="button"
+        onClick={() => setIsEditingPrice(false)}
+      >
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   let categoryDisplay = ""
   if (category) {
     categoryDisplay = (
-      <button onClick={() => setIsEditingCategory(true)}>
-        {category.name}
-      </button>
+      <>
+        <p></p>
+        <button onClick={() => setIsEditingCategory(true)}>
+          {category.name}
+        </button>
+      </>
     )
   }
 
@@ -228,24 +263,40 @@ function Product({
       >
         {categoryOptions}
       </select>
-      <button type="button" onClick={handleUpdateCategory}>
+      <ButtonSmall
+        className="bg-plum-600"
+        type="button"
+        onClick={handleUpdateCategory}
+      >
         <span>Done</span>
-      </button>
-      <button type="button" onClick={() => setIsEditingCategory(false)}>
+      </ButtonSmall>
+      <ButtonSmall
+        className="bg-plum-300"
+        type="button"
+        onClick={() => setIsEditingCategory(false)}
+      >
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   return (
-    <div key={`${id}-${_id}`}>
+    <>
       <p className="text-red-700">{error}</p>
-      <p>{isEditingName ? nameInput : nameDisplay}</p>
-      <p>{isEditingCode ? codeInput : codeDisplay}</p>
-      <p>{isEditingPrice ? priceInput : priceDisplay}</p>
-      {category && <p>{isEditingCategory ? categoryInput : categoryDisplay}</p>}
-      <button onClick={() => handleDelete(_id)}>Delete</button>
-    </div>
+      <div className="grid grid-cols-5 p-3" key={`${id}-${_id}`}>
+        <p>{isEditingName ? nameInput : nameDisplay}</p>
+        <p>{isEditingCode ? codeInput : codeDisplay}</p>
+        <p>{isEditingPrice ? priceInput : priceDisplay}</p>
+        <div>
+          {category && (
+            <p>{isEditingCategory ? categoryInput : categoryDisplay}</p>
+          )}
+        </div>
+        <ButtonSmall className="bg-plum-200" onClick={() => handleDelete(_id)}>
+          Delete
+        </ButtonSmall>
+      </div>
+    </>
   )
 }
 
@@ -294,8 +345,8 @@ export default function ProductsDisplay({ products, setProducts, categories }) {
     )
   })
   return (
-    <div>
-      <h1>ProductsDisplay</h1>
+    <div className="p-5">
+      <h1 className="font-red-hat-display font-black text-3xl">Products</h1>
       {productList}
     </div>
   )

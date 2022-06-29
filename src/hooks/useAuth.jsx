@@ -88,12 +88,10 @@ function useProvideAuth() {
 
   useEffect(() => {
     setIsUserLoading(true)
-    console.log("decoding token")
     const token = localStorage.getItem("jwt")
     if (token) {
       const decoded = jwt_decode(token)
       setUser(decoded)
-      console.log("the user has been set")
     }
     setIsUserLoading(false)
   }, [])
@@ -107,46 +105,3 @@ function useProvideAuth() {
     isUserLoading,
   }
 }
-
-// export function useAuth() {
-//   const [user, setUser] = useState(null)
-//   const [error, setError] = useState("")
-
-//   useEffect(() => {
-//     const token = localStorage.getItem("jwt")
-//     if (token) {
-//       const decoded = jwt_decode(token)
-//       setUser(decoded)
-//     } else {
-//       setUser(null)
-//     }
-//   }, [])
-
-//   const login = async (username, password) => {
-//     try {
-//       const response = await axios.post(
-//         `${process.env.REACT_APP_SERVER_URL}/users/login`,
-//         { username, password },
-//         getAuthOptions()
-//       )
-//       const { token } = response.data
-//       localStorage.setItem("jwt", token)
-//       const decoded = jwt_decode(token)
-//       setUser(decoded)
-//     } catch (err) {
-//       console.warn("Error logging in", err)
-//       if (err.response) {
-//         if (err.response.status === 400) {
-//           setError(err.response.data.error)
-//         }
-//       }
-//     }
-//   }
-
-//   const logout = async () => {
-//     localStorage.removeItem("jwt")
-//     setUser(null)
-//   }
-
-//   return { user, login, logout, error }
-// }

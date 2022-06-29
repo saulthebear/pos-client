@@ -20,12 +20,10 @@ export default function ProductsPage() {
   if (isUserLoading) return <Loading />
 
   if (!user) {
-    console.log("no user found")
     return <Navigate to="/login" />
   }
 
   if (user.role !== "admin") {
-    console.log("unauthorized user found")
     return <div>You are not authorized to view this page.</div>
   }
 
