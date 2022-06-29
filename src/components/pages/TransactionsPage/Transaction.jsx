@@ -1,16 +1,46 @@
 import React from "react"
 import PropTypes from "prop-types"
+import axios from "axios"
+
 import OrderItems from "./OrderItems"
-import { formatCurrency, formatDate, formatTime } from "../../../helpers/utils"
+import {
+  formatCurrency,
+  formatDate,
+  formatTime,
+  getAuthOptions,
+} from "../../../helpers/utils"
 
 export default function Transaction({
+  _id,
   lineItems,
   cashier,
   payment_method,
   createdAt,
   gridStyles,
+  removeTransaction,
+  setError,
+  updateTransaction,
+  items,
 }) {
   const [showDetails, setShowDetails] = React.useState(false)
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/orders/${_id}`,
+        getAuthOptions()
+      )
+
+      removeTransaction(_id)
+    } catch (err) {
+      console.warn(err)
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError(err.response.data.error)
+        }
+      }
+    }
+  }
 
   const total = lineItems.reduce((sum, item) => {
     return sum + item.price * item.quantity
@@ -24,7 +54,13 @@ export default function Transaction({
 
   const details = (
     <div className="p-5 bg-slate-200 rounded-b-lg">
-      <OrderItems items={lineItems} />
+      <OrderItems
+        lineItems={lineItems}
+        handleDelete={handleDelete}
+        transactionId={_id}
+        updateTransaction={updateTransaction}
+        items={items}
+      />
     </div>
   )
 
@@ -74,4 +110,19 @@ Transaction.propTypes = {
   payment_method: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   gridStyles: PropTypes.string,
+  removeTransaction: PropTypes.func,
+  setError: PropTypes.func,
+  updateTransaction: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      price: PropTypes.number,
+      category: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        color: PropTypes.string,
+      }),
+    })
+  ),
 }
