@@ -2,19 +2,20 @@ import React, { useId } from "react"
 import PropTypes from "prop-types"
 import LineItem from "./LineItem"
 import { formatCurrency } from "../../../helpers/utils"
-
+import { ButtonLarge } from "../../ui/Button"
 
 export default function LineItemsPanel({ lineItems, setLineItems, onPay }) {
-
   // Remove line item from line items array
   const handleRemoveLineItem = (itemId) => {
-    const newLineItems = lineItems.filter(lineItem => lineItem.item._id !== itemId)
+    const newLineItems = lineItems.filter(
+      (lineItem) => lineItem.item._id !== itemId
+    )
     setLineItems(newLineItems)
   }
 
   // Update LineItem quantity
   const handleChangeLineItem = (itemId, newQuantity) => {
-    const newLineItems = lineItems.map(lineItem => {
+    const newLineItems = lineItems.map((lineItem) => {
       if (lineItem.item._id === itemId) {
         lineItem.quantity = newQuantity
       }
@@ -72,12 +73,15 @@ export default function LineItemsPanel({ lineItems, setLineItems, onPay }) {
           </div>
         </div>
         <div className="flex justify-between">
-          <button className="bg-plum-400 text-white font-semibold px-3 py-2 rounded-md" onClick={() => setLineItems([])}>
-            CANCEL
-          </button>
-          <button className="bg-emerald-600 text-white font-semibold px-3 py-2 rounded-md" onClick={onPay}>
-            PAY
-          </button>
+          <ButtonLarge
+            className="text-white bg-plum-400"
+            onClick={() => setLineItems([])}
+          >
+            Cancel
+          </ButtonLarge>
+          <ButtonLarge className="text-white bg-emerald-600" onClick={onPay}>
+            Pay
+          </ButtonLarge>
         </div>
       </div>
     </div>

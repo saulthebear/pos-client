@@ -9,6 +9,8 @@ import LineItemsPanel from "./LineItemsPanel"
 import { formatCurrency } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
 import { Navigate } from "react-router-dom"
+import { ButtonSmall, ButtonLarge } from "../../ui/Button"
+import { PinkInput } from "../../ui/Input"
 
 export default function NewOrderPage() {
   const [categories, setCategories] = useState([])
@@ -162,27 +164,81 @@ export default function NewOrderPage() {
         {/* Payment Modal */}
         <Modal isOpen={isPaymentModalOpen} setIsOpen={setIsPaymentModalOpen}>
           <ModalPanel>
-            <ModalTitle>Payment</ModalTitle>
-            <form onSubmit={handlePaymentSubmit}>
-              <button onClick={() => setPaymentMethod("cash")}>Cash</button>
-              <button onClick={() => setPaymentMethod("card")}>Card</button>
-              <p>Amount due: {formatCurrency(totalPrice)}</p>
-              <div>
-                <label htmlFor={`${id}-amount`}>Payment Amount</label>
-                <input
-                  id={`${id}-amount`}
-                  type="number"
-                  value={paymentAmount}
-                  onChange={(e) => setPaymentAmount(e.target.value)}
-                  className="text-slate-900"
-                />
-              </div>
-              <p>Change: {formatCurrency(changeAmount)}</p>
-              <button onClick={() => setIsPaymentModalOpen(false)}>
-                Cancel
-              </button>
-              <button>Pay</button>
-            </form>
+            <div className="grid grid-rows-[auto_1fr] h-full">
+              <ModalTitle>Payment</ModalTitle>
+              <form
+                onSubmit={handlePaymentSubmit}
+                className="flex flex-col justify-between"
+              >
+                <div className="space-y-3 mb-5">
+                  <div className="flex flex-col items-center">
+                    <p className="font-semibold">Payment Method:</p>
+                    <div className="space-x-2">
+                      <ButtonSmall
+                        className={
+                          paymentMethod === "cash"
+                            ? "bg-plum-900"
+                            : "bg-plum-700"
+                        }
+                        type="button"
+                        onClick={() => setPaymentMethod("cash")}
+                      >
+                        Cash
+                      </ButtonSmall>
+                      <ButtonSmall
+                        className={
+                          paymentMethod === "card"
+                            ? "bg-plum-900"
+                            : "bg-plum-700"
+                        }
+                        type="button"
+                        onClick={() => setPaymentMethod("card")}
+                      >
+                        Card
+                      </ButtonSmall>
+                    </div>
+                  </div>
+                  {paymentMethod === "cash" && (
+                    <>
+                      <div className="flex justify-evenly">
+                        <div className="flex flex-col">
+                          <span className="font-semibold">Amount due:</span>
+                          <span className="ml-5 text-xl">
+                            {formatCurrency(totalPrice)}
+                          </span>
+                        </div>
+                        <PinkInput
+                          label="Payment Amount"
+                          id={`${id}-amount`}
+                          type="number"
+                          value={paymentAmount}
+                          onChange={(e) => setPaymentAmount(e.target.value)}
+                          className="w-32"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <p className="font-semibold text-lg">Change:</p>
+                        <p className="text-2xl">
+                          {formatCurrency(changeAmount)}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="flex justify-center space-x-5">
+                  <ButtonLarge
+                    onClick={() => setIsPaymentModalOpen(false)}
+                    className="bg-plum-700"
+                  >
+                    Cancel
+                  </ButtonLarge>
+                  <ButtonLarge type="submit" className="bg-emerald-600">
+                    Pay
+                  </ButtonLarge>
+                </div>
+              </form>
+            </div>
           </ModalPanel>
         </Modal>
         <ItemsPanel
