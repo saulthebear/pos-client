@@ -4,7 +4,7 @@ import { Dialog } from "@headlessui/react"
 
 export function ModalTitle({ children }) {
   return (
-    <Dialog.Title className="text-3xl text-center font-bold font-red-hat-display">
+    <Dialog.Title className="text-3xl text-center font-bold font-red-hat-display mb-5">
       {children}
     </Dialog.Title>
   )
@@ -16,8 +16,8 @@ ModalTitle.propTypes = {
 
 export function ModalPanel({ children }) {
   return (
-    <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5">
-      {children}
+    <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5  flex">
+      <div className="flex-1">{children}</div>
     </Dialog.Panel>
   )
 }
