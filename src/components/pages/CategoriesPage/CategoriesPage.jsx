@@ -2,14 +2,29 @@ import React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { getAuthOptions } from "../../../helpers/utils"
+import { Navigate } from "react-router-dom"
 
 import CategoryForm from "./CategoryForm"
 import CategoryDisplay from "./CategoryDisplay"
+import { useAuth } from "../../../hooks/useAuth"
+import Loading from "../../ui/Loading"
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([])
   const [showCatForm, setShowCatForm] = useState(false)
   const [error, setError] = useState("")
+
+  const { user, isUserLoading } = useAuth()
+
+  if (isUserLoading) return <Loading />
+
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+
+  if (user.role !== "admin") {
+    return <div>You are not authorized to view this page.</div>
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {

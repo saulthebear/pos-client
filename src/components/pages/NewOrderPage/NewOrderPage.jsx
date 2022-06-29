@@ -7,8 +7,10 @@ import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 import ItemsPanel from "./ItemsPanel"
 import LineItemsPanel from "./LineItemsPanel"
 import { formatCurrency } from "../../../helpers/utils"
+import { useAuth } from "../../../hooks/useAuth"
+import { Navigate } from "react-router-dom"
 
-export default function NewOrderPage({ currentUser }) {
+export default function NewOrderPage() {
   const [categories, setCategories] = useState([])
   const [items, setItems] = useState([])
   const [lineItems, setLineItems] = useState([])
@@ -18,6 +20,18 @@ export default function NewOrderPage({ currentUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cash")
   const [paymentAmount, setPaymentAmount] = useState(0)
   const [error, setError] = useState("")
+
+  const { user } = useAuth()
+
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+
+  if (user.role === "unverified") {
+    return (
+      <div>You must be verified to create an order. Contact your manager.</div>
+    )
+  }
 
   useEffect(() => {
     const newTotalPrice = lineItems.reduce((sum, lineItem) => {
@@ -122,7 +136,7 @@ export default function NewOrderPage({ currentUser }) {
 
       const orderBody = {
         lineItems: orderLineItems,
-        cashier: currentUser.id,
+        cashier: user.id,
         payment_method: paymentMethod,
       }
 
@@ -193,12 +207,4 @@ export default function NewOrderPage({ currentUser }) {
       />
     </div>
   )
-}
-
-NewOrderPage.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    username: PropTypes.string,
-    role: PropTypes.string,
-  }),
 }

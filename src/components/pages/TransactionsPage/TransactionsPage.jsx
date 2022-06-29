@@ -2,12 +2,27 @@ import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { getAuthOptions } from "../../../helpers/utils"
 import Transactions from "./Transactions"
+import Loading from "../../ui/Loading"
+import { Navigate } from "react-router-dom"
+import { useAuth } from "../../../hooks/useAuth"
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([])
   const [items, setItems] = useState([])
   const [cashiers, setCashiers] = useState([])
   const [error, setError] = useState("")
+
+  const { user, isUserLoading } = useAuth()
+
+  if (isUserLoading) return <Loading />
+
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+
+  if (user.role !== "admin") {
+    return <div>You are not authorized to view this page.</div>
+  }
 
   const updateTransaction = (id, updatedTransaction) => {
     const transactionIds = transactions.map((transaction) => transaction._id)

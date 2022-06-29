@@ -1,50 +1,21 @@
 import React, { useState } from "react"
-import PropTypes from "prop-types"
-import axios from "axios"
-import jwt_decode from "jwt-decode"
 import { Navigate } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 
-export default function Login({ currentUser, setCurrentUser }) {
+export default function Login() {
   // state for the controlled form
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
 
-  // submit event handler
-  const handleSubmit = async (e) => {
+  const { user, login, error } = useAuth()
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    try {
-      // post form data to the backend
-      const reqBody = {
-        username,
-        password,
-      }
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/login`,
-        reqBody
-      )
-
-      // save the token in local storage
-      const { token } = response.data
-      localStorage.setItem("jwt", token)
-
-      // decode the token
-      const decoded = jwt_decode(token)
-
-      // set the user in App's state to be the decoded token
-      setCurrentUser(decoded)
-    } catch (err) {
-      console.warn(err)
-      if (err.response) {
-        if (err.response.status === 400) {
-          setError(err.response.data.error)
-        }
-      }
-    }
+    login(username, password)
   }
 
   // conditionally render a navigate component
-  if (currentUser) {
+  if (user) {
     return <Navigate to="/profile" />
   }
 
@@ -77,9 +48,4 @@ export default function Login({ currentUser, setCurrentUser }) {
       </form>
     </div>
   )
-}
-
-Login.propTypes = {
-  currentUser: PropTypes.object,
-  setCurrentUser: PropTypes.func,
 }

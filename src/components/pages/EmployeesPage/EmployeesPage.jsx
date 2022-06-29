@@ -3,6 +3,9 @@ import axios from "axios"
 import PropTypes from "prop-types"
 import { Toggle } from "../../ui/Toggle"
 import { getAuthOptions } from "../../../helpers/utils"
+import { useAuth } from "../../../hooks/useAuth"
+import { Navigate } from "react-router-dom"
+import Loading from "../../ui/Loading"
 
 function UserIcon({ isAdmin }) {
   return (
@@ -201,6 +204,20 @@ export default function EmployeesPage() {
   const [employees, setEmployees] = useState([])
   const [hasUpdated, setHasUpdated] = useState(false)
   const [error, setError] = useState("")
+
+  const { user, isUserLoading } = useAuth()
+
+  if (isUserLoading) return <Loading />
+
+  if (!user) {
+    console.log("no user found")
+    return <Navigate to="/login" />
+  }
+
+  if (user.role !== "admin") {
+    console.log("unauthorized user found")
+    return <div>You are not authorized to view this page.</div>
+  }
 
   useEffect(() => {
     const fetchEmployees = async () => {

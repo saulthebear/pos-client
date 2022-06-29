@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import axios from "axios"
-import PropTypes from "prop-types"
 import CashierTransactions from "./CashierTransactions"
 import { getAuthOptions } from "../../../helpers/utils"
+import { useAuth } from "../../../hooks/useAuth"
 
-export default function Profile({ currentUser }) {
+export default function Profile() {
+  const { user: currentUser } = useAuth()
+
   const [form, setForm] = useState({
     username: currentUser.username,
     password: "",
@@ -16,11 +18,20 @@ export default function Profile({ currentUser }) {
   const handleSubmit = async (e, form) => {
     e.preventDefault()
     try {
+      let body = {
+        username: form.username,
+      }
+
+      if (form.password) {
+        body.password = form.password
+      }
+
       const response = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/users/${currentUser.id}`,
-        form,
+        body,
         getAuthOptions()
       )
+
       setForm(response.data)
       setIsEditing(false)
     } catch (err) {
@@ -64,9 +75,4 @@ export default function Profile({ currentUser }) {
       <CashierTransactions />
     </div>
   )
-}
-
-Profile.propTypes = {
-  currentUser: PropTypes.object,
-  handleLogout: PropTypes.func,
 }

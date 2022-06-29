@@ -1,16 +1,33 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { Navigate } from "react-router-dom"
 
 import ProductsDisplay from "./ProductsDisplay"
 import ProductForm from "./ProductForm"
 import { getAuthOptions } from "../../../helpers/utils"
+import { useAuth } from "../../../hooks/useAuth"
+import Loading from "../../ui/Loading"
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [showProdForm, setShowProdForm] = useState(false)
   const [error, setError] = useState("")
+
+  const { user, isUserLoading } = useAuth()
+
+  if (isUserLoading) return <Loading />
+
+  if (!user) {
+    console.log("no user found")
+    return <Navigate to="/login" />
+  }
+
+  if (user.role !== "admin") {
+    console.log("unauthorized user found")
+    return <div>You are not authorized to view this page.</div>
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {

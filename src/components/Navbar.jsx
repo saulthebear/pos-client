@@ -1,8 +1,10 @@
 import React, { Link } from "react-router-dom"
 import { Menu, Transition } from "@headlessui/react"
-import PropTypes from "prop-types"
+import { useAuth } from "../hooks/useAuth"
 
-export default function Navbar({ currentUser, handleLogout }) {
+export default function Navbar() {
+  const { user: currentUser, logout: handleLogout } = useAuth()
+  console.log(currentUser)
   const adminDropdown = (
     <Menu as="span" className="relative">
       <Menu.Button className="flex items-center hover:border-b-2 border-white">
@@ -109,9 +111,4 @@ export default function Navbar({ currentUser, handleLogout }) {
       </div>
     </nav>
   )
-}
-
-Navbar.propTypes = {
-  currentUser: PropTypes.object,
-  handleLogout: PropTypes.func,
 }
