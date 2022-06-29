@@ -1,52 +1,22 @@
 import React, { useState } from "react"
-import axios from "axios"
-import jwt_decode from "jwt-decode"
 import { Navigate } from "react-router-dom"
-import PropTypes from "prop-types"
 
-export default function Register({ currentUser, setCurrentUser }) {
+import { useAuth } from "../../hooks/useAuth"
+
+export default function Register() {
+  const { register, user, error } = useAuth()
   // state for the controlled form
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [msg, setMsg] = useState("")
 
   // submit event handler
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      // post fortm data to the backend
-      const reqBody = {
-        name,
-        email,
-        password,
-      }
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api-v1/users/register`,
-        reqBody
-      )
-
-      // save the token in localstorage
-      const { token } = response.data
-      localStorage.setItem("jwt", token)
-
-      // decode the token
-      const decoded = jwt_decode(token)
-
-      // set the user in App's state to be the decoded token
-      setCurrentUser(decoded)
-    } catch (err) {
-      console.warn(err)
-      if (err.response) {
-        if (err.response.status === 400) {
-          setMsg(err.response.data.msg)
-        }
-      }
-    }
+    register(username, password)
   }
 
   // conditionally render a navigate component
-  if (currentUser) {
+  if (user) {
     return <Navigate to="/profile" />
   }
 
@@ -54,25 +24,16 @@ export default function Register({ currentUser, setCurrentUser }) {
     <div>
       <h1>Register for an account:</h1>
 
-      <p>{msg}</p>
+      <p className="text-red-700">{error}</p>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          id="name"
+          id="username"
           placeholder="your username..."
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="your email..."
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
 
         <label htmlFor="password">Password:</label>
@@ -88,9 +49,4 @@ export default function Register({ currentUser, setCurrentUser }) {
       </form>
     </div>
   )
-}
-
-Register.propTypes = {
-  currentUser: PropTypes.object,
-  setCurrentUser: PropTypes.func,
 }

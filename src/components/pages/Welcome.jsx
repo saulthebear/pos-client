@@ -7,4 +7,4 @@ export default function Welcome() {
       <h3>Or register as an employee and start handling transactions</h3>
     </>
   )
-}
+ }

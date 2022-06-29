@@ -2,16 +2,37 @@ import React from "react"
 import PropTypes from "prop-types"
 import Transaction from "./Transaction"
 
-export default function Transactions({ transactions }) {
+export default function Transactions({
+  transactions,
+  setTransactions,
+  updateTransaction,
+  items,
+  cashiers,
+}) {
   // Grid width for transaction headings and transactions
   const gridStyles = "grid grid-cols-6 gap-2"
 
+  const removeTransaction = (id) => {
+    const transactionIds = transactions.map((transaction) => transaction._id)
+    const index = transactionIds.indexOf(id)
+    if (index === -1) return
+    const updatedTransactions = [...transactions]
+
+    updatedTransactions.splice(index, 1)
+    setTransactions(updatedTransactions)
+  }
+
   const transactionComponents = transactions.map((transaction) => {
+    console.log(transaction)
     return (
       <Transaction
         key={transaction._id}
         {...transaction}
         gridStyles={gridStyles}
+        removeTransaction={removeTransaction}
+        updateTransaction={updateTransaction}
+        items={items}
+        cashiers={cashiers}
       />
     )
   })
@@ -56,4 +77,25 @@ Transactions.propTypes = {
       createdAt: PropTypes.string.isRequired,
     })
   ).isRequired,
+  setTransactions: PropTypes.func,
+  updateTransaction: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      price: PropTypes.number,
+      category: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        color: PropTypes.string,
+      }),
+    })
+  ),
+  cashiers: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      role: PropTypes.string,
+    })
+  ),
 }
