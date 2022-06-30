@@ -1,16 +1,26 @@
 import React from "react"
-import { ButtonLarge, ButtonSmall, CancelButton, AddButton } from "../ui/Button"
-import { PinkInput, Input } from "../ui/Input"
-import Tooltip from "../ui/Tooltip"
+// import { ButtonLarge, ButtonSmall, CancelButton, AddButton } from "../ui/Button"
+// import { PinkInput, Input } from "../ui/Input"
+// import Tooltip from "../ui/Tooltip"
 export default function Welcome() {
   return (
-    <>
-      <h1>DettiPOS is here to help with all our your business needs</h1>
-      <h3>
-        Register as a business and start building your personalized system
-      </h3>
-      <h3>Or register as an employee and start handling transactions</h3>
-      <ButtonLarge className="bg-plum-400 text-white">Example</ButtonLarge>
+    <div className="bg-plum-400" >
+      <div>
+
+      <h2 className="flex justify-center font-bold">dettiPOS is Providing Complete Point of Sale System For Your Business</h2>
+      </div>
+
+      <p className="flex justify-center">dettiPos design most user-centric and customizable POS software, compatible with all hardwares.</p>
+      <p className="flex justify-center">
+        Register as a business and start building your personalized system.
+      </p>
+      <p className="flex justify-center">Or register as an employee and start handling transactions.</p>
+
+      <h3 className="title-heading-left sm-text-align-center">Get Started Now</h3>
+      <p className="flex justify-center">© 2022 dettiPOS Point of Sale</p>
+
+      <br />
+      {/* <ButtonLarge className="bg-plum-400 text-white">Example</ButtonLarge>
       <ButtonLarge className="bg-emerald-600 text-white">Pay</ButtonLarge>
       <ButtonLarge className="bg-plum-400 text-white">Cancel</ButtonLarge>
       <ButtonSmall className="bg-plum-400 text-white">Hide</ButtonSmall>
@@ -34,10 +44,7 @@ export default function Welcome() {
         </ButtonLarge>
       </Tooltip.Container>
 
-      {/* <div className="group relative">
-        <Tooltip>This is a tooltip</Tooltip>
-        Hover over me!
-      </div> */}
+      
       <div className="bg-plum-700 max-w-lg">
         <PinkInput
           label="input"
@@ -46,7 +53,7 @@ export default function Welcome() {
           placeholder="type here"
         />
       </div>
-      <Input className="p-2" type="text" placeholder="type here" />
-    </>
+      <Input className="p-2" type="text" placeholder="type here" /> */}
+    </div>
   )
 }
