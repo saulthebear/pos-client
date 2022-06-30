@@ -165,7 +165,7 @@ export default function Transaction({
 
   return (
     <div className="mb-5">
-      <div className={`${gridStyles} border-b-2 border-slate-900 text-center`}>
+      <div className={`${gridStyles} border-b-2 border-plum-900 text-center`}>
         <div className="flex flex-col">
           <span>{formatDate(date)}</span> <span>{formatTime(date)}</span>
         </div>
@@ -190,13 +190,13 @@ export default function Transaction({
 
 Transaction.propTypes = {
   gridStyles: PropTypes.string,
-  _id: PropTypes.string.isRequired,
-  lineItems: PropTypes.arrayOf(lineItemShape.isRequired).isRequired,
-  items: PropTypes.arrayOf(productShape.isRequired),
+  _id: PropTypes.string,
+  lineItems: PropTypes.arrayOf(lineItemShape),
+  items: PropTypes.arrayOf(productShape),
   cashier: userShape,
-  cashiers: PropTypes.arrayOf(userShape.isRequired),
-  payment_method: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  cashiers: PropTypes.arrayOf(userShape),
+  payment_method: PropTypes.string,
+  createdAt: PropTypes.string,
   removeTransaction: PropTypes.func,
   setError: PropTypes.func,
   updateTransaction: PropTypes.func,

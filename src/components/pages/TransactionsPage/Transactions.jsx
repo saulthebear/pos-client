@@ -55,27 +55,27 @@ export default function Transactions({
 Transactions.propTypes = {
   transactions: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string.isRequired,
+      _id: PropTypes.string,
       lineItems: PropTypes.arrayOf(
         PropTypes.shape({
           product: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            _id: PropTypes.string,
+            name: PropTypes.string,
           }),
-          price: PropTypes.number.isRequired,
-          quantity: PropTypes.number.isRequired,
-          _id: PropTypes.string.isRequired,
+          price: PropTypes.number,
+          quantity: PropTypes.number,
+          _id: PropTypes.string,
         })
-      ).isRequired,
+      ),
       cashier: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
+        _id: PropTypes.string,
+        username: PropTypes.string,
         role: PropTypes.string,
       }),
-      payment_method: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
+      payment_method: PropTypes.string,
+      createdAt: PropTypes.string,
     })
-  ).isRequired,
+  ),
   setTransactions: PropTypes.func,
   updateTransaction: PropTypes.func,
   items: PropTypes.arrayOf(
@@ -92,8 +92,8 @@ Transactions.propTypes = {
   ),
   cashiers: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
+      id: PropTypes.string,
+      username: PropTypes.string,
       role: PropTypes.string,
     })
   ),
