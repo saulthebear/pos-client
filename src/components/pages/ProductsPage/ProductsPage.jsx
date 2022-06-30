@@ -9,7 +9,7 @@ import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
 import Loading from "../../ui/Loading"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
-import { ButtonSmall, ButtonLarge } from "../../ui/Button"
+import { ButtonLarge } from "../../ui/Button"
 import { PinkInput } from "../../ui/Input"
 
 export default function ProductsPage() {
@@ -100,7 +100,7 @@ export default function ProductsPage() {
       })
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
 
   return (
@@ -111,8 +111,7 @@ export default function ProductsPage() {
       <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
         <ModalPanel>
           <ModalTitle>Add A Product</ModalTitle>
-          <div className="flex flex-col items-center space-y-2" mb-5>
-            <h1>ProductForm</h1>
+          <div className="flex flex-col items-center space-y-2 mb-5" >
             <form
               onSubmit={(e) => handleSubmit(e, productForm, setProductForm)}
             >

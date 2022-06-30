@@ -6,6 +6,8 @@ import PropTypes from "prop-types"
 
 import ColorIndicator from "../../ui/ColorIndicator"
 import userColors from "../../../helpers/userColors"
+import { Input } from "../../ui/Input"
+import { ButtonSmall } from "../../ui/Button"
 
 export default function Category({
   _id,
@@ -89,25 +91,31 @@ export default function Category({
   }
 
   const nameDisplay = (
-    <button onClick={() => setIsEditingName(true)}>{name}</button>
+    <>
+      <p>Name:</p>
+      <button onClick={() => setIsEditingName(true)}>{name}</button>
+    </>
   )
 
   const nameInput = (
     <>
-      <input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
-      <button type="button" onClick={handleUpdateName}>
+      <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+      <ButtonSmall className="bg-plum-400 text-white" type="button" onClick={handleUpdateName}>
         <span>Done</span>
-      </button>
-      <button type="button" onClick={() => setIsEditingName(false)}>
+      </ButtonSmall>
+      <ButtonSmall className="bg-transparent border-2 border-plum-700" type="button" onClick={() => setIsEditingName(false)}>
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   const colorDisplay = (
-    <button onClick={() => setIsEditingColor(true)}>
-      <ColorIndicator color={color} />
-    </button>
+    <>
+      <>Color:</>
+      <button onClick={() => setIsEditingColor(true)}>
+        <ColorIndicator color={color} />
+      </button>
+    </>
   )
   const colorOptions = Object.keys(userColors).map((color) => {
     return (
@@ -125,20 +133,20 @@ export default function Category({
       >
         {colorOptions}
       </select>
-      <button type="button" onClick={handleUpdateColor}>
-        Confirm
-      </button>
-      <button type="button" onClick={() => setIsEditingColor(false)}>
+      <ButtonSmall className="bg-plum-400 text-white" type="button" onClick={handleUpdateColor}>
+        Done
+      </ButtonSmall>
+      <ButtonSmall className="bg-transparent border-2 border-plum-700" type="button" onClick={() => setIsEditingColor(false)}>
         Cancel
-      </button>
+      </ButtonSmall>
     </>
   )
 
   return (
-    <div key={`${id}-${_id}`}>
+    <div className="grid grid-cols-5 p-3 bg-gray-200 rounded-md m-2 font-red-hat-display" key={`${id}-${_id}`}>
       <p>{isEditingName ? nameInput : nameDisplay}</p>
       <p>{isEditingColor ? colorInput : colorDisplay}</p>
-      <button onClick={() => handleDelete(_id)}>Delete</button>
+      <ButtonSmall className="bg-red-700 text-white" onClick={() => handleDelete(_id)}>Delete</ButtonSmall>
     </div>
   )
 }
