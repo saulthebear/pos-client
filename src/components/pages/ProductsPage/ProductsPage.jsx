@@ -25,9 +25,16 @@ export default function ProductsPage() {
   const [productForm, setProductForm] = useState(initialProductForm)
   const [error, setError] = useState("")
 
-  const { user, isUserLoading } = useAuth()
+  // const { user, isUserLoading } = useAuth()
 
-  if (isUserLoading) return <Loading />
+  // if (isUserLoading) return <Loading />
+  const user = AuthService.getCurrentUser()
+
+  // let user = null
+  // const token = localStorage.getItem("jwt")
+  // if (token) {
+  //   user = jwt_decode(token)
+  // }
 
   if (!user) {
     return <Navigate to="/login" />

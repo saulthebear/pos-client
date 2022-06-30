@@ -1,6 +1,5 @@
 import axios from "axios"
 import React, { useState, useEffect, useId } from "react"
-import PropTypes from "prop-types"
 
 import { getAuthOptions } from "../../../helpers/utils"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
@@ -8,6 +7,7 @@ import ItemsPanel from "./ItemsPanel"
 import LineItemsPanel from "./LineItemsPanel"
 import { formatCurrency } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
+import AuthService from "../../../helpers/authServices"
 import { Navigate } from "react-router-dom"
 import { ButtonSmall, ButtonLarge } from "../../ui/Button"
 import { PinkInput } from "../../ui/Input"
@@ -23,7 +23,9 @@ export default function NewOrderPage() {
   const [paymentAmount, setPaymentAmount] = useState(0)
   const [error, setError] = useState("")
 
-  const { user } = useAuth()
+  // const { user } = useAuth()
+
+  const user = AuthService.getCurrentUser()
 
   if (!user) {
     return <Navigate to="/login" />

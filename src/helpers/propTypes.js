@@ -1,9 +1,9 @@
 import PropTypes from "prop-types"
 
 export const userShape = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
+  _id: PropTypes.string,
+  username: PropTypes.string,
+  role: PropTypes.string,
   createdAt: PropTypes.string,
   updatedAt: PropTypes.string,
 })

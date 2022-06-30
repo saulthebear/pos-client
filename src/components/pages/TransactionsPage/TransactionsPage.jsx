@@ -5,6 +5,7 @@ import Transactions from "./Transactions"
 import Loading from "../../ui/Loading"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "../../../hooks/useAuth"
+import AuthService from "../../../helpers/authServices"
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([])
@@ -12,9 +13,11 @@ export default function TransactionsPage() {
   const [cashiers, setCashiers] = useState([])
   const [error, setError] = useState("")
 
-  const { user, isUserLoading } = useAuth()
+  // const { user, isUserLoading } = useAuth()
 
-  if (isUserLoading) return <Loading />
+  // if (isUserLoading) return <Loading />
+
+  const user = AuthService.getCurrentUser()
 
   if (!user) {
     return <Navigate to="/login" />

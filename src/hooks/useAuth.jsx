@@ -86,14 +86,33 @@ function useProvideAuth() {
     }
   }
 
+  // const getToken = () => {
+  //   setIsUserLoading(true)
+  //   const token = localStorage.getItem("jwt")
+  //   if (token) {
+  //     const decoded = jwt_decode(token)
+  //     setUser(decoded)
+  //   }
+  //   setIsUserLoading(false)
+  // }
+
+  // getToken()
+
   useEffect(() => {
     setIsUserLoading(true)
     const token = localStorage.getItem("jwt")
     if (token) {
       const decoded = jwt_decode(token)
       setUser(decoded)
+    } else {
+      setUser(null)
     }
     setIsUserLoading(false)
+
+    return () => {
+      setUser(null)
+      setIsUserLoading(false)
+    }
   }, [])
 
   return {

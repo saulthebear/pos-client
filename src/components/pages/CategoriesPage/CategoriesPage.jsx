@@ -17,9 +17,11 @@ export default function CategoriesPage() {
   const [showCatForm, setShowCatForm] = useState(false)
   const [error, setError] = useState("")
 
-  const { user, isUserLoading } = useAuth()
+  // const { user, isUserLoading } = useAuth()
 
-  if (isUserLoading) return <Loading />
+  // if (isUserLoading) return <Loading />
+
+  const user = AuthService.getCurrentUser()
 
   if (!user) {
     return <Navigate to="/login" />

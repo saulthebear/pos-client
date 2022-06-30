@@ -1,4 +1,5 @@
-import React, { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useState } from "react"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import NewOrderPage from "./components/pages/NewOrderPage/NewOrderPage"
 import ProductsPage from "./components/pages/ProductsPage/ProductsPage"
 import EmployeesPage from "./components/pages/EmployeesPage/EmployeesPage"
@@ -11,6 +12,7 @@ import Welcome from "./components/pages/Welcome"
 import Navbar from "./components/Navbar"
 import "./App.css"
 import { ProvideAuth } from "./hooks/useAuth"
+import AuthService from "./helpers/authServices"
 
 function App() {
   // the currently logged in user will be stored up here in state
@@ -41,18 +43,26 @@ function App() {
   //   logout()
   // }
 
+  const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser())
+
   return (
     <Router>
       <ProvideAuth>
         <div className="h-screen grid grid-rows-[auto_1fr]">
           <header className="bg-brand">
-            <Navbar />
+            <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
           </header>
           <main className="bg-slate">
             <Routes>
               <Route path="/" element={<Welcome />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/register"
+                element={<Register setCurrentUser={setCurrentUser} />}
+              />
+              <Route
+                path="/login"
+                element={<Login setCurrentUser={setCurrentUser} />}
+              />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/orders/new" element={<NewOrderPage />} />
               <Route path="admin/employees" element={<EmployeesPage />} />

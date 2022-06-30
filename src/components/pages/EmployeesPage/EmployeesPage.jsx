@@ -5,6 +5,7 @@ import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
 import { Navigate } from "react-router-dom"
 
+import AuthService from "../../../helpers/authServices"
 import Loading from "../../ui/Loading"
 import Employee from "./Employee"
 
@@ -13,9 +14,10 @@ export default function EmployeesPage() {
   const [hasUpdated, setHasUpdated] = useState(false)
   const [error, setError] = useState("")
 
-  const { user, isUserLoading } = useAuth()
+  // const { user, isUserLoading } = useAuth()
 
-  if (isUserLoading) return <Loading />
+  // if (isUserLoading) return <Loading />
+  const user = AuthService.getCurrentUser()
 
   if (!user) {
     return <Navigate to="/login" />

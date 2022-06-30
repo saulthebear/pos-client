@@ -1,9 +1,19 @@
-import React, { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { Menu, Transition } from "@headlessui/react"
 import { useAuth } from "../hooks/useAuth"
+import AuthService from "../helpers/authServices"
+import { userShape } from "../helpers/propTypes"
+import PropTypes from "prop-types"
 
-export default function Navbar() {
-  const { user: currentUser, logout: handleLogout } = useAuth()
+export default function Navbar({ currentUser, setCurrentUser }) {
+  // const { logout: handleLogout } = useAuth()
+  // const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser())
+  // const currentUser = AuthService.getCurrentUser()
+  const handleLogout = AuthService.logout
+
+  console.log("currentUser", currentUser)
+
   const adminDropdown = (
     <Menu as="span" className="relative">
       <Menu.Button className="flex items-center hover:border-b-2 border-white">
@@ -77,7 +87,14 @@ export default function Navbar() {
         {currentUser && (
           <>
             <Link to="/" className="hover:border-b-2 border-white">
-              <span onClick={handleLogout}>Logout</span>
+              <span
+                onClick={() => {
+                  handleLogout()
+                  setCurrentUser(null)
+                }}
+              >
+                Logout
+              </span>
             </Link>
             <Link
               to="/profile"
@@ -110,4 +127,9 @@ export default function Navbar() {
       </div>
     </nav>
   )
+}
+
+Navbar.propTypes = {
+  currentUser: userShape,
+  setCurrentUser: PropTypes.func.isRequired,
 }

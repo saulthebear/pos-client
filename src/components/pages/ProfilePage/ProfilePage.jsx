@@ -1,11 +1,18 @@
 import React, { useState } from "react"
+import { Navigate } from "react-router-dom"
 import axios from "axios"
 import CashierTransactions from "./CashierTransactions"
 import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
+import AuthService from "../../../helpers/authServices"
 
 export default function Profile() {
-  const { user: currentUser } = useAuth()
+  // const { user: currentUser } = useAuth()
+  const currentUser = AuthService.getCurrentUser()
+
+  if (!currentUser) {
+    return <Navigate to="/login" />
+  }
 
   const [form, setForm] = useState({
     username: currentUser.username,

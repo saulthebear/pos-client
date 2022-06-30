@@ -1,19 +1,31 @@
 import React, { useState } from "react"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
+import AuthService from "../../helpers/authServices"
 import { PinkInput } from "../ui/Input"
 import { ModalButton } from "../ui/Button"
+import PropTypes from "prop-types"
 
-export default function Login() {
+export default function Login({ setCurrentUser }) {
   // state for the controlled form
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  // const [user, setUser] = useState(AuthService.getCurrentUser())
 
-  const { user, login, error } = useAuth()
+  const user = AuthService.getCurrentUser()
 
-  const handleSubmit = (e) => {
+  // const { user, login, error } = useAuth()
+
+  // let user = AuthService.getCurrentUser()
+  const login = AuthService.login
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    login(username, password)
+    const response = await login(username, password)
+    console.log("response", response)
+    if (response.user) setCurrentUser(response.user)
+    if (response.error) setError(response.error)
   }
 
   // conditionally render a navigate component
@@ -52,4 +64,8 @@ export default function Login() {
       </div>
     </div>
   )
+}
+
+Login.propTypes = {
+  setCurrentUser: PropTypes.func.isRequired,
 }

@@ -1,23 +1,36 @@
 import React, { useState } from "react"
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import { PinkInput } from "../ui/Input"
 import { ModalButton } from "../ui/Button"
+import PropTypes from "prop-types"
+import AuthService from "../../helpers/authServices"
+import { userShape } from "../../helpers/propTypes"
 
-export default function Register() {
-  const { register, user, error } = useAuth()
+export default function Register({ currentUser, setCurrentUser }) {
+  // const { register, user, error } = useAuth()
   // state for the controlled form
+  const [error, setError] = useState("")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+
+  const register = AuthService.register
+  let navigate = useNavigate()
 
   // submit event handler
   const handleSubmit = async (e) => {
     e.preventDefault()
-    register(username, password)
+    const response = await register(username, password)
+    if (response.user) {
+      setCurrentUser(response.user)
+      navigate("/profile", { replace: true })
+    }
+    if (response.error) setError(response.error)
   }
 
   // conditionally render a navigate component
-  if (user) {
+  if (currentUser) {
+    console.log("currentUser", currentUser)
     return <Navigate to="/profile" />
   }
 
@@ -54,4 +67,9 @@ export default function Register() {
       </div>
     </div>
   )
+}
+
+Register.propTypes = {
+  setCurrentUser: PropTypes.func.isRequired,
+  currentUser: userShape,
 }
