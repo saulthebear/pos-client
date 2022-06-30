@@ -1,12 +1,36 @@
 import PropTypes from "prop-types"
 import { useId } from "react"
 
+export function PinkSelect({ className, label, children, ...props }) {
+  const id = useId()
+  return (
+    <div className="flex flex-col mb-3">
+      <label className="text-white font-semibold text-xl" htmlFor={id}>
+        {label}
+      </label>
+
+      <select
+        className={`${className} bg-plum-100 text-plum-800 rounded-sm shadow-inner hover:bg-plum-200 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-plum-500 px-4 py-2 placeholder:text-plum-400`}
+        {...props}
+      >
+        {children}
+      </select>
+    </div>
+  )
+}
+
+PinkSelect.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  label: PropTypes.string,
+}
+
 export function PinkInput({ className, label, ...props }) {
   const id = useId()
   return (
     <>
-      <div className="flex flex-col">
-        <label className="text-white font-semibold" htmlFor={id}>
+      <div className="flex flex-col mb-3">
+        <label className="text-white font-semibold text-xl" htmlFor={id}>
           {label}
         </label>
         <input
@@ -26,12 +50,10 @@ PinkInput.propTypes = {
 export function Input({ className, ...props }) {
   return (
     <>
-      <div>
-        <input
-          className={`${className} max-w-md shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.5)] bg-gray-100 text-gray-800 rounded-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-gray-700`}
-          {...props}
-        />
-      </div>
+      <input
+        className={`${className} bg-slate-200 rounded-md px-2 py-1 w-full shadow-[inset_0_2px_4px_0_rgb(30_41_59/0.5)] text-gray-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-gray-700`}
+        {...props}
+      />
     </>
   )
 }
