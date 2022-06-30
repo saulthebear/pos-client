@@ -6,6 +6,12 @@ import { getAuthOptions } from "../../../helpers/utils"
 
 import UserIcon from "./UserIcon"
 import VerifiedIcon from "./VerifiedIcon"
+import {
+  CancelButton,
+  DoneButton,
+  EditableDisplayButton,
+} from "../../ui/Button"
+import { Input } from "../../ui/Input"
 
 export default function Employee({
   _id,
@@ -97,31 +103,35 @@ export default function Employee({
   }
 
   const nameButton = (
-    <button
+    // <button
+    //   type="button"
+    //   onClick={() => setIsEditing(!isEditing)}
+    //   className="flex justify-center items-center"
+    // >
+    //   <span>{nameValue}</span>
+    //   <span className="material-symbols-rounded ml-3">edit</span>
+    // </button>
+    <EditableDisplayButton
       type="button"
       onClick={() => setIsEditing(!isEditing)}
-      className="flex justify-center items-center"
     >
-      <span>{nameValue}</span>
-      <span className="material-symbols-rounded ml-3">edit</span>
-    </button>
+      {nameValue}
+    </EditableDisplayButton>
   )
 
   // TODO: submit on enter, too
   const nameInput = (
     <div className="flex">
-      <input
-        className="bg-slate-300 rounded-md px-2 py-1 shadow-inner w-full"
-        value={nameValue}
-        onChange={(e) => setNameValue(e.target.value)}
-      />
-      <button
-        type="button"
-        onClick={handleUpdateName}
-        className="flex justify-center items-center ml-1"
-      >
-        <span className="material-symbols-rounded">done</span>
-      </button>
+      <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+      <div className="ml-2 flex">
+        <DoneButton onClick={handleUpdateName} />
+        <CancelButton
+          onClick={() => {
+            setNameValue(username)
+            setIsEditing(false)
+          }}
+        />
+      </div>
     </div>
   )
 

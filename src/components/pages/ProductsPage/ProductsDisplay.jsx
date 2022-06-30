@@ -292,12 +292,12 @@ function Product({
         className="grid grid-cols-5 p-3 bg-gray-200 rounded-md m-2 font-red-hat-display"
         key={`${id}-${_id}`}
       >
-        <p>{isEditingName ? nameInput : nameDisplay}</p>
-        <p>{isEditingCode ? codeInput : codeDisplay}</p>
-        <p>{isEditingPrice ? priceInput : priceDisplay}</p>
+        <div>{isEditingName ? nameInput : nameDisplay}</div>
+        <div>{isEditingCode ? codeInput : codeDisplay}</div>
+        <div>{isEditingPrice ? priceInput : priceDisplay}</div>
         <div>
           {category && (
-            <p>{isEditingCategory ? categoryInput : categoryDisplay}</p>
+            <div>{isEditingCategory ? categoryInput : categoryDisplay}</div>
           )}
         </div>
         <ButtonSmall
@@ -340,7 +340,13 @@ Product.propTypes = {
   ),
 }
 
-export default function ProductsDisplay({ products, setProducts, categories, isOpen, setIsOpen }) {
+export default function ProductsDisplay({
+  products,
+  setProducts,
+  categories,
+  isOpen,
+  setIsOpen,
+}) {
   const id = useId()
 
   const productList = products.map((product) => {
@@ -383,5 +389,5 @@ ProductsDisplay.propTypes = {
     })
   ),
   isOpen: PropTypes.bool,
-  setIsOpen: PropTypes.func
+  setIsOpen: PropTypes.func,
 }

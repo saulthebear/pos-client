@@ -1,13 +1,19 @@
 import React, { useId, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getAuthOptions } from "../../../helpers/utils"
+import { formatCurrency, getAuthOptions } from "../../../helpers/utils"
 import axios from "axios"
 import PropTypes from "prop-types"
+import { productShape } from "../../../helpers/propTypes"
 
 import ColorIndicator from "../../ui/ColorIndicator"
 import userColors from "../../../helpers/userColors"
 import { Input } from "../../ui/Input"
-import { ButtonSmall } from "../../ui/Button"
+import {
+  ButtonSmall,
+  CancelButton,
+  DoneButton,
+  EditableDisplayButton,
+} from "../../ui/Button"
 
 export default function Category({
   _id,
@@ -16,11 +22,13 @@ export default function Category({
   categories,
   setCategories,
   setError,
+  products,
 }) {
   const [isEditingName, setIsEditingName] = useState(false)
   const [isEditingColor, setIsEditingColor] = useState(false)
   const [nameValue, setNameValue] = useState(name)
   const [colorValue, setColorValue] = useState(color)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const id = useId()
   const navigate = useNavigate()
@@ -92,28 +100,57 @@ export default function Category({
 
   const nameDisplay = (
     <>
-      <p>Name:</p>
-      <button onClick={() => setIsEditingName(true)}>{name}</button>
+      <EditableDisplayButton onClick={() => setIsEditingName(true)}>
+        {name}
+      </EditableDisplayButton>
+      {/* <button onClick={() => setIsEditingName(true)}>{name}</button> */}
     </>
   )
 
   const nameInput = (
     <>
-      <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
-      <ButtonSmall className="bg-plum-400 text-white" type="button" onClick={handleUpdateName}>
+      <div className="flex">
+        <Input
+          value={nameValue}
+          onChange={(e) => setNameValue(e.target.value)}
+        />
+        <div className="ml-2 flex">
+          <DoneButton onClick={handleUpdateName} />
+          <CancelButton
+            onClick={() => {
+              setNameValue(name)
+              setIsEditingName(false)
+            }}
+          />
+        </div>
+      </div>
+      {/* <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+      <ButtonSmall
+        className="bg-plum-400 text-white"
+        type="button"
+        onClick={handleUpdateName}
+      >
         <span>Done</span>
       </ButtonSmall>
-      <ButtonSmall className="bg-transparent border-2 border-plum-700" type="button" onClick={() => setIsEditingName(false)}>
+      <ButtonSmall
+        className="bg-transparent border-2 border-plum-700"
+        type="button"
+        onClick={() => setIsEditingName(false)}
+      >
         Cancel
-      </ButtonSmall>
+      </ButtonSmall> */}
     </>
   )
 
   const colorDisplay = (
     <>
-      <>Color:</>
-      <button onClick={() => setIsEditingColor(true)}>
+      <button
+        onClick={() => setIsEditingColor(true)}
+        className="flex justify-center items-center gap-2 capitalize"
+      >
         <ColorIndicator color={color} />
+        <span>{color}</span>
+        <span className="material-symbols-rounded font-medium ml-3">edit</span>
       </button>
     </>
   )
@@ -126,27 +163,95 @@ export default function Category({
   })
 
   const colorInput = (
-    <>
+    <div className="flex">
       <select
         onChange={(e) => setColorValue(e.target.value)}
         value={colorValue}
+        className="capitalize"
       >
         {colorOptions}
       </select>
-      <ButtonSmall className="bg-plum-400 text-white" type="button" onClick={handleUpdateColor}>
+      <div className="flex ml-2">
+        <DoneButton type="button" onClick={handleUpdateColor} />
+        <CancelButton
+          type="button"
+          onClick={() => {
+            setIsEditingColor(false)
+            setColorValue(color)
+          }}
+        />
+      </div>
+      {/* <ButtonSmall
+        className="bg-plum-400 text-white"
+        type="button"
+        onClick={handleUpdateColor}
+      >
         Done
       </ButtonSmall>
-      <ButtonSmall className="bg-transparent border-2 border-plum-700" type="button" onClick={() => setIsEditingColor(false)}>
+      <ButtonSmall
+        className="bg-transparent border-2 border-plum-700"
+        type="button"
+        onClick={() => setIsEditingColor(false)}
+      >
         Cancel
-      </ButtonSmall>
-    </>
+      </ButtonSmall> */}
+    </div>
   )
 
+  // Products list
+  let productList = <div className="ml-10 font-normal">No products found.</div>
+  if (products && products.length > 0) {
+    productList = products.map((product) => {
+      return (
+        <div
+          key={`${id}-product-${product._id}`}
+          className="grid grid-cols-3 w-2/3 ml-10 font-normal"
+        >
+          <p className="flex items-center">
+            <span className="mr-2">
+              <ColorIndicator color={color} />
+            </span>
+            <span>{product.name}</span>
+          </p>
+          <p>({product.code})</p>
+          <p>{formatCurrency(product.price)}</p>
+        </div>
+      )
+    })
+  }
+
   return (
-    <div className="grid grid-cols-5 p-3 bg-gray-200 rounded-md m-2 font-red-hat-display" key={`${id}-${_id}`}>
-      <p>{isEditingName ? nameInput : nameDisplay}</p>
-      <p>{isEditingColor ? colorInput : colorDisplay}</p>
-      <ButtonSmall className="bg-red-700 text-white" onClick={() => handleDelete(_id)}>Delete</ButtonSmall>
+    <div className="border-b-2 border-plum-900 pb-2 pt-4 px-2">
+      <div className="grid grid-cols-3">
+        <p className="flex items-center">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center"
+          >
+            <span className="material-symbols-rounded">
+              {isExpanded ? "expand_less" : "expand_more"}
+            </span>
+          </button>
+          {isEditingName ? nameInput : nameDisplay}
+        </p>
+        <p>{isEditingColor ? colorInput : colorDisplay}</p>
+        <div className="flex gap-2">
+          <ButtonSmall
+            className="bg-plum-600 text-white w-fit font-normal"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? "Less" : "More"}
+          </ButtonSmall>
+          <ButtonSmall
+            className="bg-red-700 text-white w-fit"
+            onClick={() => handleDelete(_id)}
+          >
+            Delete
+          </ButtonSmall>
+        </div>
+      </div>
+
+      {isExpanded && <div>{productList}</div>}
     </div>
   )
 }
@@ -163,4 +268,5 @@ Category.propTypes = {
   ),
   setCategories: PropTypes.func,
   setError: PropTypes.func,
+  products: PropTypes.arrayOf(productShape),
 }

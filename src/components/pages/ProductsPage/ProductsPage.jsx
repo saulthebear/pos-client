@@ -10,18 +10,18 @@ import { useAuth } from "../../../hooks/useAuth"
 import Loading from "../../ui/Loading"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 import { ButtonLarge } from "../../ui/Button"
-import { PinkInput } from "../../ui/Input"
+import { PinkInput, PinkSelect } from "../../ui/Input"
+import AuthService from "../../../helpers/authServices"
 
 export default function ProductsPage() {
   const initialProductForm = {
     name: "",
     code: "",
-    price: 3,
+    price: 0,
     category: "",
   }
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
-  const [showProdForm, setShowProdForm] = useState(false)
   const [productForm, setProductForm] = useState(initialProductForm)
   const [error, setError] = useState("")
 
@@ -72,6 +72,7 @@ export default function ProductsPage() {
           getAuthOptions()
         )
         setCategories(response.data)
+        setProductForm({ ...productForm, category: response.data[0]._id })
       } catch (err) {
         console.warn(err)
         if (err.response) {
@@ -93,9 +94,18 @@ export default function ProductsPage() {
         getAuthOptions()
       )
       .then((response) => {
-        const newProducts = [...products, response.data]
-        setProducts(newProducts)
-        setShowProdForm(false)
+        const newCategory = categories.find(
+          (category) => category._id === form.category
+        )
+        const newProduct = {
+          ...response.data,
+          category: newCategory,
+        }
+        setProducts([...products, newProduct])
+        setProductForm(initialProductForm)
+        // const newProducts = [...products, response.data]
+        // setProducts(newProducts)
+        // setShowProdForm(false)
       })
       .catch((err) => {
         console.warn(err)
@@ -105,10 +115,12 @@ export default function ProductsPage() {
           }
         }
       })
+      .finally(() => {
+        setIsModalOpen(false)
+      })
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-
 
   return (
     <>
@@ -118,7 +130,7 @@ export default function ProductsPage() {
       <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
         <ModalPanel>
           <ModalTitle>Add A Product</ModalTitle>
-          <div className="flex flex-col items-center space-y-2 mb-5" >
+          <div className="flex flex-col items-center space-y-2 mb-5">
             <form
               onSubmit={(e) => handleSubmit(e, productForm, setProductForm)}
             >
@@ -157,7 +169,25 @@ export default function ProductsPage() {
                   })
                 }
               />
-              <label htmlFor="category">Category:</label>
+              <PinkSelect
+                value={productForm.category}
+                label="Category"
+                onChange={(e) =>
+                  setProductForm({ ...productForm, category: e.target.value })
+                }
+              >
+                {categories.map((category) => {
+                  return (
+                    <option
+                      value={category._id}
+                      key={`categoryOption-${category._id}`}
+                    >
+                      {category.name}
+                    </option>
+                  )
+                })}
+              </PinkSelect>
+              {/* <label htmlFor="category">Category:</label>
               <select
                 onChange={(e) =>
                   setProductForm({ ...productForm, category: e.target.value })
@@ -174,8 +204,10 @@ export default function ProductsPage() {
                     </option>
                   )
                 })}
-              </select>
-              <ButtonLarge className="bg-plum-700" type="submit">Create</ButtonLarge>
+              </select> */}
+              <ButtonLarge className="bg-plum-700" type="submit">
+                Create
+              </ButtonLarge>
             </form>
           </div>
         </ModalPanel>
@@ -184,7 +216,8 @@ export default function ProductsPage() {
         products={products}
         setProducts={setProducts}
         categories={categories}
-        isOpen={isModalOpen} setIsOpen={setIsModalOpen}
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
       />
       {/* {showProdForm ? (
         <ProductForm

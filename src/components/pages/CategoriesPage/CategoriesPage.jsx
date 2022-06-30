@@ -9,13 +9,19 @@ import CategoryDisplay from "./CategoryDisplay"
 import { useAuth } from "../../../hooks/useAuth"
 import Loading from "../../ui/Loading"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
-import { ButtonLarge } from "../../ui/Button"
-import { PinkInput } from "../../ui/Input"
+import { ButtonLarge, ModalButton } from "../../ui/Button"
+import { PinkInput, PinkSelect } from "../../ui/Input"
+import userColors from "../../../helpers/userColors"
+import AuthService from "../../../helpers/authServices"
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([])
-  const [showCatForm, setShowCatForm] = useState(false)
   const [error, setError] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [catForm, setCatForm] = useState({
+    name: "",
+    color: Object.keys(userColors)[0],
+  })
 
   // const { user, isUserLoading } = useAuth()
 
@@ -62,45 +68,69 @@ export default function CategoriesPage() {
       .then((response) => {
         const newCategories = [...categories, response.data]
         setCategories(newCategories)
-        setShowCatForm(false)
       })
       .catch(console.warn)
+      .finally(() => {
+        setCatForm({ name: "", color: "" })
+        setIsModalOpen(false)
+      })
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const initialCatForm = { categories }
-  const [catForm, setCatForm] = useState(initialCatForm)
 
   return (
     <div className="p-5">
       <div>
         <p className="text-red-700">{error}</p>
+        {/* Add category modal */}
         <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
           <ModalPanel>
             <ModalTitle>Add A Category</ModalTitle>
-            <form onSubmit={e => handleSubmit(e, catForm, setCatForm)}>
+            <form
+              onSubmit={(e) => handleSubmit(e, catForm, setCatForm)}
+              className="flex flex-col justify-between"
+            >
               <PinkInput
                 label="Name:"
                 type="text"
                 id="name"
                 value={catForm.name}
-                onChange={e => setCatForm({ ...catForm, name: e.target.value })}
+                onChange={(e) =>
+                  setCatForm({ ...catForm, name: e.target.value })
+                }
               />
-              <PinkInput
+              {/* <PinkInput
                 label="Color:"
                 type="text"
                 id="color"
                 value={catForm.color}
-                onChange={e => setCatForm({ ...catForm, color: e.target.value })}
-              />
-              <ButtonLarge className="bg-plum-700" type="submit">Create</ButtonLarge>
+                onChange={(e) =>
+                  setCatForm({ ...catForm, color: e.target.value })
+                }
+              /> */}
+              <PinkSelect
+                value={catForm.color}
+                onChange={(e) =>
+                  setCatForm({ ...catForm, color: e.target.value })
+                }
+                className="bg-plum-100 text-plum-800 rounded-sm shadow-inner hover:bg-plum-200 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-plum-500 px-4 py-2 placeholder:text-plum-400"
+                label="Color:"
+              >
+                {Object.keys(userColors).map((color) => (
+                  <option key={`new-category-color-${color}`} value={color}>
+                    {color}
+                  </option>
+                ))}
+              </PinkSelect>
+              <div className="flex justify-end mt-5">
+                <ModalButton type="submit">Create</ModalButton>
+              </div>
             </form>
           </ModalPanel>
         </Modal>
         <CategoryDisplay
           categories={categories}
           setCategories={setCategories}
-          isOpen={isModalOpen} setIsOpen={setIsModalOpen}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
         />
       </div>
     </div>

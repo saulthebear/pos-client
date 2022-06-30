@@ -7,7 +7,7 @@ import PropTypes from "prop-types"
 export default function ItemsPanel({ items, categories, onAddLineItem }) {
   return (
     <div className="p-4 flex flex-col gap-5">
-      <Search />
+      <Search type="text" placeholder="filter items..." />
       <CategoriesSelect categories={categories} />
       <ItemsSelect items={items} onAddLineItem={onAddLineItem} />
     </div>
@@ -33,5 +33,5 @@ ItemsPanel.propTypes = {
       color: PropTypes.string.isRequired,
     })
   ),
-  onAddLineItem: PropTypes.func.isRequired
+  onAddLineItem: PropTypes.func.isRequired,
 }
