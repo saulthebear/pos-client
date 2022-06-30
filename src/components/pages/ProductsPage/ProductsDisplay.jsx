@@ -5,7 +5,7 @@ import axios from "axios"
 import PropTypes from "prop-types"
 
 import { Input } from "../../ui/Input"
-import { ButtonSmall } from "../../ui/Button"
+import { ButtonSmall, AddButton } from "../../ui/Button"
 
 function Product({
   _id,
@@ -340,7 +340,7 @@ Product.propTypes = {
   ),
 }
 
-export default function ProductsDisplay({ products, setProducts, categories }) {
+export default function ProductsDisplay({ products, setProducts, categories, isOpen, setIsOpen }) {
   const id = useId()
 
   const productList = products.map((product) => {
@@ -358,6 +358,12 @@ export default function ProductsDisplay({ products, setProducts, categories }) {
   return (
     <div className="p-5">
       <h1 className="font-red-hat-display font-black text-3xl">Products</h1>
+      <div>
+        <AddButton className="bg-plum-500" onClick={() => setIsOpen(!isOpen)}>
+          New
+          {/* {isModalOpen ? "Cancel" : "New"} */}
+        </AddButton>
+      </div>
       {productList}
     </div>
   )
@@ -372,8 +378,10 @@ ProductsDisplay.propTypes = {
   setProducts: PropTypes.func,
   categories: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      _id: PropTypes.string,
+      name: PropTypes.string,
     })
   ),
+  isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func
 }
