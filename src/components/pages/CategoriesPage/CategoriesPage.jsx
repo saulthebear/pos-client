@@ -63,22 +63,25 @@ export default function CategoriesPage() {
   }
 
   return (
-    <>
-      <p className="text-red-700">{error}</p>
-      {showCatForm ? (
-        <CategoryForm
-          initialCatForm={categories}
-          submitHandler={handleSubmit}
-        />
-      ) : (
-        <CategoryDisplay
-          categories={categories}
-          setCategories={setCategories}
-        />
-      )}
-      <button onClick={() => setShowCatForm(!showCatForm)}>
-        {showCatForm ? "Cancel" : "New"}
-      </button>
-    </>
+    <div className="p-5">
+      <div className="mx-auto max-w-fit">
+        <h1 className="text-3xl font-semibold mb-5">Categories</h1>
+        <p className="text-red-700">{error}</p>
+        {showCatForm ? (
+          <CategoryForm
+            initialCatForm={categories}
+            submitHandler={handleSubmit}
+          />
+        ) : (
+          <CategoryDisplay
+            categories={categories}
+            setCategories={setCategories}
+          />
+        )}
+        <button onClick={() => setShowCatForm(!showCatForm)}>
+          {showCatForm ? "Cancel" : "New"}
+        </button>
+      </div>
+    </div>
   )
 }
