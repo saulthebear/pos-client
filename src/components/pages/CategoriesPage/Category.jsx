@@ -205,24 +205,24 @@ export default function Category({
       return (
         <div
           key={`${id}-product-${product._id}`}
-          className="grid grid-cols-3 w-2/3 ml-10 font-normal"
+          className="grid grid-cols-3 font-normal"
         >
-          <p className="flex items-center">
+          <div className="flex items-center">
             <span className="mr-2">
               <ColorIndicator color={color} />
             </span>
             <span>{product.name}</span>
-          </p>
-          <p>({product.code})</p>
-          <p>{formatCurrency(product.price)}</p>
+          </div>
+          <div>({product.code})</div>
+          <div>{formatCurrency(product.price)}</div>
         </div>
       )
     })
   }
 
   return (
-    <div className="border-b-2 border-plum-900 pb-2 pt-4 px-2">
-      <div className="grid grid-cols-3">
+    <div className=" pb-2 pt-4 px-2">
+      <div className="grid grid-cols-3 border-b-2 border-plum-900 pb-2">
         <p className="flex items-center">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
@@ -251,7 +251,11 @@ export default function Category({
         </div>
       </div>
 
-      {isExpanded && <div>{productList}</div>}
+      {isExpanded && (
+        <div className=" bg-slate-200 w-full px-10 py-5 rounded-b-lg">
+          {productList}
+        </div>
+      )}
     </div>
   )
 }
