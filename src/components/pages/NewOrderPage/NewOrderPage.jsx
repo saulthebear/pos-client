@@ -88,7 +88,6 @@ export default function NewOrderPage() {
     fetchCategories()
   }, [])
 
-  // For example modal
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
 
   const handleAddLineItem = (item) => {
