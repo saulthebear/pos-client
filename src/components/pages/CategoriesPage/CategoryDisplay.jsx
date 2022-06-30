@@ -1,8 +1,11 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 
+import { AddButton } from "../../ui/Button"
+
 import Category from "./Category"
-export default function CategoryDisplay({ categories, setCategories }) {
+
+export default function CategoryDisplay({ categories, setCategories, isOpen, setIsOpen }) {
   const [error, setError] = useState("")
 
   const categoryList = categories.map((category) => {
@@ -20,8 +23,16 @@ export default function CategoryDisplay({ categories, setCategories }) {
   return (
     <div>
       <p className="text-red-700">{error}</p>
-      {categoryList}
-    </div>
+      <div className="font-red-hat-display font-black text-3xl">
+        <h1 className="text-3xl font-semibold mb-5">Categories</h1>
+        <div>
+          <AddButton className="bg-plum-500" onClick={() => setIsOpen(!isOpen)}>
+            New
+          </AddButton>
+        </div>
+        {categoryList}
+      </div >
+    </div >
   )
 }
 
@@ -32,4 +43,6 @@ CategoryDisplay.propTypes = {
     })
   ),
   setCategories: PropTypes.func,
+  isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
 }

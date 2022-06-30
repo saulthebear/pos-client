@@ -4,16 +4,25 @@ import axios from "axios"
 import { Navigate } from "react-router-dom"
 
 import ProductsDisplay from "./ProductsDisplay"
-import ProductForm from "./ProductForm"
+// import ProductForm from "./ProductForm"
 import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
 import Loading from "../../ui/Loading"
-import Modal, { ModalPanel } from "../../ui/Modal"
+import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
+import { ButtonLarge } from "../../ui/Button"
+import { PinkInput } from "../../ui/Input"
 
 export default function ProductsPage() {
+  const initialProductForm = {
+    name: "",
+    code: "",
+    price: 3,
+    category: "",
+  }
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [showProdForm, setShowProdForm] = useState(false)
+  const [productForm, setProductForm] = useState(initialProductForm)
   const [error, setError] = useState("")
 
   const { user, isUserLoading } = useAuth()
@@ -91,19 +100,89 @@ export default function ProductsPage() {
       })
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
 
   return (
     <>
-      <p className="text-red-700">{error}</p>
-      {console.log(showProdForm)}
+      <div>
+        <p className="text-red-700">{error}</p>
+      </div>
       <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-        <ModalPanel>bleh</ModalPanel>
+        <ModalPanel>
+          <ModalTitle>Add A Product</ModalTitle>
+          <div className="flex flex-col items-center space-y-2 mb-5" >
+            <form
+              onSubmit={(e) => handleSubmit(e, productForm, setProductForm)}
+            >
+              <div className="flex justify-evenly">
+                <div className="flex flex-col">
+                  <PinkInput
+                    label="Name:"
+                    type="text"
+                    id="name"
+                    value={productForm.name}
+                    onChange={(e) =>
+                      setProductForm({ ...productForm, name: e.target.value })
+                    }
+                  />
+                  <PinkInput
+                    label="Code:"
+                    type="text"
+                    id="code"
+                    value={productForm.code}
+                    onChange={(e) =>
+                      setProductForm({ ...productForm, code: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+              <PinkInput
+                label="Price:"
+                type="number"
+                step="0.01"
+                id="price"
+                value={productForm.price}
+                onChange={(e) =>
+                  setProductForm({
+                    ...productForm,
+                    price: parseFloat(e.target.value),
+                  })
+                }
+              />
+              <label htmlFor="category">Category:</label>
+              <select
+                onChange={(e) =>
+                  setProductForm({ ...productForm, category: e.target.value })
+                }
+                value={productForm.category}
+              >
+                {categories.map((category) => {
+                  return (
+                    <option
+                      value={category._id}
+                      key={`categoryOption-${category._id}`}
+                    >
+                      {category.name}
+                    </option>
+                  )
+                })}
+              </select>
+              <ButtonLarge className="bg-plum-700" type="submit">Create</ButtonLarge>
+            </form>
+          </div>
+        </ModalPanel>
       </Modal>
+      <ProductsDisplay
+        products={products}
+        setProducts={setProducts}
+        categories={categories}
+        isOpen={isModalOpen} setIsOpen={setIsModalOpen}
+      />
       {/* {showProdForm ? (
         <ProductForm
-          initialProductForm={{
-            name: "",
+        initialProductForm={{
+          name: "",
             code: "",
             price: 3,
             category: "",
@@ -118,11 +197,6 @@ export default function ProductsPage() {
           categories={categories}
         />
       )} */}
-      <div>
-        <button onClick={() => setIsModalOpen(!isModalOpen)}>
-          {isModalOpen ? "Cancel" : "New"}
-        </button>
-      </div>
     </>
   )
 }

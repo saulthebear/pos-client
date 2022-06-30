@@ -43,7 +43,7 @@ export function AddButton({ className, ...props }) {
   return (
     <div>
       <button
-        className={`${className} bg-plum-400 text-white rounded-full flex items-center justify-center w-10 h-10`}
+        className={`${className} bg-plum-400 text-white rounded-full flex items-center justify-center w-10 h-10`} {...props}
       >
         <span className="material-symbols-rounded font-bold">add</span>
       </button>
