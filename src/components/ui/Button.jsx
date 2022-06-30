@@ -32,18 +32,24 @@ export function ButtonSmall({ className, children, ...props }) {
 }
 export function CancelButton({ className, ...props }) {
   return (
-    <div>
-      <button className={`${className}`} {...props}>
-        <span className="material-symbols-rounded">close</span>
-      </button>
-    </div>
+    <button className={`${className} flex items-center`} {...props}>
+      <span className="material-symbols-rounded">close</span>
+    </button>
+  )
+}
+export function DoneButton({ className, ...props }) {
+  return (
+    <button className={`${className} flex items-center`} {...props}>
+      <span className="material-symbols-rounded">done</span>
+    </button>
   )
 }
 export function AddButton({ className, ...props }) {
   return (
     <div>
       <button
-        className={`${className} bg-plum-400 text-white rounded-full flex items-center justify-center w-10 h-10`} {...props}
+        className={`${className} bg-plum-400 text-white rounded-full flex items-center justify-center w-10 h-10`}
+        {...props}
       >
         <span className="material-symbols-rounded font-bold">add</span>
       </button>
@@ -63,6 +69,22 @@ export function ModalButton({ children, ...props }) {
       </span>
     </button>
   )
+}
+
+export function EditableDisplayButton({ children, ...props }) {
+  return (
+    <button {...props} className="text-lg">
+      {children}
+      <span className="material-symbols-rounded font-medium ml-3">edit</span>
+    </button>
+  )
+}
+
+EditableDisplayButton.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+DoneButton.propTypes = {
+  className: PropTypes.string,
 }
 
 ModalButton.propTypes = {
