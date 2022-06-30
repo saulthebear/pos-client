@@ -7,9 +7,8 @@ import ProductsDisplay from "./ProductsDisplay"
 // import ProductForm from "./ProductForm"
 import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
-import Loading from "../../ui/Loading"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
-import { ButtonLarge } from "../../ui/Button"
+import { ButtonLarge, ModalButton } from "../../ui/Button"
 import { PinkInput, PinkSelect } from "../../ui/Input"
 import AuthService from "../../../helpers/authServices"
 
@@ -87,10 +86,14 @@ export default function ProductsPage() {
 
   const handleSubmit = (e, form) => {
     e.preventDefault()
+    const body = {
+      ...form,
+      price: parseFloat(form.price) * 100,
+    }
     axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/products`,
-        form,
+        body,
         getAuthOptions()
       )
       .then((response) => {
@@ -123,7 +126,7 @@ export default function ProductsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
-    <>
+    <div className="p-5">
       <div>
         <p className="text-red-700">{error}</p>
       </div>
@@ -134,7 +137,7 @@ export default function ProductsPage() {
             <form
               onSubmit={(e) => handleSubmit(e, productForm, setProductForm)}
             >
-              <div className="flex justify-evenly">
+              <div className="flex justify-between">
                 <div className="flex flex-col">
                   <PinkInput
                     label="Name:"
@@ -145,48 +148,58 @@ export default function ProductsPage() {
                       setProductForm({ ...productForm, name: e.target.value })
                     }
                   />
-                  <PinkInput
-                    label="Code:"
-                    type="text"
-                    id="code"
-                    value={productForm.code}
+                  <div className="space-y-3 mb-5">
+                    <div className="flex items-center space-x-8">
+                      <PinkInput
+                        label="Code:"
+                        type="text"
+                        id="code"
+                        value={productForm.code}
+                        onChange={(e) =>
+                          setProductForm({
+                            ...productForm,
+                            code: e.target.value,
+                          })
+                        }
+                      />
+                      <PinkInput
+                        label="Price:"
+                        type="number"
+                        step="0.01"
+                        id="price"
+                        value={productForm.price}
+                        onChange={(e) =>
+                          setProductForm({
+                            ...productForm,
+                            price: parseFloat(e.target.value),
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <PinkSelect
+                    value={productForm.category}
+                    label="Category"
                     onChange={(e) =>
-                      setProductForm({ ...productForm, code: e.target.value })
+                      setProductForm({
+                        ...productForm,
+                        category: e.target.value,
+                      })
                     }
-                  />
+                  >
+                    {categories.map((category) => {
+                      return (
+                        <option
+                          value={category._id}
+                          key={`categoryOption-${category._id}`}
+                        >
+                          {category.name}
+                        </option>
+                      )
+                    })}
+                  </PinkSelect>
                 </div>
               </div>
-              <PinkInput
-                label="Price:"
-                type="number"
-                step="0.01"
-                id="price"
-                value={productForm.price}
-                onChange={(e) =>
-                  setProductForm({
-                    ...productForm,
-                    price: parseFloat(e.target.value),
-                  })
-                }
-              />
-              <PinkSelect
-                value={productForm.category}
-                label="Category"
-                onChange={(e) =>
-                  setProductForm({ ...productForm, category: e.target.value })
-                }
-              >
-                {categories.map((category) => {
-                  return (
-                    <option
-                      value={category._id}
-                      key={`categoryOption-${category._id}`}
-                    >
-                      {category.name}
-                    </option>
-                  )
-                })}
-              </PinkSelect>
               {/* <label htmlFor="category">Category:</label>
               <select
                 onChange={(e) =>
@@ -205,9 +218,9 @@ export default function ProductsPage() {
                   )
                 })}
               </select> */}
-              <ButtonLarge className="bg-plum-700" type="submit">
-                Create
-              </ButtonLarge>
+              <div className="flex justify-end mt-5">
+                <ModalButton type="submit">Create</ModalButton>
+              </div>
             </form>
           </div>
         </ModalPanel>
@@ -237,6 +250,6 @@ export default function ProductsPage() {
           categories={categories}
         />
       )} */}
-    </>
+    </div>
   )
 }

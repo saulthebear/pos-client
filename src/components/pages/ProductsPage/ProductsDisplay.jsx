@@ -1,11 +1,14 @@
-import React, { useId, useState } from "react"
+import React, { useId, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAuthOptions } from "../../../helpers/utils"
 import axios from "axios"
 import PropTypes from "prop-types"
 
 import { Input } from "../../ui/Input"
-import { ButtonSmall, AddButton } from "../../ui/Button"
+import { ButtonSmall, AddButton, EditableDisplayButton } from "../../ui/Button"
+import Search from "../NewOrderPage/Search"
+import Tooltip from "../../ui/Tooltip"
+import { formatCurrency } from "../../../helpers/utils"
 
 function Product({
   _id,
@@ -82,7 +85,7 @@ function Product({
 
   const handleUpdatePrice = async () => {
     try {
-      const body = { price: priceValue }
+      const body = { price: priceValue * 100 }
       const response = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/products/${_id}`,
         body,
@@ -94,7 +97,7 @@ function Product({
       const updatedProducts = [...products]
       updatedProducts[index] = {
         ...products[index],
-        price: parseFloat(priceValue),
+        price: parseFloat(priceValue) * 100,
       }
       setProducts(updatedProducts)
     } catch (err) {
@@ -156,8 +159,9 @@ function Product({
 
   const nameDisplay = (
     <>
-      <p>Name:</p>
-      <button onClick={() => setIsEditingName(true)}>{name}</button>
+      <EditableDisplayButton onClick={() => setIsEditingName(true)}>
+        {name}
+      </EditableDisplayButton>
     </>
   )
 
@@ -183,8 +187,9 @@ function Product({
 
   const codeDisplay = (
     <>
-      <p>Code:</p>
-      <button onClick={() => setIsEditingCode(true)}>{code}</button>
+      <EditableDisplayButton onClick={() => setIsEditingCode(true)}>
+        {code}
+      </EditableDisplayButton>
     </>
   )
 
@@ -210,8 +215,9 @@ function Product({
 
   const priceDisplay = (
     <>
-      <p>Price:</p>
-      <button onClick={() => setIsEditingPrice(true)}>{price}</button>
+      <EditableDisplayButton onClick={() => setIsEditingPrice(true)}>
+        {formatCurrency(price)}
+      </EditableDisplayButton>
     </>
   )
 
@@ -238,17 +244,17 @@ function Product({
     </>
   )
 
-  let categoryDisplay = ""
-  if (category) {
-    categoryDisplay = (
-      <>
-        <p>Category:</p>
-        <button onClick={() => setIsEditingCategory(true)}>
-          {category.name}
-        </button>
-      </>
-    )
-  }
+  const categoryDisplay = (
+    <>
+      <EditableDisplayButton onClick={() => setIsEditingCategory(true)}>
+        {category ? (
+          category.name
+        ) : (
+          <span className="text-gray-400">No Category</span>
+        )}
+      </EditableDisplayButton>
+    </>
+  )
 
   const categoryOptions = categories.map((category) => {
     return (
@@ -289,19 +295,17 @@ function Product({
         <p className="text-red-700 font-red-hat-display">{error}</p>
       </div>
       <div
-        className="grid grid-cols-5 p-3 bg-gray-200 rounded-md m-2 font-red-hat-display"
+        className="grid grid-cols-5 p-3 border-b-2 border-plum-900 pb-2 font-red-hat-display"
         key={`${id}-${_id}`}
       >
         <div>{isEditingName ? nameInput : nameDisplay}</div>
         <div>{isEditingCode ? codeInput : codeDisplay}</div>
         <div>{isEditingPrice ? priceInput : priceDisplay}</div>
         <div>
-          {category && (
-            <div>{isEditingCategory ? categoryInput : categoryDisplay}</div>
-          )}
+          {<div>{isEditingCategory ? categoryInput : categoryDisplay}</div>}
         </div>
         <ButtonSmall
-          className="bg-red-700 text-white"
+          className="bg-red-700 text-white w-fit"
           onClick={() => handleDelete(_id)}
         >
           Delete
@@ -348,8 +352,25 @@ export default function ProductsDisplay({
   setIsOpen,
 }) {
   const id = useId()
+  const [filter, setFilter] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState(products)
 
-  const productList = products.map((product) => {
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value)
+  }
+
+  useEffect(() => {
+    if (filter === "") {
+      setFilteredProducts(products)
+      return
+    }
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(filter)
+    )
+    setFilteredProducts(filteredProducts)
+  }, [filter, products])
+
+  const productList = filteredProducts.map((product) => {
     return (
       <div key={`${id}-product-${product._id}`}>
         <Product
@@ -362,15 +383,36 @@ export default function ProductsDisplay({
     )
   })
   return (
-    <div className="p-5">
-      <h1 className="font-red-hat-display font-black text-3xl">Products</h1>
-      <div>
-        <AddButton className="bg-plum-500" onClick={() => setIsOpen(!isOpen)}>
-          New
-          {/* {isModalOpen ? "Cancel" : "New"} */}
-        </AddButton>
+    <div>
+      <h1 className="text-3xl font-semibold mb-5">Products</h1>
+      <div className="flex justify-between mb-5">
+        <Search
+          className="grow"
+          type="text"
+          placeholder="Filter products..."
+          value={filter}
+          onChange={handleFilterChange}
+        />
+        <div className="mx-6">
+          <Tooltip.Container>
+            <Tooltip.Message offset="bottom-5">Add a Product</Tooltip.Message>
+            <AddButton
+              className="bg-plum-500"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              New
+              {/* {isModalOpen ? "Cancel" : "New"} */}
+            </AddButton>
+          </Tooltip.Container>
+        </div>
       </div>
-      {productList}
+      <div className="font-red-hat-display font-black text-3xl grid grid-cols-5">
+        <span>Name</span>
+        <span>Code</span>
+        <span>Price</span>
+        <span>Category</span>
+      </div>
+      <div className="font-medium text-xl space-y-3">{productList}</div>
     </div>
   )
 }
