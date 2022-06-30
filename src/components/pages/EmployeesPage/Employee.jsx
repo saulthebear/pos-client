@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import { Toggle } from "../../ui/Toggle"
 import { getAuthOptions } from "../../../helpers/utils"
 
-import UserIcon from "./UserIcon"
+import UserIcon from "../../ui/UserIcon"
 import VerifiedIcon from "./VerifiedIcon"
 import {
   CancelButton,
@@ -14,7 +14,7 @@ import {
 import { Input } from "../../ui/Input"
 
 export default function Employee({
-  _id,
+  id,
   username,
   role,
   setHasUpdated,
@@ -32,7 +32,7 @@ export default function Employee({
     try {
       const body = { role: isOn ? "admin" : "cashier" }
       await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
+        `${process.env.REACT_APP_SERVER_URL}/users/${id}`,
         body,
         getAuthOptions()
       )
@@ -51,7 +51,7 @@ export default function Employee({
     try {
       const body = { role: isOn ? "cashier" : "unverified" }
       await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
+        `${process.env.REACT_APP_SERVER_URL}/users/${id}`,
         body,
         getAuthOptions()
       )
@@ -69,7 +69,7 @@ export default function Employee({
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
+        `${process.env.REACT_APP_SERVER_URL}/users/${id}`,
         getAuthOptions()
       )
       setHasUpdated(true)
@@ -87,7 +87,7 @@ export default function Employee({
     try {
       const body = { username: nameValue }
       await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/users/${_id}`,
+        `${process.env.REACT_APP_SERVER_URL}/users/${id}`,
         body,
         getAuthOptions()
       )
@@ -183,7 +183,7 @@ export default function Employee({
 }
 
 Employee.propTypes = {
-  _id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   setHasUpdated: PropTypes.func.isRequired,
