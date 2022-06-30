@@ -14,7 +14,9 @@ export default function OrderItems({
   handleCancel,
 }) {
   const [isAddingItem, setIsAddingItem] = useState(false)
-  const [itemToAdd, setItemToAdd] = useState(items[0]._id)
+  const [itemToAdd, setItemToAdd] = useState(
+    items.length > 0 ? items[0]._id : []
+  )
 
   const handleAddItem = (newProductId) => {
     const newProduct = items.filter((item) => item._id === newProductId)[0]
@@ -130,9 +132,9 @@ export default function OrderItems({
 }
 
 OrderItems.propTypes = {
-  items: PropTypes.arrayOf(productShape.isRequired),
+  items: PropTypes.arrayOf(productShape),
   handleDelete: PropTypes.func,
-  updatedItems: PropTypes.arrayOf(productShape.isRequired),
+  updatedItems: PropTypes.arrayOf(productShape),
   setUpdatedItems: PropTypes.func,
   isEditing: PropTypes.bool,
   setIsEditing: PropTypes.func,
