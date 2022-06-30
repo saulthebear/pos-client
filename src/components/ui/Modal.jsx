@@ -16,7 +16,7 @@ ModalTitle.propTypes = {
 
 export function ModalPanel({ children }) {
   return (
-    <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5  flex">
+    <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5 flex">
       <div className="flex-1">{children}</div>
     </Dialog.Panel>
   )

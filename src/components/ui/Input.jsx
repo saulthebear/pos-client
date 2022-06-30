@@ -10,7 +10,7 @@ export function PinkInput({ className, label, ...props }) {
           {label}
         </label>
         <input
-          className={`${className} max-w-md bg-plum-100 text-plum-800 rounded-sm shadow-inner hover:bg-plum-200 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-plum-500 px-4 py-2`}
+          className={`${className} max-w-md bg-plum-100 text-plum-800 rounded-sm shadow-inner hover:bg-plum-200 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-plum-500 px-4 py-2 placeholder:text-plum-400`}
           {...props}
         />
       </div>

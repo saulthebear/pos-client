@@ -51,6 +51,23 @@ export function AddButton({ className, ...props }) {
   )
 }
 
+export function ModalButton({ children, ...props }) {
+  return (
+    <button
+      {...props}
+      className="font-black tracking-wide font-red-hat-display flex items-center justify-center text-lg uppercase text-white"
+    >
+      {children}
+      <span className="material-symbols-rounded font-medium text-3xl">
+        navigate_next
+      </span>
+    </button>
+  )
+}
+
+ModalButton.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 CancelButton.propTypes = {
   className: PropTypes.string,
 }
