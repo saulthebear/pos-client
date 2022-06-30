@@ -8,6 +8,7 @@ import ProductForm from "./ProductForm"
 import { getAuthOptions } from "../../../helpers/utils"
 import { useAuth } from "../../../hooks/useAuth"
 import Loading from "../../ui/Loading"
+import Modal, { ModalPanel } from "../../ui/Modal"
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
@@ -90,10 +91,16 @@ export default function ProductsPage() {
       })
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(true)
+
   return (
     <>
       <p className="text-red-700">{error}</p>
-      {showProdForm ? (
+      {console.log(showProdForm)}
+      <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+        <ModalPanel>bleh</ModalPanel>
+      </Modal>
+      {/* {showProdForm ? (
         <ProductForm
           initialProductForm={{
             name: "",
@@ -110,10 +117,10 @@ export default function ProductsPage() {
           setProducts={setProducts}
           categories={categories}
         />
-      )}
+      )} */}
       <div>
-        <button onClick={() => setShowProdForm(!showProdForm)}>
-          {showProdForm ? "Cancel" : "New"}
+        <button onClick={() => setIsModalOpen(!isModalOpen)}>
+          {isModalOpen ? "Cancel" : "New"}
         </button>
       </div>
     </>

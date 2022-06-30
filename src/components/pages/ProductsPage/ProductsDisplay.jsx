@@ -155,21 +155,24 @@ function Product({
   }
 
   const nameDisplay = (
-    <button onClick={() => setIsEditingName(true)}>{name}</button>
+    <>
+      <p>Name:</p>
+      <button onClick={() => setIsEditingName(true)}>{name}</button>
+    </>
   )
 
   const nameInput = (
     <>
       <Input value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
       <ButtonSmall
-        className="bg-plum-600"
+        className="bg-plum-400 text-white"
         type="button"
         onClick={handleUpdateName}
       >
         <span>Done</span>
       </ButtonSmall>
       <ButtonSmall
-        className="bg-plum-300"
+        className="bg-transparent border-2 border-plum-700 text-plum-700"
         type="button"
         onClick={() => setIsEditingName(false)}
       >
@@ -189,14 +192,14 @@ function Product({
     <>
       <Input value={codeValue} onChange={(e) => setCodeValue(e.target.value)} />
       <ButtonSmall
-        className="bg-plum-600"
+        className="bg-plum-400 text-white"
         type="button"
         onClick={handleUpdateCode}
       >
         <span>Done</span>
       </ButtonSmall>
       <ButtonSmall
-        className="bg-plum-300"
+        className="bg-transparent border-2 border-plum-700 text-plum-700"
         type="button"
         onClick={() => setIsEditingCode(false)}
       >
@@ -219,14 +222,14 @@ function Product({
         onChange={(e) => setPriceValue(e.target.value)}
       />
       <ButtonSmall
-        className="bg-plum-600"
+        className="bg-plum-400 text-white"
         type="button"
         onClick={handleUpdatePrice}
       >
         <span>Done</span>
       </ButtonSmall>
       <ButtonSmall
-        className="bg-plum-300"
+        className="bg-transparent border-2 border-plum-700 text-plum-700"
         type="button"
         onClick={() => setIsEditingPrice(false)}
       >
@@ -239,7 +242,7 @@ function Product({
   if (category) {
     categoryDisplay = (
       <>
-        <p></p>
+        <p>Category:</p>
         <button onClick={() => setIsEditingCategory(true)}>
           {category.name}
         </button>
@@ -264,14 +267,14 @@ function Product({
         {categoryOptions}
       </select>
       <ButtonSmall
-        className="bg-plum-600"
+        className="bg-plum-400 text-white"
         type="button"
         onClick={handleUpdateCategory}
       >
         <span>Done</span>
       </ButtonSmall>
       <ButtonSmall
-        className="bg-plum-300"
+        className="bg-transparent border-2 border-plum-700 text-plum-700"
         type="button"
         onClick={() => setIsEditingCategory(false)}
       >
@@ -282,8 +285,13 @@ function Product({
 
   return (
     <>
-      <p className="text-red-700">{error}</p>
-      <div className="grid grid-cols-5 p-3" key={`${id}-${_id}`}>
+      <div>
+        <p className="text-red-700 font-red-hat-display">{error}</p>
+      </div>
+      <div
+        className="grid grid-cols-5 p-3 bg-gray-200 rounded-md m-2 font-red-hat-display"
+        key={`${id}-${_id}`}
+      >
         <p>{isEditingName ? nameInput : nameDisplay}</p>
         <p>{isEditingCode ? codeInput : codeDisplay}</p>
         <p>{isEditingPrice ? priceInput : priceDisplay}</p>
@@ -292,7 +300,10 @@ function Product({
             <p>{isEditingCategory ? categoryInput : categoryDisplay}</p>
           )}
         </div>
-        <ButtonSmall className="bg-plum-200" onClick={() => handleDelete(_id)}>
+        <ButtonSmall
+          className="bg-red-700 text-white"
+          onClick={() => handleDelete(_id)}
+        >
           Delete
         </ButtonSmall>
       </div>
