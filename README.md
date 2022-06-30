@@ -1,6 +1,22 @@
 <div align="center">
 <h1>MERN Point Of Sale System</h1>
 </div>
+<div align="center">
+  <h1>Authors</h1>
+  <h2> Grace | Stefan | Heg </h2>
+  <a href="https://www.linkedin.com/in/grace-narez-8b0498238/"_target="_blank">
+  <img src="https://img.shields.io/badge/-linkedin.com/in/GraceNarez-blue?style=flat&``logo=Linkedin&logoColor=white">
+  </a>
+  <br>
+  <a href="https://www.linkedin.com/in/stefan-vosloo/" target="_blank">
+    <img src="https://img.shields.io/badge/-linkedin.com/in/StefanVoslo-blue?style=flat&``logo=Linkedin&logoColor=white">
+  </a>
+  <br>
+  <a href="https://www.linkedin.com/in/huseyingumus/" target="_blank">
+    <img src="https://img.shields.io/badge/-linkedin.com/in/HuseyinErhanGumus-blue?style=flat&``logo=Linkedin&logoColor=white">
+  </a>
+  </div>
+  <br>
 
 ## Table of Contents
 
@@ -10,6 +26,7 @@
 - [Wireframes](#wireframes)
 - [User Stories](#user-stories)
 - [Goals](#goals)
+- [Tech Stacks](#techstacks)
 - [Authors](#authors)
 
 ## Project Idea and Description
@@ -114,7 +131,7 @@ Create a full-stack MERN application which allows business owners to store inven
 - [] As an admin, I want to be able to give each category a color, so that I can easily identify them.
 - [] As an admin, I want to be taken to the transactions page as soon as I log in, so that I can easily see an overview of the day's sales.
 
-## Goals:
+## Goals
 
 ### MVP
 
@@ -137,8 +154,23 @@ Create a full-stack MERN application which allows business owners to store inven
 - Implement O-Auth
 - Implement inventory management
 
+## Tech Stacks
+
+![JavaScript](https://img.shields.io/badge/-JavaScript-333?style=flat&logo=javascript)
+![Node.js](https://img.shields.io/badge/-Node.js-333?style=flat&logo=node.js)
+![React](https://img.shields.io/badge/-React-333?style=flat&logo=react)
+![TailWind](https://img.shields.io/badge/-TailWind-333?style=flat&logo=tailwind)
+![MongoDB](https://img.shields.io/badge/-MongoDB-333?style=flat&logo=mongoDB)
+![Miro](https://img.shields.io/badge/-Miro-333?style=flat&logo=miro)
+![Figma](https://img.shields.io/badge/-Figma-333?style=flat&logo=figma)
+![Heroku](https://img.shields.io/badge/-Heroku-333?style=flat&logo=heroku)
+![Npm](https://img.shields.io/badge/-Npm-333?style=flat&logo=npm)
+![Github](https://img.shields.io/badge/-GitHub-333?style=flat&logo=github)
+![VSCode](https://img.shields.io/badge/-VS_Code-333?style=flat&logo=visualstudio)
+![Git](https://img.shields.io/badge/-Git-333?style=flat&logo=git)
+
+
 ## Authors
 
-- [Grace](https://github.com/gracenarez333)
-- [Stefan](https://github.com/saulthebear)
-- [Heg](https://github.com/erhaneth)
+[Grace](https://github.com/gracenarez333) | [Stefan](https://github.com/saulthebear) | [Heg](https://github.com/erhaneth)
+
