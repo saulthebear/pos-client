@@ -12,7 +12,7 @@ import { CancelButton } from "../../ui/Button"
 import "react-datepicker/dist/react-datepicker.css"
 
 export default function TransactionsPage() {
-  const initialStartDate = new Date("2020-01-01")
+  const initialStartDate = new Date("2022-06-15")
   const initialEndDate = new Date()
 
   const [transactions, setTransactions] = useState([])
