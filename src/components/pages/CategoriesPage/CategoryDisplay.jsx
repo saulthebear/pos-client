@@ -116,7 +116,7 @@ export default function CategoryDisplay({
       {/* headings */}
       <div className="font-red-hat-display font-black text-3xl grid grid-cols-3">
         <span>Name</span>
-        <span>Category</span>
+        <span>Color</span>
       </div>
       {/* category list */}
       <div className="font-medium text-xl space-y-3">{categoryList}</div>
