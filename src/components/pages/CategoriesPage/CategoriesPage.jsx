@@ -52,11 +52,17 @@ export default function CategoriesPage() {
     }
     fetchCategories()
   }, [])
+
   const validateForm = () => {
     if (catForm.name == "") {
       setFormError("Name is required!")
       return false
     }
+
+    if (catForm.color == "") {
+      catForm.color = Object.keys(userColors)[0]
+    }
+
     return true
   }
 
@@ -77,7 +83,7 @@ export default function CategoriesPage() {
       })
       .catch(console.warn)
       .finally(() => {
-        setCatForm({ name: "", color: "" })
+        setCatForm({ name: "", color: Object.keys(userColors)[0] })
         setIsModalOpen(false)
       })
   }

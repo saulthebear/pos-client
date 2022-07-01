@@ -95,12 +95,23 @@ export default function ProductsPage() {
       setFormError("Price is required")
       return false
     }
+
+    // If category is not selected, remove it from the form body
+    if (productForm.category == "") {
+      const newProductForm = { ...productForm }
+      delete newProductForm.category
+      setProductForm(newProductForm)
+    }
     setFormError("")
     return true
   }
 
   const handleSubmit = (e, form) => {
     e.preventDefault()
+
+    // Reset Errors
+    setFormError("")
+    setError("")
 
     const isValid = validateForm()
 
