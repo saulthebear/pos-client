@@ -238,10 +238,12 @@ export default function Category({
           </button>
           {isEditingName ? nameInput : nameDisplay}
         </p>
-        <p>{isEditingColor ? colorInput : colorDisplay}</p>
-        <div className="flex gap-2">
+        <p className="flex items-center">
+          {isEditingColor ? colorInput : colorDisplay}
+        </p>
+        <div className="flex gap-1 items-center">
           <ButtonSmall
-            className="bg-plum-600 text-white w-fit font-normal"
+            className="bg-plum-600 text-white w-fit font-normal h-fit"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? "Less" : "More"}
