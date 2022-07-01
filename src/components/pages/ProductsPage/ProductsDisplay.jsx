@@ -5,10 +5,16 @@ import axios from "axios"
 import PropTypes from "prop-types"
 
 import { Input } from "../../ui/Input"
-import { ButtonSmall, AddButton, EditableDisplayButton } from "../../ui/Button"
+import {
+  ButtonSmall,
+  ButtonLarge,
+  AddButton,
+  EditableDisplayButton,
+} from "../../ui/Button"
 import Search from "../NewOrderPage/Search"
 import Tooltip from "../../ui/Tooltip"
 import { formatCurrency } from "../../../helpers/utils"
+import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 
 function Product({
   _id,
@@ -289,6 +295,8 @@ function Product({
     </>
   )
 
+  const [isDeleting, setIsDeleting] = useState(false)
+
   return (
     <>
       <div>
@@ -304,12 +312,45 @@ function Product({
         <div>
           {<div>{isEditingCategory ? categoryInput : categoryDisplay}</div>}
         </div>
-        <ButtonSmall
-          className="bg-red-700 text-white w-fit"
-          onClick={() => handleDelete(_id)}
-        >
-          Delete
-        </ButtonSmall>
+        <div className="p-5">
+          <Modal isOpen={isDeleting} setIsOpen={setIsDeleting}>
+            <ModalPanel>
+              <ModalTitle>
+                <span className="material-symbols-rounded">warning</span>Confirm
+                <span className="material-symbols-rounded">warning</span>
+              </ModalTitle>
+              <div className="flex flex-col flex-1 justify-center items-center space-y-6 mb-5 space-evenly">
+                <div className="flex flex-col items-center space-y-6 mb-5">
+                  <span className="font-semibold text-xl mb-5">
+                    Are you sure you want to delete...{name}?
+                  </span>
+                  <div className="flex justify-between space-x-6">
+                    <ButtonLarge
+                      className="bg-amber-600 text-white w-fit"
+                      onClick={() => setIsDeleting(false)}
+                    >
+                      Cancel
+                      {/* {isModalOpen ? "Cancel" : "New"} */}
+                    </ButtonLarge>
+                    <ButtonLarge
+                      className="bg-red-700 text-white w-fit"
+                      onClick={() => handleDelete(_id)}
+                    >
+                      Delete
+                    </ButtonLarge>
+                  </div>
+                </div>
+              </div>
+            </ModalPanel>
+          </Modal>
+          <ButtonSmall
+            className="bg-red-700 text-white w-fit"
+            onClick={() => setIsDeleting(!isDeleting)}
+          >
+            Delete
+            {/* {isModalOpen ? "Cancel" : "New"} */}
+          </ButtonSmall>
+        </div>
       </div>
     </>
   )
