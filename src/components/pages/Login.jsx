@@ -12,7 +12,7 @@ export default function Login({ setCurrentUser }) {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   // const [user, setUser] = useState(AuthService.getCurrentUser())
-  // const [formError, setFormError] = useState("")
+  const [formError, setFormError] = useState("")
 
   const user = AuthService.getCurrentUser()
 
@@ -23,6 +23,9 @@ export default function Login({ setCurrentUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!validateForm()) {
+      return
+    }
     const response = await login(username, password)
     console.log("response", response)
     if (response.user) setCurrentUser(response.user)
@@ -33,19 +36,24 @@ export default function Login({ setCurrentUser }) {
   if (user) {
     return <Navigate to="/profile" />
   }
-  // const validateForm = () => {
-  //   if (productForm.name == "") {
-  //     setFormError("Name is required!")
-  //     return false
-  //   }
-  // }
+  const validateForm = () => {
+    if (username == "") {
+      setFormError("Name is required!")
+      return false
+    }
+    if (password == "") {
+      setFormError("Password is required!")
+      return false
+    }
+    return true
+  }
 
   return (
     <div className="bg-plum-50 flex justify-between items-center px-12 py-12 h-full">
       <div className="bg-plum-500 mx-auto px-14 py-6 rounded-3xl shadow-md pt-12 sm:w-96">
         <h1 className="font-xl font-bold text-white px-16">Login</h1>
         <p className="text-red-700 pb-4">{error}</p>
-        {/* <p className="text-red-700 pb-4">{formError}</p> */}
+        <p className="text-red-700 pb-4">{formError}</p>
         <form onSubmit={handleSubmit}>
           <div className="pb-4">
             <PinkInput
