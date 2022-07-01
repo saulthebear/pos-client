@@ -164,7 +164,7 @@ export default function NewOrderPage() {
         <p className="text-red-700">{error}</p>
         {/* Payment Modal */}
         <Modal isOpen={isPaymentModalOpen} setIsOpen={setIsPaymentModalOpen}>
-          <ModalPanel>
+          <ModalPanel setIsOpen={setIsPaymentModalOpen}>
             <div className="grid grid-rows-[auto_1fr] h-full">
               <ModalTitle>Payment</ModalTitle>
               <form

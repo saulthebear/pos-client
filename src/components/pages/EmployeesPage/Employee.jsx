@@ -177,7 +177,7 @@ export default function Employee({
       <div className="flex justify-center items-center">
         <div className="p-5">
           <Modal isOpen={isDeleting} setIsOpen={setIsDeleting}>
-            <ModalPanel>
+            <ModalPanel setIsOpen={setIsDeleting}>
               <ModalTitle>
                 <span className="material-symbols-rounded">warning</span>Confirm
                 <span className="material-symbols-rounded">warning</span>

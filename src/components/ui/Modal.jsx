@@ -14,15 +14,23 @@ ModalTitle.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export function ModalPanel({ children }) {
+export function ModalPanel({ setIsOpen, children }) {
   return (
-    <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5 flex">
-      <div className="flex-1 flex flex-col">{children}</div>
-    </Dialog.Panel>
+    <>
+      <Dialog.Panel className="mx-auto max-w-sm rounded-xl bg-plum-500 text-white min-w-[30rem] min-h-[20rem] p-5 flex relative">
+        <button onClick={() => setIsOpen(false)}>
+          <span className="material-symbols-rounded absolute top-5 right-5 font-bold">
+            close
+          </span>
+        </button>
+        <div className="flex-1 flex flex-col">{children}</div>
+      </Dialog.Panel>
+    </>
   )
 }
 
 ModalPanel.propTypes = {
+  setIsOpen: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 }
 

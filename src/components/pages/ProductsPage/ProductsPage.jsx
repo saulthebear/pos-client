@@ -151,7 +151,7 @@ export default function ProductsPage() {
         <p className="text-red-700">{error}</p>
       </div>
       <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-        <ModalPanel>
+        <ModalPanel setIsOpen={setIsModalOpen}>
           <ModalTitle>Add A Product</ModalTitle>
           <div className="flex flex-col items-center space-y-2 mb-5">
             {formError && (
