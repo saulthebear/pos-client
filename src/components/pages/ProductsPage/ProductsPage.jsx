@@ -23,6 +23,7 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState([])
   const [productForm, setProductForm] = useState(initialProductForm)
   const [error, setError] = useState("")
+  const [formError, setFormError] = useState("")
 
   // const { user, isUserLoading } = useAuth()
 
@@ -84,8 +85,27 @@ export default function ProductsPage() {
     fetchCategory()
   }, [])
 
+  const validateForm = () => {
+    if (productForm.name == "") {
+      setFormError("Name is required")
+      return false
+    }
+    const priceNumber = parseFloat(productForm.price)
+    if (isNaN(priceNumber) || typeof priceNumber !== "number") {
+      setFormError("Price is required")
+      return false
+    }
+    setFormError("")
+    return true
+  }
+
   const handleSubmit = (e, form) => {
     e.preventDefault()
+
+    const isValid = validateForm()
+
+    if (!isValid) return
+
     const body = {
       ...form,
       price: parseFloat(form.price) * 100,
@@ -134,6 +154,11 @@ export default function ProductsPage() {
         <ModalPanel>
           <ModalTitle>Add A Product</ModalTitle>
           <div className="flex flex-col items-center space-y-2 mb-5">
+            {formError && (
+              <p className="text-red-900 bg-red-300 px-5 py-2 rounded-md">
+                {formError}
+              </p>
+            )}
             <form
               onSubmit={(e) => handleSubmit(e, productForm, setProductForm)}
             >
