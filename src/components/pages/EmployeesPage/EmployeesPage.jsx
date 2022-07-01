@@ -13,9 +13,6 @@ export default function EmployeesPage() {
   const [hasUpdated, setHasUpdated] = useState(false)
   const [error, setError] = useState("")
 
-  // const { user, isUserLoading } = useAuth()
-
-  // if (isUserLoading) return <Loading />
   const user = AuthService.getCurrentUser()
 
   if (!user) {
@@ -26,6 +23,32 @@ export default function EmployeesPage() {
     return <div>You are not authorized to view this page.</div>
   }
 
+  const filterCurrentUser = (employees) => {
+    return employees.filter((employee) => employee.id !== user.id)
+  }
+
+  const roleRanking = {
+    admin: 0,
+    cashier: 1,
+    unverified: 2,
+  }
+
+  const sortEmployees = (employees) => {
+    const employeesCopy = [...employees]
+
+    // Sort the copied employees by role
+    const sortedEmployees = employeesCopy.sort((a, b) => {
+      if (roleRanking[a.role] < roleRanking[b.role]) {
+        return -1
+      }
+      if (roleRanking[a.role] > roleRanking[b.role]) {
+        return 1
+      }
+      return 0
+    })
+    return sortedEmployees
+  }
+
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -34,7 +57,9 @@ export default function EmployeesPage() {
           `${process.env.REACT_APP_SERVER_URL}/users`,
           getAuthOptions()
         )
-        setEmployees(response.data)
+        const filteredEmployees = filterCurrentUser(response.data)
+        const sortedEmployees = sortEmployees(filteredEmployees)
+        setEmployees(sortedEmployees)
       } catch (err) {
         console.warn(err)
         if (err.response) {
@@ -49,19 +74,10 @@ export default function EmployeesPage() {
 
   // sort employees & don't show current user
   useEffect(() => {
-    // Make a copy so that we don't edit state directly
-    const employeesCopy = [...employees].filter(
-      (employee) => employee.id !== user.id
-    )
-
-    const roleRanking = {
-      admin: 0,
-      cashier: 1,
-      unverified: 2,
-    }
+    const filteredEmployees = filterCurrentUser(employees)
 
     // check if already sorted
-    const isSorted = employeesCopy.every((employee, index) => {
+    const isSorted = filteredEmployees.every((employee, index) => {
       if (index === 0) return true
       return (
         roleRanking[employee.role] >= roleRanking[employees[index - 1].role]
@@ -71,16 +87,8 @@ export default function EmployeesPage() {
     // To prevent infinite loop, only sort if not sorted
     if (isSorted) return
 
-    // Sort the copied employees by role
-    const sortedEmployees = employeesCopy.sort((a, b) => {
-      if (roleRanking[a.role] < roleRanking[b.role]) {
-        return -1
-      }
-      if (roleRanking[a.role] > roleRanking[b.role]) {
-        return 1
-      }
-      return 0
-    })
+    // Sort the employees by role
+    const sortedEmployees = sortEmployees(filteredEmployees)
     setEmployees(sortedEmployees)
   }, [employees])
 
