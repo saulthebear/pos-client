@@ -15,6 +15,7 @@ import Search from "../NewOrderPage/Search"
 import Tooltip from "../../ui/Tooltip"
 import { formatCurrency } from "../../../helpers/utils"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
+import ColorIndicator from "../../ui/ColorIndicator"
 
 function Product({
   _id,
@@ -254,9 +255,14 @@ function Product({
     <>
       <EditableDisplayButton onClick={() => setIsEditingCategory(true)}>
         {category ? (
-          category.name
+          <div className="inline-block">
+            <div className="flex items-center gap-2">
+              <ColorIndicator color={category.color} />
+              <span>{category.name}</span>
+            </div>
+          </div>
         ) : (
-          <span className="text-gray-400">No Category</span>
+          <div className="text-gray-400">No Category</div>
         )}
       </EditableDisplayButton>
     </>
@@ -313,6 +319,7 @@ function Product({
           {<div>{isEditingCategory ? categoryInput : categoryDisplay}</div>}
         </div>
         <div className="p-5">
+          {/* Delete Confirmation Modal */}
           <Modal isOpen={isDeleting} setIsOpen={setIsDeleting}>
             <ModalPanel setIsOpen={setIsDeleting}>
               <ModalTitle>
@@ -364,6 +371,7 @@ Product.propTypes = {
   category: PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
+    color: PropTypes.string,
   }),
   products: PropTypes.arrayOf(
     PropTypes.shape({
@@ -462,6 +470,11 @@ ProductsDisplay.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
+      category: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        color: PropTypes.string,
+      }),
     })
   ),
   setProducts: PropTypes.func,
@@ -469,6 +482,7 @@ ProductsDisplay.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
+      color: PropTypes.string,
     })
   ),
   isOpen: PropTypes.bool,
