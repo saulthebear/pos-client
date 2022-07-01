@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom"
 import AuthService from "../../../helpers/authServices"
 import Employee from "./Employee"
 import UserIcon from "../../ui/UserIcon"
+import Unauthorized from "../Unauthorized"
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState([])
@@ -20,7 +21,7 @@ export default function EmployeesPage() {
   }
 
   if (user.role !== "admin") {
-    return <div>You are not authorized to view this page.</div>
+    return <Unauthorized />
   }
 
   const filterCurrentUser = (employees) => {

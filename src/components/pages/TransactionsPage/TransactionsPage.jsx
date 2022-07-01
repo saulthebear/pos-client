@@ -8,6 +8,7 @@ import AuthService from "../../../helpers/authServices"
 import DatePicker from "react-datepicker"
 import { CancelButton } from "../../ui/Button"
 import Tooltip from "../../ui/Tooltip"
+import Unauthorized from "../Unauthorized"
 
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -50,7 +51,7 @@ export default function TransactionsPage() {
   }
 
   if (user.role !== "admin") {
-    return <div>You are not authorized to view this page.</div>
+    return <Unauthorized />
   }
 
   const updateTransaction = (id, updatedTransaction) => {

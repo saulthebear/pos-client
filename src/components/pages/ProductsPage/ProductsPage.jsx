@@ -9,6 +9,7 @@ import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 import { ModalButton } from "../../ui/Button"
 import { PinkInput, PinkSelect } from "../../ui/Input"
 import AuthService from "../../../helpers/authServices"
+import Unauthorized from "../Unauthorized"
 
 export default function ProductsPage() {
   const initialProductForm = {
@@ -39,7 +40,7 @@ export default function ProductsPage() {
   }
 
   if (user.role !== "admin") {
-    return <div>You are not authorized to view this page.</div>
+    return <Unauthorized />
   }
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import { ModalButton } from "../../ui/Button"
 import { PinkInput, PinkSelect } from "../../ui/Input"
 import userColors from "../../../helpers/userColors"
 import AuthService from "../../../helpers/authServices"
+import Unauthorized from "../Unauthorized"
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([])
@@ -29,7 +30,7 @@ export default function CategoriesPage() {
   }
 
   if (user.role !== "admin") {
-    return <div>You are not authorized to view this page.</div>
+    return <Unauthorized />
   }
 
   useEffect(() => {
