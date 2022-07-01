@@ -7,11 +7,14 @@ import { getAuthOptions } from "../../../helpers/utils"
 import UserIcon from "../../ui/UserIcon"
 import VerifiedIcon from "./VerifiedIcon"
 import {
+  ButtonLarge,
+  ButtonSmall,
   CancelButton,
   DoneButton,
   EditableDisplayButton,
 } from "../../ui/Button"
 import { Input } from "../../ui/Input"
+import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 
 export default function Employee({
   id,
@@ -136,6 +139,7 @@ export default function Employee({
   )
 
   const nameDisplay = isEditing ? nameInput : nameButton
+  const [isDeleting, setIsDeleting] = useState(false)
 
   return (
     <div className={`${gridStyles}`}>
@@ -171,13 +175,52 @@ export default function Employee({
         <VerifiedIcon isVerified={role !== "unverified"} />
       </div>
       <div className="flex justify-center items-center">
-        <button
+        <div className="p-5">
+          <Modal isOpen={isDeleting} setIsOpen={setIsDeleting}>
+            <ModalPanel>
+              <ModalTitle>
+                <span className="material-symbols-rounded">warning</span>Confirm
+                <span className="material-symbols-rounded">warning</span>
+              </ModalTitle>
+              <div className="flex flex-col flex-1 justify-center items-center space-y-6 mb-5 space-evenly">
+                <div className="flex flex-col items-center space-y-6 mb-5">
+                  <span className="font-semibold text-xl mb-5">
+                    Are you sure you want to delete...{username}?
+                  </span>
+                  <div className="flex justify-between space-x-6">
+                    <ButtonLarge
+                      className="bg-amber-600 text-white w-fit"
+                      onClick={() => setIsDeleting(false)}
+                    >
+                      Cancel
+                      {/* {isModalOpen ? "Cancel" : "New"} */}
+                    </ButtonLarge>
+                    <ButtonLarge
+                      className="bg-red-700 text-white w-fit"
+                      onClick={() => handleDelete(id)}
+                    >
+                      Delete
+                    </ButtonLarge>
+                  </div>
+                </div>
+              </div>
+            </ModalPanel>
+          </Modal>
+          <ButtonSmall
+            className="bg-red-700 text-white w-fit"
+            onClick={() => setIsDeleting(true)}
+          >
+            Delete
+            {/* {isModalOpen ? "Cancel" : "New"} */}
+          </ButtonSmall>
+        </div>
+      </div>
+      {/* <button
           className="bg-red-700 text-white py-1 px-3 rounded-md"
           onClick={() => handleDelete()}
         >
           Delete
-        </button>
-      </div>
+        </button> */}
     </div>
   )
 }
