@@ -21,10 +21,7 @@ export default function CategoriesPage() {
     name: "",
     color: Object.keys(userColors)[0],
   })
-
-  // const { user, isUserLoading } = useAuth()
-
-  // if (isUserLoading) return <Loading />
+  const [formError, setFormError] = useState("")
 
   const user = AuthService.getCurrentUser()
 
@@ -55,9 +52,19 @@ export default function CategoriesPage() {
     }
     fetchCategories()
   }, [])
+  const validateForm = () => {
+    if (catForm.name == "") {
+      setFormError("Name is required!")
+      return false
+    }
+    return true
+  }
 
   const handleSubmit = (e, form) => {
     e.preventDefault()
+    if (!validateForm()) {
+      return
+    }
     axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/categories`,
@@ -81,8 +88,9 @@ export default function CategoriesPage() {
         <p className="text-red-700">{error}</p>
         {/* Add category modal */}
         <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-          <ModalPanel>
+          <ModalPanel setIsOpen={setIsModalOpen}>
             <ModalTitle>Add A Category</ModalTitle>
+            <p className="text-red-700 pb-4">{formError}</p>
             <form
               onSubmit={(e) => handleSubmit(e, catForm, setCatForm)}
               className="flex flex-col justify-between"
