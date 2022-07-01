@@ -55,31 +55,31 @@ export default function Profile() {
   return (
     <div className="p-5">
       <p className="text-red-700">{error}</p>
-      <h1 className="text-3xl font-semibold mb-5">Profile Page</h1>
-      <div className="flex flex-col justify-center items-center">
-        <div className="text-xl mb-3">Welcome, {currentUser.username}.</div>
-        <div className="bg-slate-200 rounded-lg w-fit p-5 flex flex-col items-center gap-2">
-          <p className="font-semibold font-xl">Permissions:</p>
-          {currentUser.role === "cashier" && (
-            <>
-              <UserIcon isAdmin={false} />
-              You are a Cashier
-            </>
-          )}
-
-          {currentUser.role === "admin" && (
-            <>
-              <UserIcon isAdmin={true} />
-              You are an Admin
-            </>
-          )}
-
-          {currentUser.role === "unverified" && (
-            <>
-              <p>{"Your account hasn't been activated."}</p>{" "}
-              <p>Contact your manager.</p>
-            </>
-          )}
+      {/* <h1 className="text-3xl font-semibold mb-5">Profile Page</h1> */}
+      <div className="flex flex-col justify-center items-center mt-10">
+        <div className="text-3xl mb-7">Welcome, {currentUser.username}.</div>
+        <div className="bg-slate-200 rounded-lg w-fit p-10 flex flex-col items-center gap-5">
+          <p className="font-semibold text-xl">Permissions:</p>
+          <div className="text-lg">
+            {currentUser.role === "cashier" && (
+              <>
+                <UserIcon isAdmin={false} />
+                You are a Cashier
+              </>
+            )}
+            {currentUser.role === "admin" && (
+              <>
+                <UserIcon isAdmin={true} />
+                You are an Admin
+              </>
+            )}
+            {currentUser.role === "unverified" && (
+              <>
+                <p>{"Your account hasn't been activated."}</p>{" "}
+                <p>Contact your manager.</p>
+              </>
+            )}
+          </div>
           <ButtonLarge
             onClick={() => setIsEditing(!isEditing)}
             className="bg-plum-400 text-white"
@@ -90,7 +90,7 @@ export default function Profile() {
       </div>
 
       <Modal isOpen={isEditing} setIsOpen={setIsEditing}>
-        <ModalPanel>
+        <ModalPanel setIsOpen={setIsEditing}>
           <ModalTitle>Edit Profile</ModalTitle>
           <form
             onSubmit={(e) => handleSubmit(e, form, setForm)}
