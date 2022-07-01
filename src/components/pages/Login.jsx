@@ -29,8 +29,11 @@ export default function Login({ setCurrentUser }) {
 
   // conditionally render a navigate component
   if (user) {
+    if (user.role === "cashier") return <Navigate to="/orders/new" />
+    if (user.role === "admin") return <Navigate to="/admin/transactions" />
     return <Navigate to="/profile" />
   }
+
   const validateForm = () => {
     if (username == "") {
       setFormError("Name is required!")
