@@ -34,6 +34,7 @@ export default function Transaction({
     React.useState(payment_method)
   const [updatedItems, setUpdatedItems] = useState(lineItems)
   const [isEditing, setIsEditing] = useState(false)
+  const [isAddingItem, setIsAddingItem] = useState(false)
 
   const handleDelete = async () => {
     try {
@@ -92,6 +93,7 @@ export default function Transaction({
     setUpdatedItems(lineItems)
     setUpdatedCashier(cashier)
     setUpdatedPaymentMethod(payment_method)
+    setIsAddingItem(false)
   }
 
   const handleChangeCashier = (e) => {
@@ -121,6 +123,8 @@ export default function Transaction({
         setIsEditing={setIsEditing}
         handleSave={handleSave}
         handleCancel={handleCancel}
+        isAddingItem={isAddingItem}
+        setIsAddingItem={setIsAddingItem}
       />
     </div>
   )

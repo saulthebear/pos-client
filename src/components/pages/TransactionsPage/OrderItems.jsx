@@ -2,6 +2,7 @@ import React, { useState, useId } from "react"
 import PropTypes from "prop-types"
 import { productShape } from "../../../helpers/propTypes"
 import OrderItem from "./OrderItem"
+import { ButtonSmall } from "../../ui/Button"
 
 export default function OrderItems({
   items,
@@ -12,8 +13,10 @@ export default function OrderItems({
   setIsEditing,
   handleSave,
   handleCancel,
+  isAddingItem,
+  setIsAddingItem,
 }) {
-  const [isAddingItem, setIsAddingItem] = useState(false)
+  // const [isAddingItem, setIsAddingItem] = useState(false)
   const [itemToAdd, setItemToAdd] = useState(
     items.length > 0 ? items[0]._id : []
   )
@@ -99,16 +102,27 @@ export default function OrderItems({
   )
 
   const newItemSelect = (
-    <>
-      <select onChange={(e) => setItemToAdd(e.target.value)} value={items[0]}>
+    <div className="flex gap-2 mt-5">
+      <select
+        onChange={(e) => setItemToAdd(e.target.value)}
+        value={itemToAdd}
+        className="bg-slate-100 rounded-md px-2 py-1 shadow-[inset_0_2px_4px_0_rgb(30_41_59/0.2)] focus:outline-none focus:ring-2 focus:ring-plum-700"
+      >
         {items.map((item) => (
           <option key={`${id}-${item._id}`} value={item._id}>
             {item.name}
           </option>
         ))}
       </select>
-      <button onClick={() => handleAddItem(itemToAdd)}>Add</button>
-    </>
+      <button
+        onClick={() => handleAddItem(itemToAdd)}
+        className="flex items-center"
+      >
+        <span className="material-symbols-rounded text-plum-800">
+          add_circle
+        </span>
+      </button>
+    </div>
   )
 
   return (
@@ -116,12 +130,13 @@ export default function OrderItems({
       <ul>{itemComponents}</ul>
       {isEditing && isAddingItem && newItemSelect}
       {isEditing && !isAddingItem && (
-        <button
-          className="border-2 border-slate-900"
+        <ButtonSmall
+          className="border-2 border-plum-900 flex items-center mt-3 text-plum-900"
           onClick={() => setIsAddingItem(true)}
         >
-          add an item
-        </button>
+          <span className="material-symbols-rounded mr-2">playlist_add</span>
+          <span>add an item</span>
+        </ButtonSmall>
       )}
       <div className="flex justify-end gap-2">
         {isEditing && saveCancelBtns}
@@ -130,7 +145,6 @@ export default function OrderItems({
     </div>
   )
 }
-
 OrderItems.propTypes = {
   items: PropTypes.arrayOf(productShape),
   handleDelete: PropTypes.func,
@@ -140,4 +154,6 @@ OrderItems.propTypes = {
   setIsEditing: PropTypes.func,
   handleSave: PropTypes.func,
   handleCancel: PropTypes.func,
+  isAddingItem: PropTypes.bool,
+  setIsAddingItem: PropTypes.func,
 }

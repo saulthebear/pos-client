@@ -51,7 +51,7 @@ export function Input({ className, ...props }) {
   return (
     <>
       <input
-        className={`${className} bg-slate-200 rounded-md px-2 py-1 w-full shadow-[inset_0_2px_4px_0_rgb(30_41_59/0.5)] text-gray-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-gray-700`}
+        className={`${className} bg-slate-200 rounded-md px-2 py-1 w-full shadow-[inset_0_2px_4px_0_rgb(30_41_59/0.5)] text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-slate-700`}
         {...props}
       />
     </>
