@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom"
 import AuthService from "../../../helpers/authServices"
 import DatePicker from "react-datepicker"
 import { CancelButton } from "../../ui/Button"
+import Tooltip from "../../ui/Tooltip"
 
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -21,10 +22,6 @@ export default function TransactionsPage() {
   const [startDate, setStartDate] = useState(initialStartDate)
   const [endDate, setEndDate] = useState(initialEndDate)
   const [filteredTransactions, setFilteredTransactions] = useState(transactions)
-
-  // const { user, isUserLoading } = useAuth()
-
-  // if (isUserLoading) return <Loading />
 
   // Set filtered transactions based on start and end dates
   useEffect(() => {
@@ -153,12 +150,18 @@ export default function TransactionsPage() {
               className="bg-slate-200 rounded-md px-2 py-1 w-full shadow-[inset_0_2px_4px_0_rgb(30_41_59/0.5)] text-gray-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset focus:ring-gray-700"
             />
           </div>
-          <CancelButton
-            onClick={() => {
-              setStartDate(initialStartDate)
-              setEndDate(initialEndDate)
-            }}
-          />
+
+          {/* Clear filters */}
+          <Tooltip.Container>
+            <Tooltip.Message offset="bottom-3">clear filters</Tooltip.Message>
+            <CancelButton
+              onClick={() => {
+                setStartDate(initialStartDate)
+                setEndDate(initialEndDate)
+              }}
+              className="hover:bg-slate-200 rounded-md px-1"
+            />
+          </Tooltip.Container>
         </div>
       </div>
       {filteredTransactions.length > 0 && cashiers.length > 0 ? (
