@@ -133,7 +133,7 @@ export default function TransactionsPage() {
   }, [])
 
   return (
-    <div className="p-5">
+    <div className="p-5 mx-auto max-w-7xl">
       <h1 className="font-red-hat-display font-black text-3xl">Transactions</h1>
       <p className="text-red-700">{error}</p>
       <div>

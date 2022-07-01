@@ -22,7 +22,7 @@ export default function CategoryButton({
         setSelectedCategory(_id)
       }}
     >
-      <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex items-center gap-1 flex-wrap justify-center">
         {/* <div className={`w-4 h-4 rounded-full bg-${colors[color]}`}></div> */}
         <ColorIndicator color={color} />
         <p>{name}</p>

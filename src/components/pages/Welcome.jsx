@@ -7,7 +7,7 @@ import { ButtonLarge } from "../ui/Button"
 export default function Welcome() {
   return (
     <div className="flex flex-col justify-between bg-gray-200 h-full text-center font-red-hat-display p-12 space-x-10">
-      <div className="bg-plum-400 rounded-lg m-30 px-10 py-10">
+      <div className="bg-plum-400 rounded-lg m-30 px-10 py-10 max-w-xl mx-auto">
         <div>
           <h2 className="text-center text-3xl text-plum-900 font-red-hat-display font-black tracking-widest mb-10">
             <span className="text-white text-4xl">dettiPOS</span> provides a

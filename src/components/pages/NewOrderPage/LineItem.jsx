@@ -92,18 +92,20 @@ export default function LineItem({
           <span className="material-symbols-rounded font-semibold">add</span>
         </button>
       </div>
-      <button
-        onClick={handleDone}
-        className="flex items-center bg-plum-700 text-white rounded-md w-10 h-10 justify-center"
-      >
-        <span className="material-symbols-rounded">done</span>
-      </button>
-      <button
-        onClick={handleCancel}
-        className="flex items-center bg-transparent rounded-md w-10 h-10 justify-center border-2 border-plum-700 text-plum-700"
-      >
-        <span className="material-symbols-rounded text-md">close</span>
-      </button>
+      <div className="flex gap-2">
+        <button
+          onClick={handleDone}
+          className="flex items-center bg-plum-700 text-white rounded-md w-10 h-10 justify-center"
+        >
+          <span className="material-symbols-rounded">done</span>
+        </button>
+        <button
+          onClick={handleCancel}
+          className="flex items-center bg-transparent rounded-md w-10 h-10 justify-center border-2 border-plum-700 text-plum-700"
+        >
+          <span className="material-symbols-rounded text-md">close</span>
+        </button>
+      </div>
     </div>
   )
 

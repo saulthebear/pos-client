@@ -146,7 +146,7 @@ export default function ProductsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
-    <div className="p-5">
+    <div className="p-5 max-w-7xl mx-auto">
       <div>
         <p className="text-red-700">{error}</p>
       </div>

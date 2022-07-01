@@ -83,7 +83,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="p-5">
+    <div className="p-5 mx-auto max-w-7xl">
       <div>
         <p className="text-red-700">{error}</p>
         {/* Add category modal */}

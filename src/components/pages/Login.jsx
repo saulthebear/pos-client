@@ -50,8 +50,10 @@ export default function Login({ setCurrentUser }) {
 
   return (
     <div className="bg-plum-50 flex justify-between items-center px-12 py-12 h-full">
-      <div className="bg-plum-500 mx-auto px-14 py-6 rounded-3xl shadow-md pt-12 sm:w-96">
-        <h1 className="font-xl font-bold text-white px-16">Login</h1>
+      <div className="bg-plum-500 mx-auto px-14 py-6 rounded-3xl shadow-md pt-12 max-w-lg w-[500px]">
+        <h1 className="text-3xl text-center font-bold font-red-hat-display mb-5 text-white">
+          Login
+        </h1>
         <p className="text-red-700 pb-4">{error}</p>
         <p className="text-red-700 pb-4">{formError}</p>
         <form onSubmit={handleSubmit}>

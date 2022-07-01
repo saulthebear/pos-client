@@ -6,7 +6,13 @@ export default function ItemsSelect({ items, onAddLineItem }) {
   const id = useId()
 
   const itemButtons = items.map((item) => {
-    return <ItemButton key={`${id}-${item._id}`} {...item} onClick={() => onAddLineItem(item)} />
+    return (
+      <ItemButton
+        key={`${id}-${item._id}`}
+        {...item}
+        onClick={() => onAddLineItem(item)}
+      />
+    )
   })
 
   return (

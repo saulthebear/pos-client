@@ -22,7 +22,7 @@ export default function CategoriesSelect({
   const noCategorySelected = selectedCategory === ""
 
   return (
-    <div className="flex w-full gap-2 flex-wrap">
+    <div className="flex w-full gap-2 flex-wrap justify-center">
       <button
         onClick={() => setSelectedCategory("")}
         className={`${

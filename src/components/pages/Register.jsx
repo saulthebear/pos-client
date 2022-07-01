@@ -52,7 +52,7 @@ export default function Register({ currentUser, setCurrentUser }) {
 
   return (
     <div className="bg-plum-50 flex justify-between items-center px-12 py-12 h-full">
-      <div className="bg-plum-500 mx-auto px-14 py-6 rounded-3xl shadow-md pt-12">
+      <div className="bg-plum-500 mx-auto px-14 py-6 rounded-3xl shadow-md pt-12 max-w-lg">
         {/* <ModalTitle>Register for an Account</ModalTitle> */}
         <h1 className="text-3xl text-center font-bold font-red-hat-display mb-5 text-white">
           Register for an Account
