@@ -1,12 +1,10 @@
 import React, { useState } from "react"
 import { Navigate, useNavigate } from "react-router-dom"
-import { useAuth } from "../../hooks/useAuth"
 import { PinkInput } from "../ui/Input"
 import { ModalButton } from "../ui/Button"
 import PropTypes from "prop-types"
 import AuthService from "../../helpers/authServices"
 import { userShape } from "../../helpers/propTypes"
-import { ModalTitle } from "../ui/Modal"
 
 export default function Register({ currentUser, setCurrentUser }) {
   // const { register, user, error } = useAuth()

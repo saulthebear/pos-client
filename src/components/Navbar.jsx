@@ -1,15 +1,10 @@
-import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Menu, Transition } from "@headlessui/react"
-import { useAuth } from "../hooks/useAuth"
 import AuthService from "../helpers/authServices"
 import { userShape } from "../helpers/propTypes"
 import PropTypes from "prop-types"
 
 export default function Navbar({ currentUser, setCurrentUser }) {
-  // const { logout: handleLogout } = useAuth()
-  // const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser())
-  // const currentUser = AuthService.getCurrentUser()
   const handleLogout = AuthService.logout
 
   console.log("currentUser", currentUser)

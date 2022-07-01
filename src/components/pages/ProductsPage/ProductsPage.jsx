@@ -4,11 +4,9 @@ import axios from "axios"
 import { Navigate } from "react-router-dom"
 
 import ProductsDisplay from "./ProductsDisplay"
-// import ProductForm from "./ProductForm"
 import { getAuthOptions } from "../../../helpers/utils"
-import { useAuth } from "../../../hooks/useAuth"
 import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
-import { ButtonLarge, ModalButton } from "../../ui/Button"
+import { ModalButton } from "../../ui/Button"
 import { PinkInput, PinkSelect } from "../../ui/Input"
 import AuthService from "../../../helpers/authServices"
 

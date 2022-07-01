@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Navigate } from "react-router-dom"
-import { useAuth } from "../../hooks/useAuth"
 import AuthService from "../../helpers/authServices"
 import { PinkInput } from "../ui/Input"
 import { ModalButton } from "../ui/Button"
@@ -11,14 +10,10 @@ export default function Login({ setCurrentUser }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  // const [user, setUser] = useState(AuthService.getCurrentUser())
   const [formError, setFormError] = useState("")
 
   const user = AuthService.getCurrentUser()
 
-  // const { user, login, error } = useAuth()
-
-  // let user = AuthService.getCurrentUser()
   const login = AuthService.login
 
   const handleSubmit = async (e) => {

@@ -6,7 +6,6 @@ import Modal, { ModalPanel, ModalTitle } from "../../ui/Modal"
 import ItemsPanel from "./ItemsPanel"
 import LineItemsPanel from "./LineItemsPanel"
 import { formatCurrency } from "../../../helpers/utils"
-import { useAuth } from "../../../hooks/useAuth"
 import AuthService from "../../../helpers/authServices"
 import { Navigate } from "react-router-dom"
 import { ButtonSmall, ButtonLarge } from "../../ui/Button"
@@ -22,8 +21,6 @@ export default function NewOrderPage() {
   const [paymentMethod, setPaymentMethod] = useState("cash")
   const [paymentAmount, setPaymentAmount] = useState(0)
   const [error, setError] = useState("")
-
-  // const { user } = useAuth()
 
   const user = AuthService.getCurrentUser()
 
