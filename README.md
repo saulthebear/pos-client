@@ -1,9 +1,9 @@
 <div align="center">
-<h1>MERN Point Of Sale System</h1>
+<h1>dettiPOS</h1>
 </div>
 <div align="center">
-  <h1>Authors</h1>
-  <h2> Grace | Stefan | Heg </h2>
+  <h2>Authors</h2>
+  <h3> Grace | Stefan | Heg </h3>
   <a href="https://www.linkedin.com/in/grace-narez-8b0498238/"_target="_blank">
   
   <img src="https://img.shields.io/badge/-linkedin.com/in/GraceNarez-blue?style=flat&``logo=Linkedin&logoColor=white">
@@ -21,20 +21,30 @@
 
 ## Table of Contents
 
-- [Project Description](#project-idea-and-description)
+- [Project Description](#project-description)
 - [Installation Instructions](#installation-instructions)
 - [Database Schema](#database-schema)
-- [RESTful Routing Charts](#restful-routing-charts)
+- [RESTful Routing Chart](#restful-routing-chart)
 - [Wireframes](#wireframes)
 - [User Stories](#user-stories)
 - [Goals](#goals)
-- [Tech Stacks](#tech-stacks)
+- [Tech Stack](#tech-stack)
 - [Our Approach](#our-approach)
+- [Successes and Hurdles](#successes-and-hurdles)
+- [Future Plans](#future-plans)
 - [Authors](#authors)
 
-## Project Idea and Description
+## Project Description
 
-Create a full-stack MERN application which allows business owners to store inventory and prices along with a second level of auth (cashier), both being able to complete customer transactions while the admin has ability to complete full CRUD on available schemas.
+DettiPOS is a Point Of Sale System that is designed to be a simple and easy to use. It's a full-stack web application built on the MERN stack, and was developed as a group project for the Software Engineering Immersive course at General Assembly.
+
+This application allows business owners to manage their orders, products, and employees, and allows employees to process transactions. Administrators are able to see reports about their sales, and have full control over the permissions of their employees.
+
+### Screenshots
+
+![New Order Screen](./imgs/screenshot-new-order.png)
+![Transactions Screen](./imgs/screenshot-transactions.png)
+![Employees Screen](./imgs/screenshot-employees.png)
 
 ## Installation Instructions
 
@@ -88,7 +98,7 @@ Create a full-stack MERN application which allows business owners to store inven
 
 </details>
 
-## RESTful Routing Charts
+## RESTful Routing Chart
 
 <details>
 <summary>
@@ -136,15 +146,17 @@ Create a full-stack MERN application which allows business owners to store inven
 - [x] As an admin, I want to be able to view all employees, and update or delete them.
 - [x] As an admin, I want to be able to change employee privileges.
 - [x] As an admin, I want to be able to give each category a color, so that I can easily identify them.
+- [x] As an admin, I want to be taken to the transactions page as soon as I log in, so that I can easily see an overview of the day's sales.
 - [ ] As an admin, I want to be able set the color theme
 - [ ] As a cashier, I want to be able to see a list of all my orders.
-- [ ] As an admin, I want to be taken to the transactions page as soon as I log in, so that I can easily see an overview of the day's sales.
 
 ## Goals
 
+Create a full-stack MERN application which allows business owners to store inventory and prices along with a second level of auth (cashier), both being able to complete customer transactions while the admin has ability to complete full CRUD on available schemas.
+
 ### MVP
 
-- Ability to either login or signup (only) if you are a non-logged in user
+- Ability to either login or signup if you are a non-logged in user
 - Ability for "Cashiers" to complete transactions only
 - On login (cashiers), direct to new order page
 - On login (admin), direct to all products
@@ -163,7 +175,7 @@ Create a full-stack MERN application which allows business owners to store inven
 - [ ] Implement O-Auth
 - [ ] Implement inventory management
 
-## Tech Stacks
+## Tech Stack
 
 ![JavaScript](https://img.shields.io/badge/-JavaScript-333?style=flat&logo=javascript)
 ![Node.js](https://img.shields.io/badge/-Node.js-333?style=flat&logo=node.js)
@@ -213,12 +225,25 @@ Our styling utilized TailwindCSS, which is a CSS framework that allows us to eas
 
 ## Future Plans
 
-- [ ] Ability for Cashiers to see their own transaction history
-- [ ] Admin ability to set color theme
-- [ ] Cashier ability to set color theme
-- [ ] Implement a payment API
-- [ ] Implement O-Auth
-- [ ] Implement inventory management
+We plan on continuing development of dettiPOS to make it the most user-centric and easy-to-use POS system, while still providing powerful features. We'll continue to add features that allow business owners to view useful reports about transactions, sales volume, and more. The roadmap includes features like:
+
+- Support for multiple businesses
+- Inventory management
+- Sales reports
+  - Cash-up reports to reconcile cash received with cash in drawer
+  - Daily, weekly, monthly sales reports
+  - Sales by category and product
+- Employee management
+  - time tracking
+  - payroll
+- Customer management
+- Order management
+  - create orders that will be payed in the future
+  - discounts
+  - gift cards
+- Integration with payment processors
+- Color themes
+- Support for multiple currencies
 
 ## Authors
 
