@@ -40,6 +40,8 @@ DettiPOS is a Point Of Sale System that is designed to be a simple and easy to u
 
 This application allows business owners to manage their orders, products, and employees, and allows employees to process transactions. Administrators are able to see reports about their sales, and have full control over the permissions of their employees.
 
+This repository is the client of the dettiPOS system. To view the code for the backend, checkout the [Github Repository](https://github.com/gracenarez333/pos--server).
+
 ### Screenshots
 
 ![New Order Screen](./imgs/screenshot-new-order.png)
@@ -48,9 +50,11 @@ This application allows business owners to manage their orders, products, and em
 
 ## Installation Instructions
 
-1. Fork and clone repo
-2. Run npm i to install all dependencies
-3. set up JWT_SECRET in .env of server and REACT_APP_SERVER_URL in .env.local of client
+1. Fork and clone this repo
+2. Run `npm i` to install all dependencies
+3. Create a `.env.local` file. Add a `REACT_APP_SERVER_URL` environment variable in that file. This is the URL of the server you are deploying to.
+4. Run `npm start` to start the client server.
+5. Follow the installation instructions for the [backend server](https://github.com/gracenarez333/pos--server).
 
 ## Database Schema
 
@@ -211,7 +215,7 @@ Our styling utilized TailwindCSS, which is a CSS framework that allows us to eas
 ### Successes
 
 - We implemented a request logger on our server, which allows us to log all requests and responses to the console. This logger was designed to protect user privacy, by preventing the logging of sensitive information.
-- TODO: Add screenshot
+  - ![Request Logger](./imgs/logger.png)
 - We implemented several filtering features, allowing the user to filter products by category and name, as well as filtering transactions by date.
 - Our team learned a lot about using TailwindCSS, and how it can be used to create a responsive, mobile-first, and cross-browser application.
 - We managed to keep our code organized, stay on track with our sprints, and learned a lot about Git. We avoided merge conflicts, and were able to work on multiple repositories at once.
