@@ -65,25 +65,25 @@ This repository is the client of the dettiPOS system. To view the code for the b
 
 ```json
 {
-  "users": {
+  "user": {
     "id": "ObjectId",
     "username": "String",
     "password": "String",
     "role": "String"
   },
-  "categories": {
+  "category": {
     "id": "ObjectId",
     "name": "String",
     "color": "String"
   },
-  "products": {
+  "product": {
     "id": "ObjectId",
     "code": "String",
     "name": "String",
     "price": "Number",
     "category": "ObjectId"
   },
-  "orders": {
+  "order": {
     "id": "ObjectId",
     "user": "ObjectId",
     "lineItems": [
