@@ -3,7 +3,7 @@
 </div>
 <div align="center">
   <h2>Authors</h2>
-  <h3> Grace | Stefan | Heg </h3>
+  <h3> Grace | Stefan | Huseyin </h3>
   <a href="https://www.linkedin.com/in/grace-narez-8b0498238/"_target="_blank">
   
   <img src="https://img.shields.io/badge/-linkedin.com/in/GraceNarez-blue?style=flat&``logo=Linkedin&logoColor=white">
