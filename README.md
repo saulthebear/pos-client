@@ -34,6 +34,9 @@
 - [Future Plans](#future-plans)
 - [Authors](#authors)
 
+## Live Site
+<p><a href="https://detti-pos.netlify.app/">DettiPos</a></p>
+
 ## Project Description
 
 DettiPOS is a Point Of Sale System that is designed to be a simple and easy to use. It's a full-stack web application built on the MERN stack, and was developed as a group project for the Software Engineering Immersive course at General Assembly.
@@ -251,4 +254,4 @@ We plan on continuing development of dettiPOS to make it the most user-centric a
 
 ## Authors
 
-[Grace](https://github.com/gracenarez333) | [Stefan](https://github.com/saulthebear) | [Heg](https://github.com/erhaneth)
+[Grace](https://github.com/gracenarez333) | [Stefan](https://github.com/saulthebear) | [Huseyin](https://github.com/erhaneth)
