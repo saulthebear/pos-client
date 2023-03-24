@@ -84,7 +84,7 @@ export default function Welcome() {
             href="https://www.linkedin.com/in/huseyingumus/"
             className="hover:bg-slate-300  py-1 px-3 rounded-md"
           >
-            Heg
+            Huseyin
           </a>
         </div>
         <p className="flex justify-center place-content-end">
