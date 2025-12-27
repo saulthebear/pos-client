@@ -4,8 +4,8 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Set environment variable for API URL (build-time)
-# This will be overridden by docker-compose
-ARG REACT_APP_SERVER_URL
+# This will be overridden by docker-compose ARG
+ARG REACT_APP_SERVER_URL=/dettiPOS/api/v1
 ENV REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL
 
 # Copy package files
