@@ -17,7 +17,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser())
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="h-screen grid grid-rows-[auto_1fr]">
         <header className="bg-brand">
           <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
